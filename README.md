@@ -1,2 +1,33 @@
 # mad-deployment-service
+
 MAD Goat Deployment Service
+
+# Build and Run
+
+## Build
+
+```
+docker build . -t madkeycloak
+```
+
+## Run
+
+```
+
+docker run --name mykeycloak -p 8443:8443 \
+ -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=change_me \
+ madkeycloak \
+ start --optimized
+
+```
+
+## Run development mode
+
+```
+
+docker run --name madkeycloak -p 8080:8080 \
+ -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=change_me \
+ quay.io/keycloak/keycloak:latest \
+ start-dev
+
+```
