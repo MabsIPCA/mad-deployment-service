@@ -28,6 +28,7 @@ services:
   keycloak:
     command: start-dev
     build: ./keycloak
+
     environment:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
