@@ -1,10 +1,11 @@
 version: "3"
 
-volumes:
-  postgres_data:
-    driver: local
 services:
-  postgresdb:
+####################### MAD GOAT SERVICES ###########################
+
+#####################################################################
+# Keycloak
+  db-keycloak-service:
     image: postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data
@@ -14,21 +15,12 @@ services:
       POSTGRES_PASSWORD: password
     ports:
       - 5432:5432
-    deploy:
-      resources:
-        limits:
-          cpus: "0.50"
-          memory: 512M
-        reservations:
-          cpus: "0.25"
-          memory: 256M
-
     networks:
-      - keycloak-network
-  keycloak:
+      - mad-network
+
+  keycloak-service:
     command: start-dev
     build: ./keycloak
-
     environment:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
@@ -38,24 +30,86 @@ services:
       KC_DB_URL_HOST: postgresdb
       KC_DB_URL_PORT: 5432
       KC_DB_SCHEMA: public
-
-    deploy:
-      resources:
-        limits:
-          cpus: "0.50"
-          memory: 512M
-        reservations:
-          cpus: "0.25"
-          memory: 256M
-      # Uncomment the line below if you want to specify JDBC parameters. The parameter below is just an example, and it shouldn't be used in production without knowledge. It is highly recommended that you read the PostgreSQL JDBC driver documentation in order to use it.
-      #JDBC_PARAMS: "ssl=true"
     ports:
       - 8080:8080
     depends_on:
-      - postgresdb
+      - db-keycloak-service
     networks:
-      - keycloak-network
+      - mad-network
+
+#####################################################################
+# Traefik
+  traefik-reverse-proxy:
+    image: traefik:latest
+    # Enables the web UI and tells Traefik to listen to docker
+    command: --api.insecure=true --providers.docker
+    ports:
+      # The HTTP port
+      - "80:80"
+      # The Web UI (enabled by --api.insecure=true)
+      - "8082:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+#####################################################################
+# RabbitMQ
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+      - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+    networks:
+      - mad-network
+#####################################################################
+# Web App
+  webapp:
+    image: ghcr.io/mad-goat-project/mad-web-app:main
+    environment:
+      - VITE_BASE_URL=http://lesson-service:3001
+      - VITE_KEYCLOAK_URL=http://keycloak-service:8080
+      - VITE_KEYCLOAK_REALM=MADGoat
+      - VITE_KEYCLOAK_CLIENT_ID=mad-goat-web-app
+    ports:
+      - 3000:3000
+    networks:
+      - mad-network
+#####################################################################
+# Lesson Service
+  lesson-service:
+    image: ghcr.io/mad-goat-project/mad-lessons-service:main
+    ports:
+      - '3001:3000'
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=postgres
+      - DB_NAME=mad
+    depends_on:
+      - db-lesson-service
+    ports:
+      - 3001:3000
+    networks:
+      - mad-network
+  db-lesson-service:
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./db-lesson-service:/var/lib/postgresql/data
 
 networks:
-  keycloak-network:
-    name: keycloak-network
+  mad-network:
+    name: mad-network
+
+
+volumes:
+  postgres_data:
+    driver: local
