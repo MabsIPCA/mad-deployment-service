@@ -1,18 +1,16 @@
 version: "3"
 
 services:
-####################### MAD GOAT SERVICES ###########################
+  ####################### MAD GOAT SERVICES ###########################
 
-#####################################################################
-# Keycloak
+  #####################################################################
+  # Keycloak
   db-keycloak-service:
     image: postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    environment:
-      POSTGRES_DB: keycloak
-      POSTGRES_USER: keycloak
-      POSTGRES_PASSWORD: password
+    env_file:
+      - .env
     ports:
       - 5432:5432
     networks:
@@ -21,15 +19,8 @@ services:
   keycloak-service:
     command: start-dev
     build: ./keycloak
-    environment:
-      KEYCLOAK_ADMIN: admin
-      KEYCLOAK_ADMIN_PASSWORD: admin
-      KC_DB: postgres
-      KC_DB_USERNAME: keycloak
-      KC_DB_PASSWORD: password
-      KC_DB_URL_HOST: postgresdb
-      KC_DB_URL_PORT: 5432
-      KC_DB_SCHEMA: public
+    env_file:
+      - .env
     ports:
       - 8080:8080
     depends_on:
@@ -37,8 +28,8 @@ services:
     networks:
       - mad-network
 
-#####################################################################
-# Traefik
+  #####################################################################
+  # Traefik
   traefik-reverse-proxy:
     image: traefik:latest
     # Enables the web UI and tells Traefik to listen to docker
@@ -51,8 +42,8 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
 
-#####################################################################
-# RabbitMQ
+  #####################################################################
+  # RabbitMQ
   rabbitmq:
     image: rabbitmq:3-management-alpine
     ports:
@@ -63,43 +54,34 @@ services:
       - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
     networks:
       - mad-network
-#####################################################################
-# Web App
+  #####################################################################
+  # Web App
   webapp:
     image: ghcr.io/mad-goat-project/mad-web-app:main
-    environment:
-      - VITE_BASE_URL=http://lesson-service:3001
-      - VITE_KEYCLOAK_URL=http://keycloak-service:8080
-      - VITE_KEYCLOAK_REALM=MADGoat
-      - VITE_KEYCLOAK_CLIENT_ID=mad-goat-web-app
+    env_file:
+      - .env
     ports:
       - 3000:3000
     networks:
       - mad-network
-#####################################################################
-# Lesson Service
+  #####################################################################
+  # Lesson Service
   lesson-service:
     image: ghcr.io/mad-goat-project/mad-lessons-service:main
     ports:
-      - '3001:3000'
-    environment:
-      - DB_HOST=db
-      - DB_PORT=5432
-      - DB_USERNAME=postgres
-      - DB_PASSWORD=postgres
-      - DB_NAME=mad
+      - "3001:3000"
+    env_file:
+      - .env
     depends_on:
       - db-lesson-service
-    ports:
-      - 3001:3000
     networks:
       - mad-network
+
   db-lesson-service:
     image: postgres:14.1-alpine
     restart: always
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+    env_file:
+      - .env
     ports:
       - "5433:5432"
     volumes:
@@ -109,7 +91,8 @@ networks:
   mad-network:
     name: mad-network
 
-
+#####################################################################
+# Configurations
 volumes:
   postgres_data:
     driver: local
