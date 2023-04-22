@@ -10,7 +10,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     env_file:
-      - .env
+      - .env.keycloak
     ports:
       - 5432:5432
     networks:
@@ -20,7 +20,7 @@ services:
     command: start-dev
     build: ./keycloak
     env_file:
-      - .env
+      - .env.keycloak
     ports:
       - 8080:8080
     depends_on:
@@ -59,7 +59,7 @@ services:
   webapp:
     image: ghcr.io/mad-goat-project/mad-web-app:main
     env_file:
-      - .env
+      - .env.webapp
     ports:
       - 3000:3000
     networks:
@@ -71,7 +71,7 @@ services:
     ports:
       - "3001:3000"
     env_file:
-      - .env
+      - .env.lesson
     depends_on:
       - db-lesson-service
     networks:
@@ -81,18 +81,20 @@ services:
     image: postgres:14.1-alpine
     restart: always
     env_file:
-      - .env
+      - .env.lesson
     ports:
       - "5433:5432"
     volumes:
-      - ./db-lesson-service:/var/lib/postgresql/data
-
-networks:
-  mad-network:
-    name: mad-network
+      - ./data/db-lesson-service:/var/lib/postgresql/data
+    networks:
+      - mad-network
 
 #####################################################################
 # Configurations
 volumes:
   postgres_data:
     driver: local
+
+networks:
+  mad-network:
+    name: mad-network

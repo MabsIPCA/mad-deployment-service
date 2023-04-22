@@ -31,3 +31,15 @@ docker run --name madkeycloak -p 8080:8080 \
  start-dev
 
 ```
+
+Run only lessons service
+
+```
+docker compose up lesson-service db-lesson-service
+```
+
+Run only Keycloak
+
+```
+docker compose up db-keycloak-service keycloak-service
+```
