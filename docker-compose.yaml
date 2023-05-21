@@ -61,7 +61,7 @@ services:
     env_file:
       - .env.webapp
     ports:
-      - 3000:3000
+      - 3000:80
     networks:
       - mad-network
   #####################################################################
@@ -88,6 +88,43 @@ services:
       - ./data/db-lesson-service:/var/lib/postgresql/data
     networks:
       - mad-network
+
+  #####################################################################
+  # Category: Open Source Software
+  # Lesson: Inconsistent Security Standards
+
+  #Safe Service
+  mad4shell-service-safe:
+    image: ghcr.io/mad-goat-project/mad-goat-log4shell:safe
+    ports:
+      - "3002:8080"
+    networks:
+      - mad-network
+    labels:
+      - "traefik.http.routers.whoami.rule=Host(`whoami.docker.localhost`)"
+
+  #Unsafe Service
+  mad4shell-service-unsafe:
+    image: ghcr.io/mad-goat-project/mad-goat-log4shell:unsafe
+    ports:
+      - "3003:8080"
+    networks:
+      - mad-network
+    labels:
+      - "traefik.http.routers.whoami.rule=Host(`whoami.docker.localhost`)"
+
+  #####################################################################
+  # Category: Open Source Software
+  # Lesson: Unknown Source Code Origins
+
+  scoreboard-service:
+    image: ghcr.io/mad-goat-project/mad-scoreboard-service:main
+    ports:
+      - "3004:3000"
+    networks:
+      - mad-network
+    labels:
+      - "traefik.http.routers.whoami.rule=Host(`whoami.docker.localhost`)"
 
 #####################################################################
 # Configurations
