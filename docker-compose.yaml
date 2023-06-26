@@ -97,7 +97,7 @@ services:
 
   #Safe Service
   mad4shell-service-safe:
-    image: ghcr.io/mad-goat-project/mad-goat-log4shell:safe
+    image: ghcr.io/mad-goat-project/mad-goat4shell-service:safe
     ports:
       - "3002:8080"
     networks:
@@ -107,7 +107,7 @@ services:
 
   #Unsafe Service
   mad4shell-service-unsafe:
-    image: ghcr.io/mad-goat-project/mad-goat-log4shell:unsafe
+    image: ghcr.io/mad-goat-project/mad-goat4shell-service:unsafe
     ports:
       - "3003:8080"
     networks:
