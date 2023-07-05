@@ -76,6 +76,20 @@ services:
       - ./envs/.env.keycloak.secrets
     depends_on:
       - db-lesson-service
+    labels:
+      # Explicitly instruct Traefik to expose this service
+      - "traefik.enable=true"
+      # Router configuration
+      ## Rule based on the Host of the request
+      - "traefik.http.routers.lesson-service.rule=Host(`lesson-service.local`)"
+      ## Use PathPrefixStrip to remove the path prefix from the request before forwarding
+      - "traefik.http.routers.lesson-service.middlewares=lesson-service-stripprefix"
+      # Service configuration
+      ## Set the service name
+      - "traefik.http.services.lesson-service-service.loadbalancer.server.port=3000"
+      # Middleware configuration
+      ## Define the PathPrefixStrip middleware
+      - "traefik.http.middlewares.lesson-service-stripprefix.stripprefix.prefixes=/lesson-service"
     networks:
       - mad-network
 
@@ -102,8 +116,6 @@ services:
       - "3002:8080"
     networks:
       - mad-network
-    labels:
-      - "traefik.http.routers.whoami.rule=Host(`whoami.docker.localhost`)"
 
   #Unsafe Service
   mad4shell-service-unsafe:
@@ -112,8 +124,6 @@ services:
       - "3003:8080"
     networks:
       - mad-network
-    labels:
-      - "traefik.http.routers.whoami.rule=Host(`whoami.docker.localhost`)"
 
   #####################################################################
   # Category: Open Source Software
@@ -131,8 +141,6 @@ services:
       - db-scoreboard-service
     networks:
       - mad-network
-    labels:
-      - "traefik.http.routers.whoami.rule=Host(`whoami.docker.localhost`)"
 
   db-scoreboard-service:
     container_name: db-scoreboard-service
@@ -146,6 +154,31 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=root
     networks:
       - mad-network
+
+  ##  #####################################################################
+  ##  ## Jekyll Documentation Service
+
+  jekyll-service:
+    image: ghcr.io/mad-goat-project/mad-goat-docs:main
+    restart: always
+    ports:
+      - "4000:80"
+    networks:
+      - mad-network
+
+  ##  #####################################################################
+  ##  ## Object Storage Services
+  minio:
+    image: minio/minio
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_storage:/data
+    environment:
+      MINIO_ROOT_USER: admin
+      MINIO_ROOT_PASSWORD: Strong#Pass#2022
+    command: server --console-address ":9001" /data
 
 ##  #####################################################################
 ##  ## Observability Services
@@ -236,6 +269,7 @@ volumes:
     driver: local
   prometheus_data: {}
   grafana_data: {}
+  minio_storage: {}
 
 networks:
   mad-network:
