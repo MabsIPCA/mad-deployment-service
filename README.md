@@ -4,12 +4,6 @@ MAD Goat Deployment Service
 
 # Build and Run
 
-## Build
-
-```
-docker build . -t madkeycloak
-```
-
 ## Run
 
 ```
@@ -42,4 +36,10 @@ Run only Keycloak
 
 ```
 docker compose up db-keycloak-service keycloak-service
+```
+
+### Simplified Docker Compose
+
+```
+docker compose -f configurations.yaml -f infrastructure.yaml -f services.yaml up
 ```

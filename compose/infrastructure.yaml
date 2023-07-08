@@ -1,0 +1,63 @@
+version: "3"
+services:
+  # Keycloak
+  db-keycloak-service:
+    image: postgres:15.3-alpine
+    volumes:
+      - ./data/db-keycloak-service:/var/lib/postgresql/data
+    env_file:
+      - ./envs/.env.keycloak
+    ports:
+      - 5432:5432
+    networks:
+      - mad-network
+
+  keycloak-service:
+    image: ghcr.io/mad-goat-project/keycloak:main
+    command: start-dev
+    env_file:
+      - ./envs/.env.keycloak
+    ports:
+      - 8080:8080
+    depends_on:
+      - db-keycloak-service
+    networks:
+      - mad-network
+
+  #####################################################################
+  # Traefik
+  traefik-reverse-proxy:
+    image: traefik:2.10.1
+    # Enables the web UI and tells Traefik to listen to docker
+    command: --api.insecure=true --providers.docker
+    ports:
+      # The HTTP port
+      - "80:80"
+      # The Web UI (enabled by --api.insecure=true)
+      - "8082:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  #####################################################################
+  # RabbitMQ
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+      - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+    networks:
+      - mad-network
+
+  #######################################################################
+  #### Jekyll Documentation Service
+
+  jekyll-service:
+    image: ghcr.io/mad-goat-project/mad-goat-docs:main
+    restart: always
+    ports:
+      - "4000:80"
+    networks:
+      - mad-network
