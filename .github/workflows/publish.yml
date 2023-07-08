@@ -9,4 +9,4 @@ jobs:
   build-and-push--keycloak-image:
     uses: MAD-Goat-Project/github-actions-workflows/.github/workflows/publish-docker.yml@main
     with:
-      working-directory: "keycloak"
+      working_directory: "keycloak"
