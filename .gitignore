@@ -1,5 +1,5 @@
-data
 .vscode
+data
 results.json
-**/DS_Store
-DS_Store
+**/.DS_Store
+.DS_Store
