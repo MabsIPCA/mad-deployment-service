@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-and-push--keycloak-image:
+  build-and-push-keycloak-image:
     uses: MAD-Goat-Project/github-actions-workflows/.github/workflows/publish-docker.yml@main
     with:
-      working_directory: "keycloak"
+      dockerfile_context: "keycloak"
