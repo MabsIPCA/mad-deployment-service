@@ -1,0 +1,82 @@
+##  #####################################################################
+##  ## Observability Services
+##
+##  prometheus:
+##    image: prom/prometheus
+##    restart: always
+##    volumes:
+##      - ./observability/prometheus:/etc/prometheus/
+##      - prometheus_data:/prometheus
+##    command:
+##      - "--config.file=/etc/prometheus/prometheus.yml"
+##      - "--storage.tsdb.path=/prometheus"
+##      - "--web.console.libraries=/usr/share/prometheus/console_libraries"
+##      - "--web.console.templates=/usr/share/prometheus/consoles"
+##    ports:
+##      - 9090:9090
+##    links:
+##      - cadvisor:cadvisor
+##      - alertmanager:alertmanager
+##    depends_on:
+##      - cadvisor
+##
+##  node-exporter:
+##    image: prom/node-exporter
+##    volumes:
+##      - /proc:/host/proc:ro
+##      - /sys:/host/sys:ro
+##      - /:/rootfs:ro
+##    command:
+##      - "--path.procfs=/host/proc"
+##      - "--path.sysfs=/host/sys"
+##      - --collector.filesystem.ignored-mount-points
+##      - "^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs)($$|/)"
+##    ports:
+##      - 9100:9100
+##    restart: always
+##    deploy:
+##      mode: global
+##
+##  alertmanager:
+##    image: prom/alertmanager
+##    restart: always
+##    ports:
+##      - 9093:9093
+##    volumes:
+##      - ./observability/alertmanager/:/etc/alertmanager/
+##    command:
+##      - "--config.file=/etc/alertmanager/config.yml"
+##      - "--storage.path=/alertmanager"
+##
+##  cadvisor:
+##    image: gcr.io/cadvisor/cadvisor:v0.47.1 # m1/m2 mac
+##    platform: linux/aarch64 # m1/m2 mac
+##    volumes:
+##      - /:/rootfs:ro
+##      - /var/run:/var/run:rw
+##      - /sys:/sys:ro
+##      - /var/lib/docker/:/var/lib/docker:ro
+##      - /var/run/docker.sock:/var/run/docker.sock:rw
+##
+##      - /dev/disk/:/dev/disk:ro
+##    ports:
+##      - 8081:8080
+##    restart: always
+##    deploy:
+##      mode: global
+##
+##  grafana:
+##    image: grafana/grafana
+##    user: "472"
+##    restart: always
+##    environment:
+##      GF_INSTALL_PLUGINS: "grafana-clock-panel,grafana-simple-json-datasource"
+##    volumes:
+##      - grafana_data:/var/lib/grafana
+##      - ./observability/grafana/provisioning/:/etc/grafana/provisioning/
+##    env_file:
+##      - ./observability/grafana/config.monitoring
+##    ports:
+##      - 3010:3000
+##    depends_on:
+##      - prometheus
