@@ -10,3 +10,4 @@ jobs:
     uses: MAD-Goat-Project/github-actions-workflows/.github/workflows/publish-docker.yml@main
     with:
       dockerfile_context: "keycloak"
+      image_name: "mad-keycloak-service"
