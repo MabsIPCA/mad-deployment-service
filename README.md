@@ -41,5 +41,12 @@ docker compose up db-keycloak-service keycloak-service
 ### Simplified Docker Compose
 
 ```
+cd compose
 docker compose -f configurations.yaml -f infrastructure.yaml -f services.yaml up
+```
+
+```
+
+docker compose -f configurations.yaml -f infrastructure.yaml -f services.yaml down
+
 ```
