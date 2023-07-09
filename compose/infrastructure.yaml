@@ -22,6 +22,7 @@ services:
 
   keycloak-service:
     image: ghcr.io/mad-goat-project/keycloak:main
+    container_name: mad-keycloak-service
     deploy:
       resources:
         limits:

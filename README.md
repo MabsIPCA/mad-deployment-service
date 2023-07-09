@@ -50,3 +50,15 @@ docker compose -f configurations.yaml -f infrastructure.yaml -f services.yaml up
 docker compose -f configurations.yaml -f infrastructure.yaml -f services.yaml down
 
 ```
+
+### Build some images
+
+```
+docker compose -f configurations.yaml -f infrastructure.yaml -f services.yaml build db-keycloak-service keycloak-service webapp
+```
+
+### Create external network
+
+```
+docker network create mad-external-network
+```
