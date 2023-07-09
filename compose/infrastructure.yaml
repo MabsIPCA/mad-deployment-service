@@ -3,6 +3,14 @@ services:
   # Keycloak
   db-keycloak-service:
     image: postgres:15.3-alpine
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 512M
+        reservations:
+          cpus: "0.25"
+          memory: 256M
     volumes:
       - ./data/db-keycloak-service:/var/lib/postgresql/data
     env_file:
@@ -14,6 +22,14 @@ services:
 
   keycloak-service:
     image: ghcr.io/mad-goat-project/keycloak:main
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 512M
+        reservations:
+          cpus: "0.25"
+          memory: 256M
     command: start-dev
     env_file:
       - ./envs/.env.keycloak
@@ -28,6 +44,14 @@ services:
   # Traefik
   traefik-reverse-proxy:
     image: traefik:2.10.1
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 512M
+        reservations:
+          cpus: "0.25"
+          memory: 256M
     # Enables the web UI and tells Traefik to listen to docker
     command: --api.insecure=true --providers.docker
     ports:
@@ -42,6 +66,14 @@ services:
   # RabbitMQ
   rabbitmq:
     image: rabbitmq:3-management-alpine
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 512M
+        reservations:
+          cpus: "0.25"
+          memory: 256M
     ports:
       - 5672:5672
       - 15672:15672
@@ -56,6 +88,14 @@ services:
 
   jekyll-service:
     image: ghcr.io/mad-goat-project/mad-goat-docs:main
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 512M
+        reservations:
+          cpus: "0.25"
+          memory: 256M
     restart: always
     ports:
       - "4000:80"

@@ -4,6 +4,14 @@ services:
   # Web App
   webapp:
     image: ghcr.io/mad-goat-project/mad-web-app:main
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 512M
+        reservations:
+          cpus: "0.25"
+          memory: 256M
     env_file:
       - ./envs/.env.webapp
     ports:
@@ -14,6 +22,14 @@ services:
   # Lesson Service
   lesson-service:
     image: ghcr.io/mad-goat-project/mad-lessons-service:main
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 512M
+        reservations:
+          cpus: "0.25"
+          memory: 256M
     ports:
       - "3001:3000"
     env_file:
@@ -21,25 +37,19 @@ services:
       - ./envs/.env.keycloak.secrets
     depends_on:
       - db-lesson-service
-    labels:
-      # Explicitly instruct Traefik to expose this service
-      - "traefik.enable=true"
-      # Router configuration
-      ## Rule based on the Host of the request
-      - "traefik.http.routers.lesson-service.rule=Host(`lesson-service.local`)"
-      ## Use PathPrefixStrip to remove the path prefix from the request before forwarding
-      - "traefik.http.routers.lesson-service.middlewares=lesson-service-stripprefix"
-      # Service configuration
-      ## Set the service name
-      - "traefik.http.services.lesson-service-service.loadbalancer.server.port=3000"
-      # Middleware configuration
-      ## Define the PathPrefixStrip middleware
-      - "traefik.http.middlewares.lesson-service-stripprefix.stripprefix.prefixes=/lesson-service"
     networks:
       - mad-network
 
   db-lesson-service:
     image: postgres:14.1-alpine
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 512M
+        reservations:
+          cpus: "0.25"
+          memory: 256M
     restart: always
     env_file:
       - ./envs/.env.lesson
@@ -57,6 +67,14 @@ services:
   #Safe Service
   mad4shell-service-safe:
     image: ghcr.io/mad-goat-project/mad-goat4shell-service:safe
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 512M
+        reservations:
+          cpus: "0.25"
+          memory: 256M
     ports:
       - "3002:8080"
     networks:
@@ -65,6 +83,14 @@ services:
   #Unsafe Service
   mad4shell-service-unsafe:
     image: ghcr.io/mad-goat-project/mad-goat4shell-service:unsafe
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 512M
+        reservations:
+          cpus: "0.25"
+          memory: 256M
     ports:
       - "3003:8080"
     networks:
@@ -76,6 +102,14 @@ services:
 
   scoreboard-service:
     image: ghcr.io/mad-goat-project/mad-scoreboard-service:main
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 512M
+        reservations:
+          cpus: "0.25"
+          memory: 256M
     restart: always
     env_file:
       - ./envs/.env.scoreboard
@@ -90,12 +124,19 @@ services:
   db-scoreboard-service:
     container_name: db-scoreboard-service
     image: mongo:6.0
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 512M
+        reservations:
+          cpus: "0.25"
+          memory: 256M
     ports:
       - 27017:27017
     volumes:
       - ./data/db-scoreboard-service:/data/db
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=root
-      - MONGO_INITDB_ROOT_PASSWORD=root
+    env_file:
+      - ./envs/.env.scoreboard
     networks:
       - mad-network
