@@ -39,12 +39,20 @@ services:
     depends_on:
       - db-keycloak-service
     networks:
-      - mad-network
+      mad-network:
+        aliases:
+          - keycloak.localhost
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.keycloak-service.rule=Host(`keycloak.localhost`) && PathPrefix(`/`) && (Method(`GET`) || Method(`POST`))"
+      - "traefik.http.routers.keycloak-service.entrypoints=web"
+      - "traefik.http.services.keycloak-service.loadbalancer.server.port=8080"
 
   #####################################################################
   # Traefik
   traefik-reverse-proxy:
     image: traefik:2.10.1
+    container_name: mad-traefik-reverse-proxy
     deploy:
       resources:
         limits:
@@ -54,7 +62,13 @@ services:
           cpus: "0.25"
           memory: 256M
     # Enables the web UI and tells Traefik to listen to docker
-    command: --api.insecure=true --providers.docker
+    command:
+      #- "--log.level=DEBUG"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+
     ports:
       # The HTTP port
       - "80:80"
@@ -62,6 +76,8 @@ services:
       - "8082:8080"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - mad-network
 
   #####################################################################
   # RabbitMQ

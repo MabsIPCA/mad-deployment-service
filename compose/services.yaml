@@ -3,7 +3,11 @@ services:
   #####################################################################
   # Web App
   webapp:
-    image: ghcr.io/mad-goat-project/mad-web-app:main
+    #image: ghcr.io/mad-goat-project/mad-web-app:main
+    container_name: mad-web-app
+    build:
+      context: /Users/luisventuzelos/Documents/GitHub/MAD/mad-web-app
+      dockerfile: Dockerfile
     deploy:
       resources:
         limits:
@@ -16,12 +20,11 @@ services:
       - ./envs/.env.webapp
     ports:
       - 3000:80
-    networks:
-      - mad-network
-  #####################################################################
-  # Lesson Service
+    #####################################################################
+    # Lesson Service
   lesson-service:
     image: ghcr.io/mad-goat-project/mad-lessons-service:main
+    container_name: mad-lesson-service
     deploy:
       resources:
         limits:
@@ -39,6 +42,13 @@ services:
       - db-lesson-service
     networks:
       - mad-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.lesson-service.rule=Host(`localhost`) && PathPrefix(`/lessons`)"
+      - "traefik.http.middlewares.strip-prefix.stripprefix.prefixes=/lessons"
+      - "traefik.http.routers.lesson-service.middlewares=strip-prefix@docker"
+      - "traefik.http.routers.lesson-service.entrypoints=web"
+      - "traefik.http.services.lesson-service.loadbalancer.server.port=3000"
 
   db-lesson-service:
     image: postgres:14.1-alpine
@@ -67,6 +77,7 @@ services:
   #Safe Service
   mad4shell-service-safe:
     image: ghcr.io/mad-goat-project/mad-goat4shell-service:safe
+    container_name: mad4shell-service-safe
     deploy:
       resources:
         limits:
@@ -83,6 +94,7 @@ services:
   #Unsafe Service
   mad4shell-service-unsafe:
     image: ghcr.io/mad-goat-project/mad-goat4shell-service:unsafe
+    container_name: mad4shell-service-unsafe
     deploy:
       resources:
         limits:
@@ -102,6 +114,7 @@ services:
 
   scoreboard-service:
     image: ghcr.io/mad-goat-project/mad-scoreboard-service:main
+    container_name: mad-scoreboard-service
     deploy:
       resources:
         limits:
