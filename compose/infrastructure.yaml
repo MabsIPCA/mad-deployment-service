@@ -52,7 +52,7 @@ services:
   # Traefik
   traefik-reverse-proxy:
     image: traefik:2.10.1
-    container_name: mad-traefik-reverse-proxy
+    container_name: mad-traefik-service
     deploy:
       resources:
         limits:
@@ -78,6 +78,11 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - mad-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik-service.rule=Host(`traefik.localhost`)"
+      - "traefik.http.routers.traefik-service.entrypoints=web"
+      - "traefik.http.services.traefik-service.loadbalancer.server.port=8080"
 
   #####################################################################
   # RabbitMQ
@@ -99,6 +104,14 @@ services:
       - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
     networks:
       - mad-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.rabbitmq-service.rule=Host(`rabbitmq.localhost`)"
+      - "traefik.http.routers.rabbitmq-service.entrypoints=web"
+      - "traefik.http.services.rabbitmq-service.loadbalancer.server.port=15672"
+      - "traefik.tcp.routers.rabbitmq-service.rule=HostSNI(`*`)"
+      - "traefik.tcp.routers.rabbitmq-service.entrypoints=amqp"
+      - "traefik.tcp.services.rabbitmq-service.loadbalancer.server.port=5672"
 
   #######################################################################
   #### Jekyll Documentation Service
@@ -118,3 +131,8 @@ services:
       - "4000:80"
     networks:
       - mad-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.jekyll-service.rule=Host(`docs.localhost`)"
+      - "traefik.http.routers.jekyll-service.entrypoints=web"
+      - "traefik.http.services.jekyll-service.loadbalancer.server.port=80"

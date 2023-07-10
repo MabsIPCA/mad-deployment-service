@@ -45,8 +45,8 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.lesson-service.rule=Host(`localhost`) && PathPrefix(`/lessons`)"
-      - "traefik.http.middlewares.strip-prefix.stripprefix.prefixes=/lessons"
-      - "traefik.http.routers.lesson-service.middlewares=strip-prefix@docker"
+      - "traefik.http.middlewares.strip-prefix-lessons.stripprefix.prefixes=/lessons"
+      - "traefik.http.routers.lesson-service.middlewares=strip-prefix-lessons@docker"
       - "traefik.http.routers.lesson-service.entrypoints=web"
       - "traefik.http.services.lesson-service.loadbalancer.server.port=3000"
 
@@ -90,6 +90,13 @@ services:
       - "3002:8080"
     networks:
       - mad-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mad4shell-service-safe.rule=Host(`localhost`) && PathPrefix(`/safe`)"
+      - "traefik.http.middlewares.strip-prefix-safe.stripprefix.prefixes=/safe"
+      - "traefik.http.routers.mad4shell-service-safe.middlewares=strip-prefix-safe@docker"
+      - "traefik.http.routers.mad4shell-service-safe.entrypoints=web"
+      - "traefik.http.services.mad4shell-service-safe.loadbalancer.server.port=8080"
 
   #Unsafe Service
   mad4shell-service-unsafe:
@@ -107,6 +114,13 @@ services:
       - "3003:8080"
     networks:
       - mad-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mad4shell-service-unsafe.rule=Host(`localhost`) && PathPrefix(`/unsafe`)"
+      - "traefik.http.middlewares.strip-prefix-unsafe.stripprefix.prefixes=/unsafe"
+      - "traefik.http.routers.mad4shell-service-unsafe.middlewares=strip-prefix-unsafe@docker"
+      - "traefik.http.routers.mad4shell-service-unsafe.entrypoints=web"
+      - "traefik.http.services.mad4shell-service-unsafe.loadbalancer.server.port=8080"
 
   #####################################################################
   # Category: Open Source Software
@@ -133,6 +147,13 @@ services:
       - db-scoreboard-service
     networks:
       - mad-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.scoreboard-service.rule=Host(`localhost`) && PathPrefix(`/scoreboard`)"
+      - "traefik.http.middlewares.strip-prefix-scoreboard.stripprefix.prefixes=/scoreboard"
+      - "traefik.http.routers.scoreboard-service.middlewares=strip-prefix-scoreboard@docker"
+      - "traefik.http.routers.scoreboard-service.entrypoints=web"
+      - "traefik.http.services.scoreboard-service.loadbalancer.server.port=3000"
 
   db-scoreboard-service:
     container_name: db-scoreboard-service

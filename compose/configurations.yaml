@@ -10,10 +10,4 @@ volumes:
 networks:
   mad-network:
     name: mad-network
-    internal: true
-  keycloak-network:
-    name: keycloak-network
-    internal: true
-  traefik-network:
-    name: traefik-network
-    external: true
+    driver: bridge
