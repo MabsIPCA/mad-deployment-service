@@ -41,17 +41,17 @@ services:
     networks:
       mad-network:
         aliases:
-          - keycloak.localhost
+          - keycloak.mad.localhost
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.keycloak-service.rule=Host(`keycloak.localhost`) && PathPrefix(`/`) && (Method(`GET`) || Method(`POST`))"
+      - "traefik.http.routers.keycloak-service.rule=Host(`keycloak.mad.localhost`) && PathPrefix(`/`) && (Method(`GET`) || Method(`POST`))"
       - "traefik.http.routers.keycloak-service.entrypoints=web"
       - "traefik.http.services.keycloak-service.loadbalancer.server.port=8080"
 
   #####################################################################
   # Traefik
   traefik-reverse-proxy:
-    image: traefik:2.10.1
+    image: traefik:2.10.3
     container_name: mad-traefik-service
     deploy:
       resources:
@@ -63,12 +63,11 @@ services:
           memory: 256M
     # Enables the web UI and tells Traefik to listen to docker
     command:
-      #- "--log.level=DEBUG"
+      - "--log.level=DEBUG"
       - "--api.insecure=true"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
       - "--entrypoints.web.address=:80"
-
     ports:
       # The HTTP port
       - "80:80"
@@ -80,7 +79,7 @@ services:
       - mad-network
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.traefik-service.rule=Host(`traefik.localhost`)"
+      - "traefik.http.routers.traefik-service.rule=Host(`traefik.mad.localhost`)"
       - "traefik.http.routers.traefik-service.entrypoints=web"
       - "traefik.http.services.traefik-service.loadbalancer.server.port=8080"
 
@@ -106,12 +105,9 @@ services:
       - mad-network
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.rabbitmq-service.rule=Host(`rabbitmq.localhost`)"
+      - "traefik.http.routers.rabbitmq-service.rule=Host(`rabbitmq.mad.localhost`)"
       - "traefik.http.routers.rabbitmq-service.entrypoints=web"
       - "traefik.http.services.rabbitmq-service.loadbalancer.server.port=15672"
-      - "traefik.tcp.routers.rabbitmq-service.rule=HostSNI(`*`)"
-      - "traefik.tcp.routers.rabbitmq-service.entrypoints=amqp"
-      - "traefik.tcp.services.rabbitmq-service.loadbalancer.server.port=5672"
 
   #######################################################################
   #### Jekyll Documentation Service
@@ -133,6 +129,6 @@ services:
       - mad-network
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.jekyll-service.rule=Host(`docs.localhost`)"
+      - "traefik.http.routers.jekyll-service.rule=Host(`docs.mad.localhost`)"
       - "traefik.http.routers.jekyll-service.entrypoints=web"
       - "traefik.http.services.jekyll-service.loadbalancer.server.port=80"

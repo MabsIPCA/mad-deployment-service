@@ -10,4 +10,3 @@ volumes:
 networks:
   mad-network:
     name: mad-network
-    driver: bridge
