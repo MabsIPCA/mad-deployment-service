@@ -178,3 +178,27 @@ services:
       - ./envs/.env.scoreboard
     networks:
       - mad-network
+
+  #######################################################################
+  #### Jekyll Documentation Service
+
+  jekyll-service:
+    image: ghcr.io/mad-goat-project/mad-goat-docs:main
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 512M
+        reservations:
+          cpus: "0.25"
+          memory: 256M
+    restart: always
+    ports:
+      - "4000:80"
+    networks:
+      - mad-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.jekyll-service.rule=Host(`docs.mad.localhost`)"
+      - "traefik.http.routers.jekyll-service.entrypoints=web"
+      - "traefik.http.services.jekyll-service.loadbalancer.server.port=80"
