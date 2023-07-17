@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    traefik.enable: "true"
+    traefik.http.middlewares.strip-prefix-scoreboard.stripprefix.prefixes: /scoreboard
+    traefik.http.routers.scoreboard-service.entrypoints: web
+    traefik.http.routers.scoreboard-service.middlewares: strip-prefix-scoreboard@docker
+    traefik.http.routers.scoreboard-service.rule: Host(`api.mad.localhost`) && PathPrefix(`/scoreboard`)
+    traefik.http.services.scoreboard-service.loadbalancer.server.port: "3000"
+  creationTimestamp: null
+  labels:
+    io.mad.service: scoreboard-service
+  name: scoreboard-service
+spec:
+  ports:
+    - name: "3004"
+      port: 3004
+      targetPort: 3000
+  selector:
+    io.mad.service: scoreboard-service
+status:
+  loadBalancer: {}

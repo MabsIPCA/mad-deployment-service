@@ -1,0 +1,15 @@
+apiVersion: v1
+data:
+  VITE_DOCS_BASE_URL: http://docs.mad.localhost
+  VITE_GOAT4SHELL_BASE_URL: http://api.mad.localhost/goat4shell-unsafe
+  VITE_KEYCLOAK_CLIENT_ID: mad-goat-web-app
+  VITE_KEYCLOAK_REALM: MADGoat
+  VITE_KEYCLOAK_URL: http://keycloak.mad.localhost:8080
+  VITE_LESSON_BASE_URL: http://api.mad.localhost/lessons
+  VITE_SCOREBOARD_BASE_URL: http://api.mad.localhost/scoreboard
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  labels:
+    io.mad.service: webapp-env-webapp
+  name: env-webapp

@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    io.mad.service: jekyll-service
+  name: jekyll-service
+spec:
+  ports:
+    - name: "4000"
+      port: 4000
+      targetPort: 80
+  selector:
+    io.mad.service: jekyll-service
+status:
+  loadBalancer: {}

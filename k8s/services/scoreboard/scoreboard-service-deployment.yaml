@@ -1,0 +1,111 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    traefik.enable: "true"
+    traefik.http.middlewares.strip-prefix-scoreboard.stripprefix.prefixes: /scoreboard
+    traefik.http.routers.scoreboard-service.entrypoints: web
+    traefik.http.routers.scoreboard-service.middlewares: strip-prefix-scoreboard@docker
+    traefik.http.routers.scoreboard-service.rule: Host(`api.mad.localhost`) && PathPrefix(`/scoreboard`)
+    traefik.http.services.scoreboard-service.loadbalancer.server.port: "3000"
+  creationTimestamp: null
+  labels:
+    io.mad.service: scoreboard-service
+  name: scoreboard-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.mad.service: scoreboard-service
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.24.0 (4a2a0458)
+        traefik.enable: "true"
+        traefik.http.middlewares.strip-prefix-scoreboard.stripprefix.prefixes: /scoreboard
+        traefik.http.routers.scoreboard-service.entrypoints: web
+        traefik.http.routers.scoreboard-service.middlewares: strip-prefix-scoreboard@docker
+        traefik.http.routers.scoreboard-service.rule: Host(`api.mad.localhost`) && PathPrefix(`/scoreboard`)
+        traefik.http.services.scoreboard-service.loadbalancer.server.port: "3000"
+      creationTimestamp: null
+      labels:
+        io.mad.network/mad-network: "true"
+        io.mad.service: scoreboard-service
+    spec:
+      containers:
+        - env:
+            - name: KC_CLIENT_ID
+              valueFrom:
+                configMapKeyRef:
+                  key: KC_CLIENT_ID
+                  name: env-keycloak-secrets
+            - name: KC_REALM
+              valueFrom:
+                configMapKeyRef:
+                  key: KC_REALM
+                  name: env-keycloak-secrets
+            - name: KC_SECRET
+              valueFrom:
+                configMapKeyRef:
+                  key: KC_SECRET
+                  name: env-keycloak-secrets
+            - name: KC_SERVER_URL
+              valueFrom:
+                configMapKeyRef:
+                  key: KC_SERVER_URL
+                  name: env-keycloak-secrets
+            - name: MONGO_CONNECTION_STRING
+              valueFrom:
+                configMapKeyRef:
+                  key: MONGO_CONNECTION_STRING
+                  name: env-scoreboard
+            - name: MONGO_DATABASE_NAME
+              valueFrom:
+                configMapKeyRef:
+                  key: MONGO_DATABASE_NAME
+                  name: env-scoreboard
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  key: MONGO_INITDB_ROOT_PASSWORD
+                  name: env-scoreboard
+            - name: MONGO_INITDB_ROOT_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  key: MONGO_INITDB_ROOT_USERNAME
+                  name: env-scoreboard
+            - name: PORT
+              valueFrom:
+                configMapKeyRef:
+                  key: PORT
+                  name: env-scoreboard
+            - name: RMQ_PRODUCER_QUEUE
+              valueFrom:
+                configMapKeyRef:
+                  key: RMQ_PRODUCER_QUEUE
+                  name: env-scoreboard
+            - name: RMQ_PRODUCER_QUEUE_DURABLE
+              valueFrom:
+                configMapKeyRef:
+                  key: RMQ_PRODUCER_QUEUE_DURABLE
+                  name: env-scoreboard
+            - name: RMQ_PRODUCER_URL
+              valueFrom:
+                configMapKeyRef:
+                  key: RMQ_PRODUCER_URL
+                  name: env-scoreboard
+          image: ghcr.io/mad-goat-project/mad-scoreboard-service:main
+          name: mad-scoreboard-service
+          ports:
+            - containerPort: 3000
+          resources:
+            limits:
+              cpu: 500m
+              memory: "536870912"
+            requests:
+              cpu: 250m
+              memory: "268435456"
+      restartPolicy: Always
+status: {}

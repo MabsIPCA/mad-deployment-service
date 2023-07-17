@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    traefik.enable: "true"
+    traefik.http.routers.webapp.entrypoints: web
+    traefik.http.routers.webapp.rule: Host(`app.mad.localhost`)
+    traefik.http.services.webapp.loadbalancer.server.port: "80"
+  creationTimestamp: null
+  labels:
+    io.mad.service: webapp
+  name: webapp
+spec:
+  ports:
+    - name: "3000"
+      port: 3000
+      targetPort: 80
+  selector:
+    io.mad.service: webapp
+status:
+  loadBalancer: {}

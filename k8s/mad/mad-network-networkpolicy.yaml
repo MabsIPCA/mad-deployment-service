@@ -1,0 +1,14 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  creationTimestamp: null
+  name: mad-network
+spec:
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              io.mad.network/mad-network: "true"
+  podSelector:
+    matchLabels:
+      io.mad.network/mad-network: "true"

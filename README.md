@@ -44,6 +44,48 @@ It contains the following services:
 - MAD 4Shell Service - Vulnerable - With log4j vulnerability
 - Jekyll Service - Documentation
 
+# :wheel_of_dharma: Kubernetes Deployment
+
+# :clipboard: Prequisites
+
+1. Install Minikube
+2. Install kubectl
+3. Install Helm
+
+## Minikube
+
+1. Install Minikube
+2. Install kubectl
+3. Start Minikube
+
+   ```
+   minikube start
+   ```
+
+4. Enable Ingress
+   ```
+   minikube addons enable ingress
+   ```
+
+### :rocket: Quickstart
+
+```
+cd kubernetes
+helm install mad .
+```
+
+### Helpful Commands
+
+#### Dashboard
+
+```
+minikube dashboard --url
+```
+
 # :scroll: License
 
 MIT License (see LICENSE file)
+
+```
+
+```

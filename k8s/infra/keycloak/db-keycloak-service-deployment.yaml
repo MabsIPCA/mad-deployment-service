@@ -1,0 +1,113 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+
+  creationTimestamp: null
+  labels:
+    io.mad.service: db-keycloak-service
+  name: db-keycloak-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.mad.service: db-keycloak-service
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.24.0 (4a2a0458)
+      creationTimestamp: null
+      labels:
+        io.mad.network/mad-network: "true"
+        io.mad.service: db-keycloak-service
+    spec:
+      containers:
+        - env:
+            - name: KC_DB
+              valueFrom:
+                configMapKeyRef:
+                  key: KC_DB
+                  name: env-keycloak
+            - name: KC_DB_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  key: KC_DB_PASSWORD
+                  name: env-keycloak
+            - name: KC_DB_SCHEMA
+              valueFrom:
+                configMapKeyRef:
+                  key: KC_DB_SCHEMA
+                  name: env-keycloak
+            - name: KC_DB_URL_HOST
+              valueFrom:
+                configMapKeyRef:
+                  key: KC_DB_URL_HOST
+                  name: env-keycloak
+            - name: KC_DB_URL_PORT
+              valueFrom:
+                configMapKeyRef:
+                  key: KC_DB_URL_PORT
+                  name: env-keycloak
+            - name: KC_DB_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  key: KC_DB_USERNAME
+                  name: env-keycloak
+            - name: KEYCLOAK_ADMIN
+              valueFrom:
+                configMapKeyRef:
+                  key: KEYCLOAK_ADMIN
+                  name: env-keycloak
+            - name: KEYCLOAK_ADMIN_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  key: KEYCLOAK_ADMIN_PASSWORD
+                  name: env-keycloak
+            - name: KEYCLOAK_HOSTNAME
+              valueFrom:
+                configMapKeyRef:
+                  key: KEYCLOAK_HOSTNAME
+                  name: env-keycloak
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  key: POSTGRES_DB
+                  name: env-keycloak
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  key: POSTGRES_PASSWORD
+                  name: env-keycloak
+            - name: POSTGRES_USER
+              valueFrom:
+                configMapKeyRef:
+                  key: POSTGRES_USER
+                  name: env-keycloak
+            - name: PROXY_ADDRESS_FORWARDING
+              valueFrom:
+                configMapKeyRef:
+                  key: PROXY_ADDRESS_FORWARDING
+                  name: env-keycloak
+          image: postgres:15.3-alpine
+          name: db-keycloak-service
+          ports:
+            - containerPort: 5432
+          resources:
+            limits:
+              cpu: 500m
+              memory: "536870912"
+            requests:
+              cpu: 250m
+              memory: "268435456"
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: db-keycloak-service-claim0
+      restartPolicy: Always
+      volumes:
+        - name: db-keycloak-service-claim0
+          persistentVolumeClaim:
+            claimName: db-keycloak-service-claim0
+status: {}

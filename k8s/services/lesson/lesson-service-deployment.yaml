@@ -1,0 +1,108 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    io.mad.service: lesson-service
+  name: lesson-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.mad.service: lesson-service
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        io.mad.network/mad-network: "true"
+        io.mad.service: lesson-service
+    spec:
+      containers:
+        - env:
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  key: DB_HOST
+                  name: env-lesson
+            - name: DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  key: DB_NAME
+                  name: env-lesson
+            - name: DB_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  key: DB_PASSWORD
+                  name: env-lesson
+            - name: DB_PORT
+              valueFrom:
+                configMapKeyRef:
+                  key: DB_PORT
+                  name: env-lesson
+            - name: DB_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  key: DB_USERNAME
+                  name: env-lesson
+            - name: KC_CLIENT_ID
+              valueFrom:
+                configMapKeyRef:
+                  key: KC_CLIENT_ID
+                  name: env-keycloak-secrets
+            - name: KC_REALM
+              valueFrom:
+                configMapKeyRef:
+                  key: KC_REALM
+                  name: env-keycloak-secrets
+            - name: KC_SECRET
+              valueFrom:
+                configMapKeyRef:
+                  key: KC_SECRET
+                  name: env-keycloak-secrets
+            - name: KC_SERVER_URL
+              valueFrom:
+                configMapKeyRef:
+                  key: KC_SERVER_URL
+                  name: env-keycloak-secrets
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  key: POSTGRES_DB
+                  name: env-lesson
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  key: POSTGRES_PASSWORD
+                  name: env-lesson
+            - name: POSTGRES_USER
+              valueFrom:
+                configMapKeyRef:
+                  key: POSTGRES_USER
+                  name: env-lesson
+            - name: RMQ_PRODUCER_QUEUE
+              valueFrom:
+                configMapKeyRef:
+                  key: RMQ_PRODUCER_QUEUE
+                  name: env-lesson
+            - name: RMQ_PRODUCER_QUEUE_DURABLE
+              valueFrom:
+                configMapKeyRef:
+                  key: RMQ_PRODUCER_QUEUE_DURABLE
+                  name: env-lesson
+            - name: RMQ_PRODUCER_URL
+              valueFrom:
+                configMapKeyRef:
+                  key: RMQ_PRODUCER_URL
+                  name: env-lesson
+          image: ghcr.io/mad-goat-project/mad-lessons-service:main
+          name: mad-lesson-service
+          ports:
+            - containerPort: 3000
+          resources:
+            limits:
+              cpu: 500m
+              memory: "536870912"
+            requests:
+              cpu: 250m
+              memory: "268435456"
+      restartPolicy: Always
+status: {}

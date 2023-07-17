@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    traefik.enable: "true"
+    traefik.http.middlewares.strip-prefix-unsafe.stripprefix.prefixes: /goat4shell-unsafe
+    traefik.http.routers.mad4shell-service-unsafe.entrypoints: web
+    traefik.http.routers.mad4shell-service-unsafe.middlewares: strip-prefix-unsafe@docker
+    traefik.http.routers.mad4shell-service-unsafe.rule: Host(`api.mad.localhost`) && PathPrefix(`/goat4shell-unsafe`)
+    traefik.http.services.mad4shell-service-unsafe.loadbalancer.server.port: "8080"
+  creationTimestamp: null
+  labels:
+    io.mad.service: mad4shell-service-unsafe
+  name: mad4shell-service-unsafe
+spec:
+  ports:
+    - name: "3003"
+      port: 3003
+      targetPort: 8080
+  selector:
+    io.mad.service: mad4shell-service-unsafe
+status:
+  loadBalancer: {}

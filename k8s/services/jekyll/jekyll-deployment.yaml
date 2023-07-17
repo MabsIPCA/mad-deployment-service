@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    io.mad.service: jekyll-service
+  name: jekyll-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.mad.service: jekyll-service
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        io.mad.network/mad-network: "true"
+        io.mad.service: jekyll-service
+    spec:
+      containers:
+        - image: ghcr.io/mad-goat-project/mad-goat-docs:main
+          name: jekyll-service
+          ports:
+            - containerPort: 80
+          resources:
+            limits:
+              cpu: 500m
+              memory: "536870912"
+            requests:
+              cpu: 250m
+              memory: "268435456"
+      restartPolicy: Always
+status: {}

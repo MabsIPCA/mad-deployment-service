@@ -1,0 +1,21 @@
+apiVersion: v1
+data:
+  KC_DB: postgres
+  KC_DB_PASSWORD: password
+  KC_DB_SCHEMA: public
+  KC_DB_URL_HOST: db-keycloak-service
+  KC_DB_URL_PORT: "5432"
+  KC_DB_USERNAME: keycloak
+  KEYCLOAK_ADMIN: admin
+  KEYCLOAK_ADMIN_PASSWORD: admin
+  KEYCLOAK_HOSTNAME: keycloak.mad.localhost
+  POSTGRES_DB: keycloak
+  POSTGRES_PASSWORD: password
+  POSTGRES_USER: keycloak
+  PROXY_ADDRESS_FORWARDING: "true"
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  labels:
+    io.mad.service: db-keycloak-service-env-keycloak
+  name: env-keycloak
