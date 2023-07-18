@@ -2,3 +2,12 @@
 results.json
 **/.DS_Store
 .DS_Store
+*/data/db-scoreboard-service
+
+# Terraform 
+.terraform
+terraform.tfstate
+terraform.tfstate.backup
+
+# Node.js
+node_modules
