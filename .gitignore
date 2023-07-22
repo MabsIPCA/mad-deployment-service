@@ -2,10 +2,11 @@
 results.json
 **/.DS_Store
 .DS_Store
-*/data/db-scoreboard-service
+compose/data/db-scoreboard-service
 
 # Terraform 
 .terraform
+.terraform.lock.hcl
 terraform.tfstate
 terraform.tfstate.backup
 
