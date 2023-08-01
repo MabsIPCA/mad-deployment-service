@@ -202,3 +202,31 @@ services:
       - "traefik.http.routers.jekyll-service.rule=Host(`docs.mad.localhost`)"
       - "traefik.http.routers.jekyll-service.entrypoints=web"
       - "traefik.http.services.jekyll-service.loadbalancer.server.port=80"
+
+    #####################################################################
+    # Profile Service
+  profile-service:
+    image: ghcr.io/mad-goat-project/mad-profile-service:main
+    container_name: mad-profile-service
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 512M
+        reservations:
+          cpus: "0.25"
+          memory: 256M
+    env_file:
+      - ./envs/.env.profile
+      - ./envs/.env.keycloak.secrets
+    ports:
+      - "3015:3000"
+    networks:
+      - mad-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.profile-service.rule=Host(`api.mad.localhost`) && PathPrefix(`/profile`)"
+      - "traefik.http.middlewares.strip-prefix-profile.stripprefix.prefixes=/profile"
+      - "traefik.http.routers.profile-service.middlewares=strip-prefix-profile@docker"
+      - "traefik.http.routers.profile-service.entrypoints=web"
+      - "traefik.http.services.profile-service.loadbalancer.server.port=3000"
