@@ -39,14 +39,16 @@ services:
     depends_on:
       - db-keycloak-service
     networks:
+      traefik-public:
       mad-network:
         aliases:
           - keycloak.mad.localhost
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.keycloak-service.rule=Host(`keycloak.mad.localhost`) && PathPrefix(`/`) && (Method(`GET`) || Method(`POST`))"
-      - "traefik.http.routers.keycloak-service.entrypoints=web"
-      - "traefik.http.services.keycloak-service.loadbalancer.server.port=8080"
+      - traefik.enable=true
+      - traefik.docker.network=traefik-public
+      - traefik.http.routers.keycloak-service.rule=Host(`keycloak.mad.localhost`) && PathPrefix(`/`) && (Method(`GET`) || Method(`POST`))
+      - traefik.http.routers.keycloak-service.entrypoints=web
+      - traefik.http.services.keycloak-service.loadbalancer.server.port=8080
 
   #####################################################################
   # Traefik
@@ -76,12 +78,12 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
-      - mad-network
+      - traefik-public
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.traefik-service.rule=Host(`traefik.mad.localhost`)"
-      - "traefik.http.routers.traefik-service.entrypoints=web"
-      - "traefik.http.services.traefik-service.loadbalancer.server.port=8080"
+      - traefik.enable=true
+      - traefik.http.routers.traefik-service.rule=Host(`traefik.mad.localhost`)
+      - traefik.http.routers.traefik-service.entrypoints=web
+      - traefik.http.services.traefik-service.loadbalancer.server.port=8080
 
   #####################################################################
   # RabbitMQ
@@ -103,11 +105,13 @@ services:
       - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
     networks:
       - mad-network
+      - traefik-public
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.rabbitmq-service.rule=Host(`rabbitmq.mad.localhost`)"
-      - "traefik.http.routers.rabbitmq-service.entrypoints=web"
-      - "traefik.http.services.rabbitmq-service.loadbalancer.server.port=15672"
+      - traefik.enable=true
+      - traefik.docker.network=traefik-public
+      - traefik.http.routers.rabbitmq-service.rule=Host(`rabbitmq.mad.localhost`)
+      - traefik.http.routers.rabbitmq-service.entrypoints=web
+      - traefik.http.services.rabbitmq-service.loadbalancer.server.port=15672
 
   #####################################################################
   # Minio
@@ -134,8 +138,10 @@ services:
       - ./data/minio-data:/data
     networks:
       - mad-network
+      - traefik-public
     labels:
       - traefik.enable=true
+      - traefik.docker.network=traefik-public
       - traefik.http.routers.minio.service=minio
       - traefik.http.routers.minio.rule=Host(`s3.mad.localhost`)
       - traefik.http.services.minio.loadbalancer.server.port=9000
