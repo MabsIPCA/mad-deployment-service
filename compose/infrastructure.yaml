@@ -1,5 +1,6 @@
 version: "3"
 services:
+  #####################################################################
   # Keycloak
   db-keycloak-service:
     image: postgres:15.3-alpine

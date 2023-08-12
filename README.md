@@ -43,7 +43,7 @@ It contains the following services:
 - Database for Scoreboard Service
 - MAD 4Shell Service - Safe - No log4j vulnerability
 - MAD 4Shell Service - Vulnerable - With log4j vulnerability
-- Jekyll Service - Documentation
+- Docs Service - Documentation
 
 # :wheel_of_dharma: Kubernetes Deployment
 
@@ -106,7 +106,7 @@ apk add --no-cache postgresql-client
 ```
 
 ```bash
-psql -h compose-db-keycloak-service-1 -p 5432 -U keycloak -d keycloak -W
+psql -h db-keycloak-service -p 5432 -U keycloak -d keycloak -W
 ```
 
 The password is `password`

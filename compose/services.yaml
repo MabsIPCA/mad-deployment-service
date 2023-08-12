@@ -188,7 +188,7 @@ services:
   #######################################################################
   #### Jekyll Documentation Service
 
-  jekyll-service:
+  docs-service:
     image: ghcr.io/mad-goat-project/mad-goat-docs:main
     deploy:
       resources:
@@ -207,9 +207,9 @@ services:
     labels:
       - traefik.enable=true
       - traefik.docker.network=traefik-public
-      - traefik.http.routers.jekyll-service.rule=Host(`docs.mad.localhost`)
-      - traefik.http.routers.jekyll-service.entrypoints=web
-      - traefik.http.services.jekyll-service.loadbalancer.server.port=80
+      - traefik.http.routers.docs-service.rule=Host(`docs.mad.localhost`)
+      - traefik.http.routers.docs-service.entrypoints=web
+      - traefik.http.services.docs-service.loadbalancer.server.port=80
 
     #####################################################################
     # Profile Service
