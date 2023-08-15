@@ -113,3 +113,11 @@ The password is `password`
 
 SELECT \* FROM client;
 SELECT client_id FROM client;
+
+### Windows PG missing folders
+
+pg_notify
+pg_tblspc
+pg_replslot
+pg_twophase
+pg_commit_ts
