@@ -8,6 +8,8 @@ Kubernetes is not supported at the moment. (WIP)
 
 All relevant Docker Compose files are located in the `compose` folder.
 
+**Warning:** On a Windows machine you may need to disable Internet Information Services (IIS) to use port 80 and for Keycloak to work properly. (WIP)
+
 ## :clipboard: Prequisites
 
 1. Install Docker
@@ -113,11 +115,3 @@ The password is `password`
 
 SELECT \* FROM client;
 SELECT client_id FROM client;
-
-### Windows PG missing folders
-
-pg_notify
-pg_tblspc
-pg_replslot
-pg_twophase
-pg_commit_ts
