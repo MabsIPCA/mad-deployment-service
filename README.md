@@ -8,7 +8,8 @@ Kubernetes is not supported at the moment. (WIP)
 
 All relevant Docker Compose files are located in the `compose` folder.
 
-**Warning:** On a Windows machine you may need to disable Internet Information Services (IIS) to use port 80 and for Keycloak to work properly. (WIP)
+> **Warning:**
+> On a Windows machine you may need to disable Internet Information Services (IIS) to use port 80 and for Keycloak to work properly. (WIP)
 
 ## :clipboard: Prequisites
 
