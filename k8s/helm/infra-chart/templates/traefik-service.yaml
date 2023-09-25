@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+  creationTimestamp: null
+  labels:
+    io.mad.service: {{ .Values.traefik.service.name }}
+  name: traefik-proxy
+spec:
+  ports:
+    - name: "80"
+      port: {{ .Values.traefik.port1 }}
+      targetPort: {{ .Values.traefik.port1 }}
+    - name: "8082"
+      port: {{ .Values.traefik.port2 }}
+      targetPort: {{ .Values.traefik.port2 }}
+  selector:
+    io.mad.service: {{ .Values.traefik.service.name }}
+status:
+  loadBalancer: {}

@@ -78,6 +78,12 @@ cd kubernetes
 helm install mad .
 ```
 
+### Secrets
+
+```bash
+kubectl apply -f /k8s/envs/*.yaml
+```
+
 ### Helpful Commands
 
 #### Dashboard
@@ -116,3 +122,4 @@ The password is `password`
 
 SELECT \* FROM client;
 SELECT client_id FROM client;
+

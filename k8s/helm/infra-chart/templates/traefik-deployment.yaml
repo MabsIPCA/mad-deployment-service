@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+  creationTimestamp: null
+  labels:
+    io.mad.service: {{ .Values.traefik.service.name }}
+  name: traefik-proxy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.mad.service: {{ .Values.traefik.service.name }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+      creationTimestamp: null
+      labels:
+        io.mad.network/mad-network: "true"
+        io.mad.service: {{ .Values.traefik.service.name }}
+    spec:
+      containers:
+        - args:
+            - --log.level=DEBUG
+            - --api.insecure=true
+            - --providers.docker=true
+            - --providers.docker.exposedbydefault=false
+            - --entrypoints.web.address=:80
+          image: {{ .Values.traefik.image.repository }}:{{ .Values.traefik.image.tag }}
+          name: mad-traefik-service
+          ports:
+            - containerPort: {{ .Values.traefik.port1 }}
+            - containerPort: {{ .Values.traefik.port2 }}
+          resources: {}
+      restartPolicy: Always
+      volumes: []
+status: {}
