@@ -24,6 +24,7 @@ cd compose
 docker compose -f configurations.yaml -f infrastructure.yaml -f services.yaml up
 ```
 
+
 ## :building_construction: Infrastructure
 
 The infrastructure is defined in the `infrastructure.yaml` file.
