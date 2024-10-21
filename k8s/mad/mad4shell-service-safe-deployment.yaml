@@ -1,14 +1,6 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
-    traefik.enable: "true"
-    traefik.http.middlewares.strip-prefix-safe.stripprefix.prefixes: /goat4shell-safe
-    traefik.http.routers.mad4shell-service-safe.entrypoints: web
-    traefik.http.routers.mad4shell-service-safe.middlewares: strip-prefix-safe@docker
-    traefik.http.routers.mad4shell-service-safe.rule: Host(`api.mad.localhost`) && PathPrefix(`/goat4shell-safe`)
-    traefik.http.services.mad4shell-service-safe.loadbalancer.server.port: "8080"
-  creationTimestamp: null
   labels:
     io.mad.service: mad4shell-service-safe
   name: mad4shell-service-safe
@@ -17,19 +9,8 @@ spec:
   selector:
     matchLabels:
       io.mad.service: mad4shell-service-safe
-  strategy: {}
   template:
     metadata:
-      annotations:
-        kompose.cmd: kompose convert
-        kompose.version: 1.24.0 (4a2a0458)
-        traefik.enable: "true"
-        traefik.http.middlewares.strip-prefix-safe.stripprefix.prefixes: /goat4shell-safe
-        traefik.http.routers.mad4shell-service-safe.entrypoints: web
-        traefik.http.routers.mad4shell-service-safe.middlewares: strip-prefix-safe@docker
-        traefik.http.routers.mad4shell-service-safe.rule: Host(`api.mad.localhost`) && PathPrefix(`/goat4shell-safe`)
-        traefik.http.services.mad4shell-service-safe.loadbalancer.server.port: "8080"
-      creationTimestamp: null
       labels:
         io.mad.network/mad-network: "true"
         io.mad.service: mad4shell-service-safe
@@ -42,9 +23,8 @@ spec:
           resources:
             limits:
               cpu: 500m
-              memory: "536870912"
+              memory: "500Mi"
             requests:
               cpu: 250m
-              memory: "268435456"
+              memory: "250Mi"
       restartPolicy: Always
-status: {}
