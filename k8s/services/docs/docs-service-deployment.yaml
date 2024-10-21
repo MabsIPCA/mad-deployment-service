@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    io.mad.service: docs-service
+  name: docs-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.mad.service: docs-service
+  template:
+    metadata:
+      labels:
+        io.mad.service: docs-service
+    spec:
+      containers:
+        - image: ghcr.io/mad-goat-project/mad-goat-docs:main
+          name: docs-service
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          resources:
+            limits:
+              cpu: 500m
+              memory: "500Mi"
+            requests:
+              cpu: 250m
+              memory: "250Mi"
+      restartPolicy: Always

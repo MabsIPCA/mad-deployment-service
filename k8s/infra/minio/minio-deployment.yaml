@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: minio
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.mad.service: minio
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        io.mad.service: minio
+    spec:
+      containers:
+        - args:
+            - server
+            - /data
+            - --console-address
+            - :9001
+          envFrom:
+            - configMapRef:
+                name: env-minio
+          image: minio/minio:RELEASE.2023-02-27T18-10-45Z.hotfix.6ba7e7dbf
+          name: minio
+          ports:
+            - containerPort: 9000
+              protocol: TCP
+            - containerPort: 9001
+              protocol: TCP
+          resources:
+            limits:
+              cpu: 500m
+              memory: "500Mi"
+            requests:
+              cpu: 250m
+              memory: "256Mi"
+      restartPolicy: Always

@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    io.mad.service: profile-service
+  name: profile-service
+spec:
+  ports:
+    - name: "3015"
+      port: 3015
+      targetPort: 3000
+  selector:
+    io.mad.service: profile-service
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: strip-prefix-profile
+spec:
+  stripPrefixRegex:
+    regex:
+      - "/profile"
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: profile-service
+  namespace: default
+spec:
+  entryPoints:
+    - web
+  routes:
+    - kind: Rule
+      match: Host(`api.mad.localhost`) && PathPrefix(`/profile`)
+      middlewares:
+        - name: strip-prefix-profile
+      services:
+        - kind: Service
+          name: profile-service
+          namespace: default
+          port: 3000

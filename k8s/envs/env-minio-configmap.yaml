@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: env-minio
+data:
+  MINIO_ACCESS_KEY: "myaccesskey"
+  MINIO_ROOT_PASSWORD: "minio123"
+  MINIO_ROOT_USER: "minio"
+  MINIO_SECRET_KEY: "mysupersecretkey"

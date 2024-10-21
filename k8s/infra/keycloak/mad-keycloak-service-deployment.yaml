@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    io.mad.service: mad-keycloak-service
+  name: mad-keycloak-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.mad.service: mad-keycloak-service
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        io.mad.service: mad-keycloak-service
+    spec:
+      containers:
+        - envFrom:
+            - configMapRef:
+                name: env-keycloak
+          image: ghcr.io/mad-goat-project/keycloak:main
+          command: ["/bin/bash start-dev"]
+          name: mad-keycloak-service
+          ports:
+            - containerPort: 8080
+          resources:
+            limits:
+              cpu: 500m
+              memory: "500Mi"
+            requests:
+              cpu: 250m
+              memory: "250Mi"
+      restartPolicy: Always

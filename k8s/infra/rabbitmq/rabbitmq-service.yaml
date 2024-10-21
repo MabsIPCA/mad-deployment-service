@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    io.mad.service: rabbitmq
+  name: rabbitmq
+spec:
+  ports:
+    - name: "5672"
+      port: 5672
+      targetPort: 5672
+    - name: "15672"
+      port: 15672
+      targetPort: 15672
+  selector:
+    io.mad.service: rabbitmq
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: mad-rabbitmq-service
+  namespace: default
+spec:
+  entryPoints:
+    - web
+  routes:
+    - kind: Rule
+      match: Host(`rabbitmq.mad.localhost`)
+      services:
+        - kind: Service
+          name: mad-rabbitmq-service
+          namespace: default
+          port: 15672
