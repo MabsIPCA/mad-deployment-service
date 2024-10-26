@@ -21,7 +21,8 @@ spec:
             - configMapRef:
                 name: env-keycloak
           image: ghcr.io/mad-goat-project/keycloak:main
-          command: ["/bin/bash start-dev"]
+          args:
+            - "start-dev"
           name: mad-keycloak-service
           ports:
             - containerPort: 8080
