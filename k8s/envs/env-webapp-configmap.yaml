@@ -8,7 +8,7 @@ data:
   VITE_KEYCLOAK_REALM: "MADGoat"
   VITE_KEYCLOAK_CLIENT_ID: "mad-goat-web-app"
 
-  VITE_LESSON_BASE_URL: "http://api.mad.localhost/lessons"
+  VITE_LESSON_BASE_URL: "http:// /lessons"
   VITE_GOAT4SHELL_BASE_URL: "http://api.mad.localhost/goat4shell-unsafe"
   VITE_SCOREBOARD_BASE_URL: "http://api.mad.localhost/scoreboard"
   VITE_DOCS_BASE_URL: "http://docs.mad.localhost"
