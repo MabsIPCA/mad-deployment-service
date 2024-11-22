@@ -17,6 +17,13 @@ spec:
         io.mad.network/mad-network: "true"
         io.mad.service: db-lesson-service
     spec:
+      initContainers:
+        - name: init-postgres-permissions
+          image: alpine:latest
+          command: [ "sh", "-c", "chown -R 999:999 /var/lib/postgresql/data" ]
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: db-lesson-service-claim0
       containers:
         - envFrom:
             - configMapRef:
@@ -34,10 +41,9 @@ spec:
               memory: "250Mi"
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
-              name: db-lesson-service-claim
+              name: db-lesson-service-claim0
       restartPolicy: Always
       volumes:
-        - name: db-lesson-service-claim
-          hostPath:
-            path: /host/compose/data/db-lesson-service
-            type: DirectoryOrCreate
+        - name: db-lesson-service-claim0
+          persistentVolumeClaim:
+            claimName: db-lesson-service-claim0
