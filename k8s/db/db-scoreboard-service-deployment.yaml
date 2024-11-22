@@ -33,9 +33,10 @@ spec:
               memory: "250Mi"
           volumeMounts:
             - mountPath: /data/db
-              name: db-scoreboard-service-claim0
+              name: db-scoreboard-service-claim
       restartPolicy: Always
       volumes:
-        - name: db-scoreboard-service-claim0
-          persistentVolumeClaim:
-            claimName: db-scoreboard-service-claim0
+        - name: db-scoreboard-service-claim
+          hostPath:
+            path: /host/compose/data/db-scoreboard-service
+            type: DirectoryOrCreate

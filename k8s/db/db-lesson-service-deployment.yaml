@@ -34,9 +34,10 @@ spec:
               memory: "250Mi"
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
-              name: db-lesson-service-claim0
+              name: db-lesson-service-claim
       restartPolicy: Always
       volumes:
-        - name: db-lesson-service-claim0
-          persistentVolumeClaim:
-            claimName: db-lesson-service-claim0
+        - name: db-lesson-service-claim
+          hostPath:
+            path: /host/compose/data/db-lesson-service
+            type: DirectoryOrCreate

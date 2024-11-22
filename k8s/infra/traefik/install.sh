@@ -1,3 +1,15 @@
+MINIKUBE_CONTAINER=$(docker ps -aqf name=minikube)
+
+if [ -n "$MINIKUBE_CONTAINER" ]; then
+  echo "Minikube container found. Please delete the exising Minikube setup and try again."
+  exit 1
+else
+  echo "No Minikube setup found. Initializing MAD GOAT Minikube."
+fi
+
+minikube start --ports 30340:30340
+minikube mount $(pwd):/host
+
 # Install Traefik Ingress Controller through Helm
 helm install traefik traefik/traefik --values k8s/infra/traefik/values.yaml
 kubectl apply -f k8s/infra/traefik/dashboard.yaml
@@ -14,7 +26,3 @@ kubectl apply -f k8s/services/scoreboard
 kubectl apply -f k8s/services/webapp
 kubectl apply -f k8s/services/profile
 
-minikube service traefik -n kube-system
-
-#docker build -f proxy.Dockerfile -t proxy-app-mad:latest .
-#docker run --network minikube -d -p 80:80 --name proxy-app-mad proxy-app-mad

@@ -18,6 +18,8 @@ spec:
         - envFrom:
             - configMapRef:
                 name: env-profile
+            - configMapRef:
+                name: env-keycloak-secrets
           image: ghcr.io/mad-goat-project/mad-profile-service:main
           name: mad-profile-service
           ports:

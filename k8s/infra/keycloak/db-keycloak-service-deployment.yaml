@@ -34,9 +34,10 @@ spec:
               memory: "250Mi"
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
-              name: db-keycloak-service-claim0
+              name: db-keycloak-service-claim
       restartPolicy: Always
       volumes:
-        - name: db-keycloak-service-claim0
-          persistentVolumeClaim:
-            claimName: db-keycloak-service-claim0
+        - name: db-keycloak-service-claim
+          hostPath:
+            path: /host/compose/data/db-keycloak-service
+            type: DirectoryOrCreate
