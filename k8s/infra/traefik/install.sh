@@ -22,6 +22,7 @@ while true; do
   # Increment elapsed time and wait
   sleep "$INTERVAL"
   ELAPSED=$((ELAPSED + INTERVAL))
+
 done
 
 kubectl apply -f k8s/infra/files.yaml
@@ -50,8 +51,8 @@ while true; do
   ELAPSED=$((ELAPSED + INTERVAL))
 done
 
-kubectl cp compose/data/db-keycloak-service file-copy-pod:/keycloak
-kubectl cp compose/data/db-lesson-service file-copy-pod:/lesson
+kubectl cp compose/data/db-keycloak-service/. file-copy-pod:/keycloak
+kubectl cp compose/data/db-lesson-service/. file-copy-pod:/lesson
 
 kubectl apply -f k8s/db
 
