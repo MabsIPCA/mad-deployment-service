@@ -2,15 +2,15 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    io.mad.service: mad-lesson-service
-  name: mad-lesson-service
+    io.mad.service: mad-lesson
+  name: mad-lesson
 spec:
   ports:
-    - name: "3001"
-      port: 3001
+    - name: "3000"
+      port: 3000
       targetPort: 3000
   selector:
-    io.mad.service: mad-lesson-service
+    io.mad.service: mad-lesson
 ---
 apiVersion: traefik.io/v1alpha1
 kind: Middleware
@@ -24,7 +24,7 @@ spec:
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
-  name: mad-lesson-service
+  name: mad-lesson
   namespace: default
 spec:
   entryPoints:
@@ -36,6 +36,6 @@ spec:
         - name: strip-prefix-lessons
       services:
         - kind: Service
-          name: mad-lesson-service
+          name: mad-lesson
           namespace: default
           port: 3000

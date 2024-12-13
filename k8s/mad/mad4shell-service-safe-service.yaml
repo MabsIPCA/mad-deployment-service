@@ -2,15 +2,15 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    io.mad.service: mad4shell-service-safe
-  name: mad4shell-service-safe
+    io.mad.service: mad4shell-safe
+  name: mad4shell-safe
 spec:
   ports:
     - name: "3002"
       port: 3002
       targetPort: 8080
   selector:
-    io.mad.service: mad4shell-service-safe
+    io.mad.service: mad4shell-safe
 ---
 apiVersion: traefik.io/v1alpha1
 kind: Middleware
@@ -36,6 +36,6 @@ spec:
         - name: strip-prefix-safe
       services:
         - kind: Service
-          name: mad4shell-service-safe
+          name: mad4shell-safe
           namespace: default
-          port: 8080
+          port: 3002

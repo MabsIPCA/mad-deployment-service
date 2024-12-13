@@ -2,22 +2,22 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    io.mad.service: mad4shell-service-safe
-  name: mad4shell-service-safe
+    io.mad.service: mad4shell-safe
+  name: mad4shell-safe
 spec:
   replicas: 1
   selector:
     matchLabels:
-      io.mad.service: mad4shell-service-safe
+      io.mad.service: mad4shell-safe
   template:
     metadata:
       labels:
         io.mad.network/mad-network: "true"
-        io.mad.service: mad4shell-service-safe
+        io.mad.service: mad4shell-safe
     spec:
       containers:
         - image: ghcr.io/mad-goat-project/mad-goat4shell-service:safe
-          name: mad4shell-service-safe
+          name: mad4shell-safe
           ports:
             - containerPort: 8080
           resources:

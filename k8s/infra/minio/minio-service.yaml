@@ -12,18 +12,20 @@ spec:
     - name: "9001"
       port: 9001
       targetPort: 9001
+  selector:
+    io.mad.service: minio
 ---
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
-  name: minio-9000
+  name: minio
   namespace: default
 spec:
   entryPoints:
     - web
   routes:
     - kind: Rule
-      match: Host(`s3-console.mad.localhost`)
+      match: Host(`s3.mad.localhost`)
       services:
         - kind: Service
           name: minio
@@ -33,19 +35,12 @@ spec:
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
-  name: minio-9001
+  name: minio-console
   namespace: default
 spec:
   entryPoints:
     - web
   routes:
-    - kind: Rule
-      match: Host(`s3-console.mad.localhost`)
-      services:
-        - kind: Service
-          name: minio
-          namespace: default
-          port: 9001
     - kind: Rule
       match: Host(`s3-console.mad.localhost`)
       services:

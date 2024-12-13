@@ -18,7 +18,7 @@ spec:
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
-  name: mad-rabbitmq-service
+  name: mad-rabbitmq
   namespace: default
 spec:
   entryPoints:
@@ -28,6 +28,6 @@ spec:
       match: Host(`rabbitmq.mad.localhost`)
       services:
         - kind: Service
-          name: mad-rabbitmq-service
+          name: rabbitmq
           namespace: default
           port: 15672

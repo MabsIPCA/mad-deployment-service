@@ -2,21 +2,21 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    io.mad.service: docs-service
-  name: docs-service
+    io.mad.service: docs
+  name: docs
 spec:
   replicas: 1
   selector:
     matchLabels:
-      io.mad.service: docs-service
+      io.mad.service: docs
   template:
     metadata:
       labels:
-        io.mad.service: docs-service
+        io.mad.service: docs
     spec:
       containers:
         - image: ghcr.io/mad-goat-project/mad-goat-docs:main
-          name: docs-service
+          name: docs
           ports:
             - containerPort: 80
               protocol: TCP

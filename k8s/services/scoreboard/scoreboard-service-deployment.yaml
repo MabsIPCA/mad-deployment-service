@@ -2,19 +2,19 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    io.mad.service: scoreboard-service
-  name: scoreboard-service
+    io.mad.service: scoreboard
+  name: scoreboard
 spec:
   replicas: 1
   selector:
     matchLabels:
-      io.mad.service: scoreboard-service
+      io.mad.service: scoreboard
   strategy: {}
   template:
     metadata:
       labels:
         io.mad.network/mad-network: "true"
-        io.mad.service: scoreboard-service
+        io.mad.service: scoreboard
     spec:
       containers:
         - envFrom:
@@ -23,7 +23,7 @@ spec:
             - configMapRef:
                 name: env-keycloak-secrets
           image: ghcr.io/mad-goat-project/mad-scoreboard-service:main
-          name: mad-scoreboard-service
+          name: mad-scoreboard
           ports:
             - containerPort: 3000
           resources:

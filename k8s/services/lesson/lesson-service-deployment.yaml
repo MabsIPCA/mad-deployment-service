@@ -2,18 +2,18 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    io.mad.service: mad-lesson-service
-  name: mad-lesson-service
+    io.mad.service: mad-lesson
+  name: mad-lesson
 spec:
   replicas: 1
   selector:
     matchLabels:
-      io.mad.service: mad-lesson-service
+      io.mad.service: mad-lesson
   strategy: {}
   template:
     metadata:
       labels:
-        io.mad.service: mad-lesson-service
+        io.mad.service: mad-lesson
     spec:
       containers:
         - envFrom:
@@ -22,7 +22,7 @@ spec:
             - configMapRef:
                 name: env-keycloak-secrets
           image: ghcr.io/mad-goat-project/mad-lessons-service:main
-          name: mad-lesson-service
+          name: mad-lesson
           ports:
             - containerPort: 3000
           resources:

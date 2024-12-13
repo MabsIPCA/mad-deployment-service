@@ -2,19 +2,19 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    io.mad.service: mad-keycloak-service
-  name: mad-keycloak-service
+    io.mad.service: mad-keycloak
+  name: mad-keycloak
 spec:
   replicas: 1
   selector:
     matchLabels:
-      io.mad.service: mad-keycloak-service
+      io.mad.service: mad-keycloak
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        io.mad.service: mad-keycloak-service
+        io.mad.service: mad-keycloak
     spec:
       containers:
         - envFrom:
@@ -23,7 +23,7 @@ spec:
           image: ghcr.io/mad-goat-project/keycloak:main
           args:
             - "start-dev"
-          name: mad-keycloak-service
+          name: mad-keycloak
           ports:
             - containerPort: 8080
           resources:
