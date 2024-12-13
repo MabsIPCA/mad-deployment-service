@@ -14,9 +14,9 @@ spec:
         - "chmod -R 777 /keycloak /lesson && sleep 3000" # Keep pod running until file operation completes
       volumeMounts:
         - mountPath: /keycloak
-          name: db-keycloak-service-claim0
+          name: db-keycloak-claim0
         - mountPath: /lesson
-          name: db-lesson-service-claim0
+          name: db-lesson-claim0
       securityContext:
         runAsUser: 0 # Run as root user
       resources:
@@ -24,10 +24,10 @@ spec:
           memory: "128Mi"
           cpu: "500m"
   volumes:
-    - name: db-lesson-service-claim0
+    - name: db-lesson-claim0
       persistentVolumeClaim:
-        claimName: db-lesson-service-claim0
-    - name: db-keycloak-service-claim0
+        claimName: db-lesson-claim0
+    - name: db-keycloak-claim0
       persistentVolumeClaim:
-        claimName: db-keycloak-service-claim0
+        claimName: db-keycloak-claim0
   restartPolicy: Never
