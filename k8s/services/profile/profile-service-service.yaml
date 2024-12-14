@@ -6,8 +6,8 @@ metadata:
   name: mad-profile
 spec:
   ports:
-    - name: "3015"
-      port: 3015
+    - name: "3000"
+      port: 3000
       targetPort: 3000
   selector:
     io.mad.service: mad-profile
@@ -38,4 +38,4 @@ spec:
         - kind: Service
           name: mad-profile
           namespace: default
-          port: 3015
+          port: 3000

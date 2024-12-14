@@ -6,8 +6,8 @@ metadata:
   name: docs
 spec:
   ports:
-    - name: "4000"
-      port: 4000
+    - name: "80"
+      port: 80
       targetPort: 80
   selector:
     io.mad.service: docs
@@ -27,4 +27,4 @@ spec:
         - kind: Service
           name: docs
           namespace: default
-          port: 4000
+          port: 80
