@@ -16,6 +16,15 @@ spec:
     io.mad.service: minio
 ---
 apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: strip-prefix-s3
+spec:
+  stripPrefixRegex:
+    regex:
+      - "/s3"
+---
+apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
   name: minio
@@ -25,12 +34,23 @@ spec:
     - web
   routes:
     - kind: Rule
-      match: Host(`s3.mad.localhost`)
+      match: PathPrefix(`/s3`)
+      middlewares:
+          - name: strip-prefix-s3
       services:
         - kind: Service
           name: minio
           namespace: default
           port: 9000
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: strip-prefix-s3-console
+spec:
+  stripPrefixRegex:
+    regex:
+      - "/s3-console"
 ---
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
@@ -42,7 +62,9 @@ spec:
     - web
   routes:
     - kind: Rule
-      match: Host(`s3-console.mad.localhost`)
+      match: PathPrefix(`/s3-console`)
+      middlewares:
+          - name: strip-prefix-s3-console
       services:
         - kind: Service
           name: minio

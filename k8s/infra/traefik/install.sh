@@ -9,7 +9,17 @@ else
   echo "No Minikube setup found. Initializing MAD GOAT Minikube."
 fi
 
-minikube start --ports 30340:30340
+minikube start
+helm install traefik traefik/traefik --values k8s/infra/traefik/values.yaml
+
+# Step 1: Start the Traefik service in the background and retrieve its URL
+nohup minikube service traefik --url > traefik-url.log 2>&1 &
+
+# Step 3: Extract the URL from the log file
+TRAFFIC_URL=$(grep -Eo 'http[s]?://[^ ]+' traefik-url.log | head -n 1)
+
+# Step 3: Replace the placeholder with the Traefik URL in all files
+find k8s/envs -type f -exec sed -i "s|{{ip-placeholder}}|$TRAFFIC_URL|g" {} +
 
 echo "Waiting for the 'default' service account in the default namespace..."
 # Track elapsed time
@@ -26,8 +36,6 @@ done
 
 kubectl apply -f k8s/infra/files.yaml
 
-# Install Traefik Ingress Controller through Helm
-helm install traefik traefik/traefik --values k8s/infra/traefik/values.yaml
 kubectl apply -f k8s/infra/traefik/dashboard.yaml
 
 kubectl apply -f k8s/envs

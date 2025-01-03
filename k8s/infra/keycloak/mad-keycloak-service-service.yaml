@@ -13,6 +13,15 @@ spec:
     io.mad.service: mad-keycloak
 ---
 apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: strip-prefix-keycloak
+spec:
+  stripPrefixRegex:
+    regex:
+      - "/keycloak"
+---
+apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
   name: mad-keycloak
@@ -22,7 +31,9 @@ spec:
     - web
   routes:
     - kind: Rule
-      match: Host(`keycloak.mad.localhost`) && PathPrefix(`/`) && (Method(`GET`) || Method(`POST`))
+      match: PathPrefix(`/keycloak`) && (Method(`GET`) || Method(`POST`))
+      middlewares:
+        - name: strip-prefix-keycloak
       services:
         - kind: Service
           name: mad-keycloak

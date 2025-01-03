@@ -16,6 +16,15 @@ spec:
     io.mad.service: rabbitmq
 ---
 apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: strip-prefix-rabbitmq
+spec:
+  stripPrefixRegex:
+    regex:
+      - "/rabbitmq"
+---
+apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
   name: mad-rabbitmq
@@ -25,7 +34,9 @@ spec:
     - web
   routes:
     - kind: Rule
-      match: Host(`rabbitmq.mad.localhost`)
+      match: PathPrefix(`/rabbitmq`)
+      middlewares:
+          - name: strip-prefix-rabbitmq
       services:
         - kind: Service
           name: rabbitmq

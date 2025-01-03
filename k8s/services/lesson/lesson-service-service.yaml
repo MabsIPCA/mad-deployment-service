@@ -31,7 +31,7 @@ spec:
     - web
   routes:
     - kind: Rule
-      match: Host(`api.mad.localhost`) && PathPrefix(`/lessons`)
+      match:  PathPrefix(`/lessons`)
       middlewares:
         - name: strip-prefix-lessons
       services:

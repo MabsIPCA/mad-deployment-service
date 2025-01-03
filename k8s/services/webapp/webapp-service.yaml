@@ -13,6 +13,15 @@ spec:
     io.mad.service: webapp
 ---
 apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: strip-prefix-webapp
+spec:
+  stripPrefixRegex:
+    regex:
+      - "/web"
+---
+apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
   name: webapp
@@ -22,7 +31,9 @@ spec:
     - web
   routes:
     - kind: Rule
-      match: Host(`app.mad.localhost`)
+      match: PathPrefix(`/web`)
+      middlewares:
+          - name: strip-prefix-webapp
       services:
         - kind: Service
           name: webapp
