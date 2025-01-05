@@ -1,11 +1,5 @@
 #!/bin/bash
 
-# read host ip and port url from args
-if [ -z "$1" ]; then
-  echo "Please provide the host IP and port URL as an argument."
-  exit 1
-fi
-
 MINIKUBE_CONTAINER=$(docker ps -aqf name=minikube)
 
 if [ -n "$MINIKUBE_CONTAINER" ]; then
@@ -18,26 +12,31 @@ fi
 minikube start
 helm install traefik traefik/traefik --values k8s/infra/traefik/values.yaml
 
-echo "Waiting for the traefik service to be available"
+echo "Waiting for the traefik service pod to be available"
 ELAPSED=0
 INTERVAL=1
 while true; do
-  if kubectl get service traefik &>/dev/null; then
-    echo "Traefik Service  is ready"
+  PODNAME=$(kubectl get pod -l app.kubernetes.io/name=traefik -n default -o jsonpath='{.items[0].metadata.name}' 2>/dev/null)
+  STATUS=$(kubectl get pod $PODNAME -n default -o jsonpath='{.status.phase}' 2>/dev/null)
+  if [ "$STATUS" = "Running" ] ; then
+    echo "Traefik pod is running "
     break
   fi
   sleep "$INTERVAL"
   ELAPSED=$((ELAPSED + INTERVAL))
 done
 
-sleep 10
-
 nohup minikube service traefik --url > traefik-url.log 2>&1 &
 
 sleep 2
 
-TRAFFIC_URL=$(grep -Eo 'http[s]?://[^ ]+' traefik-url.log | head -n 1)
-find k8s/envs -type f -exec sed -i "s|{{ip-placeholder}}|$1|g" {} +
+TRAEFIKURL=$(grep -m 1 -E  'http[s]?://[^ ]+' traefik-url.log)
+echo "Traefik URL: $TRAEFIKURL"
+if [ -z "$TRAEFIKURL" ]; then
+  echo "Traefik URL not found. Exiting..."
+  exit 1
+fi
+find k8s/envs -type f -exec sed -i "s|{{ip-placeholder}}|$TRAEFIKURL|g" {} +
 
 echo "Waiting for the 'default' service account in the default namespace..."
 ELAPSED=0
