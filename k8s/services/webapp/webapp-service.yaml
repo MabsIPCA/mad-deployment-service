@@ -31,9 +31,7 @@ spec:
     - web
   routes:
     - kind: Rule
-      match: PathPrefix(`/web`)
-      middlewares:
-          - name: strip-prefix-webapp
+      match: PathPrefix(`/`)
       services:
         - kind: Service
           name: webapp
