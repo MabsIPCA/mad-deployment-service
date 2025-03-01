@@ -18,9 +18,11 @@ spec:
         io.mad.service: db-keycloak
     spec:
       initContainers:
-        - name: init-postgres-permissions
-          image: alpine:latest
-          command: [ "sh", "-c", "chown -R 999:999 /var/lib/postgresql/data" ]
+        - name: default-database-loader
+          image: mabsipca/db-lesson:data
+          env:
+            - name: TARGET_PATH
+              value: "/var/lib/postgresql/data"  # Destination path inside the pod
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
               name: db-keycloak-claim0
@@ -28,7 +30,7 @@ spec:
         - envFrom:
             - configMapRef:
                 name: env-keycloak
-          image: postgres:15.3-alpine
+          image: postgres:14.1-alpine
           name: db-keycloak
           ports:
             - containerPort: 5432

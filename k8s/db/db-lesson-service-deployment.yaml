@@ -18,9 +18,11 @@ spec:
         io.mad.service: db-lesson
     spec:
       initContainers:
-        - name: init-postgres-permissions
-          image: alpine:latest
-          command: [ "sh", "-c", "chown -R 999:999 /var/lib/postgresql/data" ]
+        - name: default-database-loader
+          image: mabsipca/db-lesson:data
+          env:
+            - name: TARGET_PATH
+              value: "/var/lib/postgresql/data"  # Destination path inside the pod
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
               name: db-lesson-claim0

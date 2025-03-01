@@ -1,11 +1,5 @@
 #!/bin/bash
 
-# read host ip and port url from args
-if [ -z "$1" ]; then
-  echo "Please provide the host IP and port URL as an argument."
-  exit 1
-fi
-
 MINIKUBE_CONTAINER=$(docker ps -aqf name=minikube)
 
 if [ -n "$MINIKUBE_CONTAINER" ]; then
@@ -15,29 +9,25 @@ else
   echo "No Minikube setup found. Initializing MAD GOAT Minikube."
 fi
 
-minikube start
+minikube start --cpus 8 --memory 20000MB
+minikube addons enable ingress
+minikube addons enable ingress-dns
+
+sleep 5 # to allow cluster services to start
+
+MINIKUBE_IP=$(minikube ip)
+kubectl get configmap coredns -n kube-system -o yaml > coredns-backup.yaml
+
+# Extract and modify Corefile, then update the ConfigMap
+kubectl get configmap coredns -n kube-system -o json | jq --arg minikube_ip "$MINIKUBE_IP" '
+    .data.Corefile += "mad.io:53 {\n    errors\n    cache 30\n    forward . " + $minikube_ip + "\n}"
+' | kubectl apply -f -
+
+# Restart CoreDNS to apply changes
+kubectl rollout restart deployment coredns -n kube-system
+
+helm repo add traefik https://traefik.github.io/charts
 helm install traefik traefik/traefik --values k8s/infra/traefik/values.yaml
-
-echo "Waiting for the traefik service to be available"
-ELAPSED=0
-INTERVAL=1
-while true; do
-  if kubectl get service traefik &>/dev/null; then
-    echo "Traefik Service  is ready"
-    break
-  fi
-  sleep "$INTERVAL"
-  ELAPSED=$((ELAPSED + INTERVAL))
-done
-
-sleep 10
-
-nohup minikube service traefik --url > traefik-url.log 2>&1 &
-
-sleep 2
-
-TRAFFIC_URL=$(grep -Eo 'http[s]?://[^ ]+' traefik-url.log | head -n 1)
-find k8s/envs -type f -exec sed -i "s|{{ip-placeholder}}|$1|g" {} +
 
 echo "Waiting for the 'default' service account in the default namespace..."
 ELAPSED=0
@@ -51,31 +41,14 @@ while true; do
   ELAPSED=$((ELAPSED + INTERVAL))
 done
 
-kubectl apply -f k8s/infra/files.yaml
+sleep 60
 
 kubectl apply -f k8s/infra/traefik/dashboard.yaml
+
 
 kubectl apply -f k8s/envs
 kubectl apply -f k8s/db/db-lesson-service-claim0-persistentvolumeclaim.yaml
 kubectl apply -f k8s/infra/keycloak/db-keycloak-service-claim0-persistentvolumeclaim.yaml
-
-echo "Waiting for pod 'file-copy-pod' to be assigned to a node in the default namespace..."
-
-# Track elapsed time
-ELAPSED=0
-INTERVAL=1
-while true; do
-  STATUS=$(kubectl get pod file-copy-pod -n default -o jsonpath='{.status.phase}' 2>/dev/null)
-  if [ "$STATUS" = "Running" ] || [ "$STATUS" = "Succeeded" ] || [ "$STATUS" = "Failed" ]; then
-    echo "Pod 'file-copy-pod' is assigned and its current status is: $STATUS."
-    break
-  fi
-  sleep "$INTERVAL"
-  ELAPSED=$((ELAPSED + INTERVAL))
-done
-
-kubectl cp compose/data/db-keycloak-service/. file-copy-pod:/keycloak
-kubectl cp compose/data/db-lesson-service/. file-copy-pod:/lesson
 
 kubectl apply -f k8s/db
 
@@ -89,3 +62,5 @@ kubectl apply -f k8s/services/lesson
 kubectl apply -f k8s/services/scoreboard
 kubectl apply -f k8s/services/webapp
 kubectl apply -f k8s/services/profile
+
+kubectl apply -f k8s/infra/traefik/ingressRoutes.yaml
