@@ -19,7 +19,7 @@ spec:
     spec:
       initContainers:
         - name: default-database-loader
-          image: mabsipca/db-lesson:data
+          image: mabsipca/db-keycloak:data
           env:
             - name: TARGET_PATH
               value: "/var/lib/postgresql/data"  # Destination path inside the pod
@@ -30,7 +30,7 @@ spec:
         - envFrom:
             - configMapRef:
                 name: env-keycloak
-          image: postgres:14.1-alpine
+          image: postgres:15.1-alpine
           name: db-keycloak
           ports:
             - containerPort: 5432

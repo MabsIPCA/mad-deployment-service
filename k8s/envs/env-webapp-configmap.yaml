@@ -4,12 +4,13 @@ metadata:
   name: env-webapp
 data:
   # Web Application
-  VITE_KEYCLOAK_URL: "http://127.0.0.1:45323/keycloak"
+  VITE_KEYCLOAK_URL: "keycloak.mad.io"
   VITE_KEYCLOAK_REALM: "MADGoat"
   VITE_KEYCLOAK_CLIENT_ID: "mad-goat-web-app"
 
-  VITE_LESSON_BASE_URL: "http://127.0.0.1:45323/lessons"
-  VITE_GOAT4SHELL_BASE_URL: "http://127.0.0.1:45323/goat4shell-unsafe"
-  VITE_SCOREBOARD_BASE_URL: "http://127.0.0.1:45323/scoreboard"
-  VITE_DOCS_BASE_URL: "http://127.0.0.1:45323/docs"
-  VITE_PROFILE_BASE_URL: "http://127.0.0.1:45323/profile/api/v1"
+  VITE_LESSON_BASE_URL: "http://mad.io/api/lessons"
+  VITE_GOAT4SHELL_BASE_URL: "http://mad.io/api/goat4shell-unsafe"
+  VITE_SCOREBOARD_BASE_URL: "http://mad.io/api/scoreboard"
+  VITE_DOCS_BASE_URL: "http://mad.io/api/docs"
+  VITE_PROFILE_BASE_URL: "http://mad.io/profile/api/v1"
+  VITE_OBJECT_STORAGE_BASE_URL: "http://mad.io/s3/mad-images"

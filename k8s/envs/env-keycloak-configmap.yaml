@@ -20,4 +20,4 @@ data:
 
   # Traefik Configuration
   PROXY_ADDRESS_FORWARDING: "true"
-  KEYCLOAK_HOSTNAME: "http://127.0.0.1:45323"
+  KEYCLOAK_HOSTNAME: "keycloak.mad.io"

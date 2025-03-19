@@ -19,7 +19,7 @@ metadata:
 spec:
   stripPrefixRegex:
     regex:
-      - "/goat4shell-safe"
+      - "/api/goat4shell-safe"
 ---
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
@@ -31,7 +31,7 @@ spec:
     - web
   routes:
     - kind: Rule
-      match: PathPrefix(`/goat4shell-safe`)
+      match: Host(`mad.io`) && PathPrefix(`/api/goat4shell-safe`)
       middlewares:
         - name: strip-prefix-safe
       services:

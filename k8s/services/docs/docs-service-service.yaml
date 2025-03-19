@@ -6,8 +6,8 @@ metadata:
   name: docs
 spec:
   ports:
-    - name: "80"
-      port: 80
+    - name: "4000"
+      port: 4000
       targetPort: 80
   selector:
     io.mad.service: docs
@@ -19,7 +19,7 @@ metadata:
 spec:
   stripPrefixRegex:
     regex:
-      - "/docs"
+      - "/api/docs"
 ---
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
@@ -31,7 +31,7 @@ spec:
     - web
   routes:
     - kind: Rule
-      match: PathPrefix(`/docs`)
+      match: Host(`mad.io`) && PathPrefix(`/api/docs`)
       middlewares:
           - name: strip-prefix-docs
       services:

@@ -19,7 +19,7 @@ metadata:
 spec:
   stripPrefixRegex:
     regex:
-      - "/lessons"
+      - "/api/lessons"
 ---
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
@@ -31,7 +31,7 @@ spec:
     - web
   routes:
     - kind: Rule
-      match:  PathPrefix(`/lessons`)
+      match:  Host(`mad.io`) && PathPrefix(`/api/lessons`)
       middlewares:
         - name: strip-prefix-lessons
       services:

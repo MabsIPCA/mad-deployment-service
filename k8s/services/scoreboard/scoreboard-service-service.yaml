@@ -19,7 +19,7 @@ metadata:
 spec:
   stripPrefixRegex:
     regex:
-      - "/scoreboard"
+      - "/api/scoreboard"
 ---
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
@@ -31,7 +31,7 @@ spec:
     - web
   routes:
     - kind: Rule
-      match: PathPrefix(`/scoreboard`)
+      match: Host(`mad.io`) && PathPrefix(`/api/scoreboard`)
       middlewares:
         - name: strip-prefix-scoreboard
       services:

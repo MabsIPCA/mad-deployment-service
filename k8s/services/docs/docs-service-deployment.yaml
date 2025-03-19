@@ -18,7 +18,7 @@ spec:
         - image: ghcr.io/mad-goat-project/mad-goat-docs:main
           name: docs
           ports:
-            - containerPort: 80
+            - containerPort: 4000
               protocol: TCP
           resources:
             limits:
