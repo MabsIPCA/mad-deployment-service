@@ -9,9 +9,9 @@ start-minikube-k8s:
 
 .PHONY: build-and-push-file-copy-images
 build-and-push-file-copy-images:
-	docker build -t mabsipca/db-keycloak:data -f k8s/db/image/dockerfile . --build-arg SRC_PATH=./compose/data/db-keycloak-service --build-arg ENTRYPOINT_PATH=./k8s/db/image
+	docker build -t mabsipca/db-keycloak:data-batatas -f k8s/db/image/dockerfile . --build-arg SRC_PATH=./compose/data/db-keycloak-service --build-arg ENTRYPOINT_PATH=./k8s/db/image
 	docker build -t mabsipca/db-lesson:data -f k8s/db/image/dockerfile . --build-arg SRC_PATH=./compose/data/db-lesson-service --build-arg ENTRYPOINT_PATH=./k8s/db/image
 	docker build -t mabsipca/minio:data -f k8s/db/image/dockerfile . --build-arg SRC_PATH=./compose/data/minio-data --build-arg ENTRYPOINT_PATH=./k8s/db/image
-	docker push mabsipca/db-keycloak:data
+	docker push mabsipca/db-keycloak:data-batatas
 	docker push mabsipca/db-lesson:data
 	docker push mabsipca/minio:data

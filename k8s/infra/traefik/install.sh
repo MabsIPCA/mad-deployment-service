@@ -52,6 +52,7 @@ kubectl apply -f k8s/infra/keycloak/db-keycloak-service-claim0-persistentvolumec
 
 kubectl apply -f k8s/db
 
+kubectl create configmap realm-config --from-file=k8s/infra/keycloak/realm-config.json
 kubectl apply -f k8s/infra/keycloak
 kubectl apply -f k8s/infra/minio
 kubectl apply -f k8s/infra/rabbitmq

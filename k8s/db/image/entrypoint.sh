@@ -10,7 +10,11 @@ fi
 # Ensure the target directory exists
 mkdir -p "$TARGET_PATH"
 
-# Copy all files from the container’s /data to the mounted volume
-cp -R /data/* "$TARGET_PATH"
-
-echo "Files copied successfully to $TARGET_PATH."
+# Check if the directory is empty
+if [ -z "$(ls -A "$TARGET_PATH")" ]; then
+    echo "Target directory is empty. Copying files..."
+    cp -R /data/* "$TARGET_PATH"
+    echo "Files copied successfully to $TARGET_PATH."
+else
+    echo "Target directory is not empty. Skipping copy."
+fi

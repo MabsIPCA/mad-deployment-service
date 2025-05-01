@@ -17,15 +17,6 @@ spec:
         io.mad.network/mad-network: "true"
         io.mad.service: db-keycloak
     spec:
-      initContainers:
-        - name: default-database-loader
-          image: mabsipca/db-keycloak:data
-          env:
-            - name: TARGET_PATH
-              value: "/var/lib/postgresql/data"  # Destination path inside the pod
-          volumeMounts:
-            - mountPath: /var/lib/postgresql/data
-              name: db-keycloak-claim0
       containers:
         - envFrom:
             - configMapRef:

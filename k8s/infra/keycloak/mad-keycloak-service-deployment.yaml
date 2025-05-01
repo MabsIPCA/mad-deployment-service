@@ -16,6 +16,19 @@ spec:
       labels:
         io.mad.service: mad-keycloak
     spec:
+      initContainers:
+        - name: initialize-realm
+          envFrom:
+            - configMapRef:
+                name: env-keycloak
+          image: ghcr.io/mad-goat-project/keycloak:main
+          args:
+            - "import"
+            - "--file"
+            - "/cfg-mount/MADGoat-config.json"
+          volumeMounts:
+            - mountPath: /cfg-mount
+              name: keycloak-init-mount
       containers:
         - envFrom:
             - configMapRef:
@@ -34,3 +47,10 @@ spec:
               cpu: 250m
               memory: "250Mi"
       restartPolicy: Always
+      volumes:
+      - name: keycloak-init-mount
+        configMap:
+          name: realm-config
+          items:
+            - key: "realm-config.json"
+              path: "MADGoat-config.json"

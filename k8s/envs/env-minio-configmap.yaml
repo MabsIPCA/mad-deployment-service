@@ -7,4 +7,3 @@ data:
   MINIO_ROOT_PASSWORD: "minio123"
   MINIO_ROOT_USER: "minio"
   MINIO_SECRET_KEY: "mysupersecretkey"
-  MINIO_BROWSER_REDIRECT_URL: "http://mad.io/s3"
