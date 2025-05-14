@@ -20,4 +20,4 @@ data:
 
   # Traefik Configuration
   PROXY_ADDRESS_FORWARDING: "true"
-  KEYCLOAK_HOSTNAME: "keycloak.mad.io"
+  KEYCLOAK_HOSTNAME: "keycloak.madgoat.teach"

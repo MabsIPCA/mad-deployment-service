@@ -34,7 +34,7 @@ spec:
     - web
   routes:
     - kind: Rule
-      match: Host(`mad.io`) && PathPrefix(`/rabbitmq`)
+      match: Host(`madgoat.teach`) && PathPrefix(`/rabbitmq`)
       middlewares:
           - name: strip-prefix-rabbitmq
       services:

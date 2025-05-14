@@ -19,7 +19,7 @@ spec:
         - envFrom:
             - configMapRef:
                 name: env-webapp
-          image: mabsipca/mad-web-app:mad.io-010
+          image: mabsipca/mad-web-app:madgoat.teach-010
           name: mad-web-app
           ports:
             - containerPort: 80

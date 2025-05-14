@@ -10,7 +10,7 @@ fi
 # Ensure the target directory exists
 mkdir -p "$TARGET_PATH"
 
-# Check if the directory is empty
+# Check if the directory is emptyR
 if [ -z "$(ls -A "$TARGET_PATH")" ]; then
     echo "Target directory is empty. Copying files..."
     cp -R /data/* "$TARGET_PATH"
