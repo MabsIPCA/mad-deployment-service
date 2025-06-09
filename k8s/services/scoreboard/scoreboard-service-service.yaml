@@ -31,7 +31,7 @@ spec:
     - web
   routes:
     - kind: Rule
-      match: Host(`madgoat.teach`) && PathPrefix(`/api/scoreboard`)
+      match: Host(`amdgoat.tech`) && PathPrefix(`/api/scoreboard`)
       middlewares:
         - name: strip-prefix-scoreboard
       services:

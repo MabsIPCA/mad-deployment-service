@@ -850,7 +850,7 @@
       "clientId": "mad-goat-web-app",
       "name": "MAD Goat WebApp",
       "description": "Client for the MAD Goat Project WebApp",
-      "rootUrl": "http://madgoat.teach",
+      "rootUrl": "http://amdgoat.tech",
       "adminUrl": "",
       "baseUrl": "",
       "surrogateAuthRequired": false,
@@ -858,14 +858,14 @@
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "http://madgoat.teach/*",
+        "http://amdgoat.tech/*",
         "http://localhost:5173/*",
         "http://app.mad.localhost/*"
       ],
       "webOrigins": [
         "",
         "http://app.mad.localhost",
-        "http://madgoat.teach",
+        "http://amdgoat.tech",
         "http://localhost:5173"
       ],
       "notBefore": 0,
@@ -881,7 +881,7 @@
       "attributes": {
         "client.secret.creation.time": "1684272179",
         "login_theme": "mad",
-        "post.logout.redirect.uris": "http://localhost:5173/*##http://app.mad.localhost/*##http://madgoat.teach/*",
+        "post.logout.redirect.uris": "http://localhost:5173/*##http://app.mad.localhost/*##http://amdgoat.tech/*",
         "oauth2.device.authorization.grant.enabled": "false",
         "backchannel.logout.revoke.offline.tokens": "false",
         "use.refresh.tokens": "true",

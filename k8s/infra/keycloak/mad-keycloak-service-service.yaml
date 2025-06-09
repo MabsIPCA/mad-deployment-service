@@ -22,7 +22,7 @@ spec:
     - web
   routes:
     - kind: Rule
-      match: Host(`keycloak.madgoat.teach`)
+      match: Host(`keycloak.amdgoat.tech`)
       services:
         - kind: Service
           name: mad-keycloak

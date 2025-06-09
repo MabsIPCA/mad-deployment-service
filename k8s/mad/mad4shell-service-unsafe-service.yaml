@@ -31,7 +31,7 @@ spec:
     - web
   routes:
     - kind: Rule
-      match: Host(`madgoat.teach`) && PathPrefix(`/api/goat4shell-unsafe`)
+      match: Host(`amdgoat.tech`) && PathPrefix(`/api/goat4shell-unsafe`)
       middlewares:
         - name: strip-prefix-unsafe
       services:
