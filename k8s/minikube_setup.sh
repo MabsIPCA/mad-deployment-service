@@ -20,7 +20,7 @@ kubectl get configmap coredns -n kube-system -o yaml > coredns-backup.yaml
 
 # Extract and modify Corefile, then update the ConfigMap
 kubectl get configmap coredns -n kube-system -o json | jq --arg minikube_ip "$MINIKUBE_IP" '
-    .data.Corefile += "amdgoat.tech:53 {\n    errors\n    cache 30\n    forward . " + $minikube_ip + "\n}"
+    .data.Corefile += "madgoat.tech:53 {\n    errors\n    cache 30\n    forward . " + $minikube_ip + "\n}"
 ' | kubectl apply -f -
 
 # Restart CoreDNS to apply changes

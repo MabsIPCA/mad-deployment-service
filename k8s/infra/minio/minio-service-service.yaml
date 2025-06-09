@@ -34,7 +34,7 @@ spec:
     - web
   routes:
     - kind: Rule
-      match: Host(`amdgoat.tech`) && PathPrefix(`/s3`)
+      match: Host(`madgoat.tech`) && PathPrefix(`/s3`)
       middlewares:
           - name: strip-prefix-s3
       services:
@@ -62,7 +62,7 @@ spec:
     - web
   routes:
     - kind: Rule
-      match: Host(`amdgoat.tech`) && PathPrefix(`/s3-console`)
+      match: Host(`madgoat.tech`) && PathPrefix(`/s3-console`)
       middlewares:
           - name: strip-prefix-s3-console
       services:

@@ -31,7 +31,7 @@ spec:
     - web
   routes:
     - kind: Rule
-      match:  Host(`amdgoat.tech`) && PathPrefix(`/api/lessons`)
+      match:  Host(`madgoat.tech`) && PathPrefix(`/api/lessons`)
       middlewares:
         - name: strip-prefix-lessons
       services:

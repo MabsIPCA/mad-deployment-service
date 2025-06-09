@@ -6,7 +6,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: amdgoat.tech
+    - host: madgoat.tech
       http:
         paths:
           - path: /
@@ -25,7 +25,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: keycloak.amdgoat.tech
+    - host: keycloak.madgoat.tech
       http:
         paths:
           - path: /
