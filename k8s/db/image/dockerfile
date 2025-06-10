@@ -1,0 +1,16 @@
+FROM alpine:latest
+
+WORKDIR /data
+
+# Define build-time argument for source path
+ARG SRC_PATH=/files
+ARG ENTRYPOINT_PATH=/entrypoint
+
+# Copy files from the specified source path
+COPY ${SRC_PATH} /data/
+
+# Copy the entrypoint script
+COPY ${ENTRYPOINT_PATH}/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+CMD ["/entrypoint.sh"]

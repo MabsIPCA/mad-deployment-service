@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    io.mad.service: rabbitmq
+  name: rabbitmq
+spec:
+  ports:
+    - name: "5672"
+      port: 5672
+      targetPort: 5672
+    - name: "15672"
+      port: 15672
+      targetPort: 15672
+  selector:
+    io.mad.service: rabbitmq
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: strip-prefix-rabbitmq
+spec:
+  stripPrefixRegex:
+    regex:
+      - "/rabbitmq"
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: mad-rabbitmq
+  namespace: default
+spec:
+  entryPoints:
+    - web
+  routes:
+    - kind: Rule
+      match: Host(`madgoat.tech`) && PathPrefix(`/rabbitmq`)
+      middlewares:
+          - name: strip-prefix-rabbitmq
+      services:
+        - kind: Service
+          name: rabbitmq
+          namespace: default
+          port: 15672

@@ -1,0 +1,72 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    io.mad.service: minio
+  name: minio
+spec:
+  ports:
+    - name: "9000"
+      port: 9000
+      targetPort: 9000
+    - name: "9001"
+      port: 9001
+      targetPort: 9001
+  selector:
+    io.mad.service: minio
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: strip-prefix-s3
+spec:
+  stripPrefixRegex:
+    regex:
+      - "/s3"
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: minio
+  namespace: default
+spec:
+  entryPoints:
+    - web
+  routes:
+    - kind: Rule
+      match: Host(`madgoat.tech`) && PathPrefix(`/s3`)
+      middlewares:
+          - name: strip-prefix-s3
+      services:
+        - kind: Service
+          name: minio
+          namespace: default
+          port: 9000
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: strip-prefix-s3-console
+spec:
+  stripPrefixRegex:
+    regex:
+      - "/s3-console"
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: minio-console
+  namespace: default
+spec:
+  entryPoints:
+    - web
+  routes:
+    - kind: Rule
+      match: Host(`madgoat.tech`) && PathPrefix(`/s3-console`)
+      middlewares:
+          - name: strip-prefix-s3-console
+      services:
+        - kind: Service
+          name: minio
+          namespace: default
+          port: 9001

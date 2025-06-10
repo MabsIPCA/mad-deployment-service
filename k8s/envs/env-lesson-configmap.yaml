@@ -1,19 +1,23 @@
 apiVersion: v1
 data:
-  DB_HOST: db-lesson-service
-  DB_NAME: lessons
-  DB_PASSWORD: postgres
+  # Lesson Service"
+  DB_HOST: "db-lesson"
   DB_PORT: "5432"
-  DB_USERNAME: postgres
-  POSTGRES_DB: lessons
-  POSTGRES_PASSWORD: postgres
-  POSTGRES_USER: postgres
-  RMQ_PRODUCER_QUEUE: lesson_completed_queue
+  DB_USERNAME: "postgres"
+  DB_PASSWORD: "postgres"
+  DB_NAME: "lessons"
+
+  # Lesson Database"
+  POSTGRES_USER: "postgres"
+  POSTGRES_PASSWORD: "postgres"
+  POSTGRES_DB: "lessons"
+
+  # RabbitMQ"
+  RMQ_PRODUCER_QUEUE: "lesson_completed_queue"
+  RMQ_PRODUCER_URL: "amqp://guest:guest@rabbitmq:5672"
   RMQ_PRODUCER_QUEUE_DURABLE: "true"
-  RMQ_PRODUCER_URL: amqp://guest:guest@rabbitmq:5672
+
+  NODE_ENV: "development"
 kind: ConfigMap
 metadata:
-  creationTimestamp: null
-  labels:
-    io.mad.service: db-lesson-service-env-lesson
   name: env-lesson

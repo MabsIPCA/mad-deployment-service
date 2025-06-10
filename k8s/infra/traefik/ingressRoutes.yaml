@@ -1,0 +1,38 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: traefik-ingress
+  namespace: default
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: madgoat.tech
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: traefik
+                port:
+                  number: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: keycloak-traefik-ingress
+  namespace: default
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: keycloak.madgoat.tech
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: traefik
+                port:
+                  number: 80
+

@@ -61,16 +61,8 @@ It contains the following services:
 
 1. Install Minikube
 2. Install kubectl
-3. Start Minikube
-
-   ```
-   minikube start
-   ```
-
-4. Enable Ingress
-   ```
-   minikube addons enable ingress
-   ```
+3. Follow  [Minikube instructions](https://minikube.sigs.k8s.io/docs/handbook/addons/ingress-dns/#Linux) to configure `madgoat.tech` to resolve to your Minikube IP 
+4. Execute `make start-minikube-k8s` command
 
 ### :rocket: Quickstart
 
