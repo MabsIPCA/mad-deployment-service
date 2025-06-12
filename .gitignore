@@ -3,6 +3,7 @@ results.json
 **/.DS_Store
 .DS_Store
 compose/data/db-scoreboard-service
+.idea
 
 # Terraform 
 .terraform

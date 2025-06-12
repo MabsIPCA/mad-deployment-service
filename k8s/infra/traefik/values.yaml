@@ -16,3 +16,8 @@ services:
         containerPort: 443
     networks:
       - traefik-net
+
+ports:
+  web:
+    nodePort: 30340
+

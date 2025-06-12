@@ -1,17 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  annotations:
-  creationTimestamp: null
   labels:
-    io.mad.service: db-keycloak-service
-  name: db-keycloak-service
+    io.mad.service: db-keycloak
+  name: db-keycloak
 spec:
   ports:
     - name: "5432"
       port: 5432
       targetPort: 5432
   selector:
-    io.mad.service: db-keycloak-service
-status:
-  loadBalancer: {}
+    io.mad.service: db-keycloak

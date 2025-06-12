@@ -1,14 +1,12 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  creationTimestamp: null
   labels:
-    io.mad.service: db-keycloak-service-claim0
-  name: db-keycloak-service-claim0
+    io.mad.service: db-keycloak-claim0
+  name: db-keycloak-claim0
 spec:
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   resources:
     requests:
       storage: 100Mi
-status: {}

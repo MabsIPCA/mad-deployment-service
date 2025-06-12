@@ -1,12 +1,6 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
-    traefik.enable: "true"
-    traefik.http.routers.keycloak-service.entrypoints: web
-    traefik.http.routers.keycloak-service.rule: Host(`keycloak.mad.localhost`) && PathPrefix(`/`) && (Method(`GET`) || Method(`POST`))
-    traefik.http.services.keycloak-service.loadbalancer.server.port: "8080"
-  creationTimestamp: null
   labels:
     io.mad.service: keycloak-service
   name: keycloak-service
@@ -18,14 +12,6 @@ spec:
   strategy: {}
   template:
     metadata:
-      annotations:
-        kompose.cmd: kompose convert
-        kompose.version: 1.24.0 (4a2a0458)
-        traefik.enable: "true"
-        traefik.http.routers.keycloak-service.entrypoints: web
-        traefik.http.routers.keycloak-service.rule: Host(`keycloak.mad.localhost`) && PathPrefix(`/`) && (Method(`GET`) || Method(`POST`))
-        traefik.http.services.keycloak-service.loadbalancer.server.port: "8080"
-      creationTimestamp: null
       labels:
         io.mad.network/mad-network: "true"
         io.mad.service: keycloak-service
@@ -106,9 +92,9 @@ spec:
           resources:
             limits:
               cpu: 500m
-              memory: "536870912"
+              memory: "500Mi"
             requests:
               cpu: 250m
-              memory: "268435456"
+              memory: "250Mi"
       restartPolicy: Always
 status: {}
