@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    io.mad.service: db-keycloak
+  name: db-keycloak
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.mad.service: db-keycloak
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        io.mad.network/mad-network: "true"
+        io.mad.service: db-keycloak
+    spec:
+      containers:
+        - envFrom:
+            - configMapRef:
+                name: env-keycloak
+          image: postgres:15.1-alpine
+          name: db-keycloak
+          ports:
+            - containerPort: 5432
+          resources:
+            limits:
+              cpu: 500m
+              memory: "500Mi"
+            requests:
+              cpu: 250m
+              memory: "250Mi"
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: db-keycloak-claim0
+      restartPolicy: Always
+      volumes:
+        - name: db-keycloak-claim0
+          persistentVolumeClaim:
+            claimName: db-keycloak-claim0

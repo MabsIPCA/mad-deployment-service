@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    io.mad.service: mad-keycloak
+  name: mad-keycloak
+spec:
+  ports:
+    - name: "8080"
+      port: 8080
+      targetPort: 8080
+  selector:
+    io.mad.service: mad-keycloak
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: mad-keycloak
+  namespace: default
+spec:
+  entryPoints:
+    - web
+  routes:
+    - kind: Rule
+      match: Host(`keycloak.madgoat.tech`)
+      services:
+        - kind: Service
+          name: mad-keycloak
+          namespace: default
+          port: 8080

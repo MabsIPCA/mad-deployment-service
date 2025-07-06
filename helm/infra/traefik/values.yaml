@@ -1,0 +1,23 @@
+global:
+  debug: true
+  logLevel: "DEBUG"
+
+networks:
+  traefik-net:
+    name: traefik-net
+
+services:
+  traefik:
+    image: traefik:latest
+    ports:
+      - name: http
+        containerPort: 80
+      - name: https
+        containerPort: 443
+    networks:
+      - traefik-net
+
+ports:
+  web:
+    nodePort: 30340
+

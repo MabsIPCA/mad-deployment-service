@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    io.mad.service: scoreboard
+  name: scoreboard
+spec:
+  ports:
+    - name: "3004"
+      port: 3004
+      targetPort: 3000
+  selector:
+    io.mad.service: scoreboard
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: strip-prefix-scoreboard
+spec:
+  stripPrefixRegex:
+    regex:
+      - "/api/scoreboard"
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: scoreboard
+  namespace: default
+spec:
+  entryPoints:
+    - web
+  routes:
+    - kind: Rule
+      match: Host(`madgoat.tech`) && PathPrefix(`/api/scoreboard`)
+      middlewares:
+        - name: strip-prefix-scoreboard
+      services:
+        - kind: Service
+          name: scoreboard
+          namespace: default
+          port: 3004

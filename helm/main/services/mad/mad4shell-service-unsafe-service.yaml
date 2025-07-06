@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    io.mad.service: mad4shell-unsafe
+  name: mad4shell-unsafe
+spec:
+  ports:
+    - name: "3003"
+      port: 3003
+      targetPort: 8080
+  selector:
+    io.mad.service: mad4shell-unsafe
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: strip-prefix-unsafe
+spec:
+  stripPrefixRegex:
+    regex:
+      - "/api/goat4shell-unsafe"
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: web-app
+  namespace: default
+spec:
+  entryPoints:
+    - web
+  routes:
+    - kind: Rule
+      match: Host(`madgoat.tech`) && PathPrefix(`/api/goat4shell-unsafe`)
+      middlewares:
+        - name: strip-prefix-unsafe
+      services:
+        - kind: Service
+          name: mad4shell-unsafe
+          namespace: default
+          port: 3003

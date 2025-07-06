@@ -1,0 +1,78 @@
+{{- range .Values.madServices }}
+  {{- if hasKey . "service" }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    io.mad.service: {{ .name }}
+  name: {{ .name }}
+spec:
+  ports:
+  {{- range .service.ports }}
+    - name: {{ .name }}
+      port: {{ .port }}
+      targetPort: {{ .targetPort }}
+  {{- end }}
+  selector:
+    io.mad.service: {{ .name }}
+  {{- end }}
+---
+  {{- if hasKey . "treafik" }}
+    {{- range .traefik.routes }}
+      {{- if hasKey . "middlewares" }}
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: {{ .name }}
+spec:
+  stripPrefixRegex:
+    regex:
+      - {{ .stripPrefix }}
+    {{- end }}
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: {{ .name }}
+  
+  {{- end }}
+{{- end }}
+---
+
+
+spec:
+  ports:
+    - name: "4000"
+      port: 4000
+      targetPort: 80
+  selector:
+
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: strip-prefix-docs
+spec:
+  stripPrefixRegex:
+    regex:
+      - "/api/docs"
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: docs
+  namespace: default
+spec:
+  entryPoints:
+    - web
+  routes:
+    - kind: Rule
+      match: Host(`madgoat.tech`) && PathPrefix(`/api/docs`)
+      middlewares:
+        - name: strip-prefix-docs
+      services:
+        - kind: Service
+          name: docs
+          namespace: default
+          port: 80

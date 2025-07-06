@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: env-scoreboard
+data:
+  MONGO_CONNECTION_STRING: "mongodb://root:root@db-scoreboard:27017/?retryWrites=false&serverSelectionTimeoutMS=5000&connectTimeoutMS=10000&authSource=admin&authMechanism=SCRAM-SHA-256"
+  MONGO_DATABASE_NAME: "scoreboard"
+  MONGO_INITDB_ROOT_PASSWORD: "root"
+  MONGO_INITDB_ROOT_USERNAME: "root"
+  PORT: "3000"
+  RMQ_PRODUCER_QUEUE: "lesson_completed_queue"
+  RMQ_PRODUCER_QUEUE_DURABLE: "true"
+  RMQ_PRODUCER_URL: "amqp://guest:guest@mad-rabbitmq:5672"

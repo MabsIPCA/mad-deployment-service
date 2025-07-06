@@ -1,0 +1,44 @@
+{{- range .Values.madServices }}
+  {{- if hasKey . "deployment" }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .name }}
+  labels:
+    io.mad.service: {{ .name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.mad.service: {{ .name }}
+  template:
+    metadata:
+      labels:
+        io.mad.service: {{ .name }}
+    spec:
+      containers:
+        - name: {{ .name }}
+          image: {{ .deployment.image }}
+          ports:
+          {{- range .deployment.ports }}
+            - containerPort: {{ .containerPort }}
+              protocol: {{ .protocol }}
+          {{- end }}
+        {{- if .deployment.envFromConfigMaps }}
+        - envFrom:
+          {{- range .deployment.envFromConfigMaps }}
+          - configMapRef:
+              name: {{ . }}
+          {{- end }}
+        {{- end }}
+          resources:
+            limits:
+              cpu: 500m
+              memory: "500Mi"
+            requests:
+              cpu: 250m
+              memory: "250Mi"
+      restartPolicy: Always
+  {{- end }}
+{{- end }}

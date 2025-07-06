@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    io.mad.service: db-scoreboard
+  name: db-scoreboard
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.mad.service: db-scoreboard
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        io.mad.service: db-scoreboard
+    spec:
+      containers:
+        - envFrom:
+            - configMapRef:
+                name: env-scoreboard
+          image: mongo:6.0
+          name: db-scoreboard
+          ports:
+            - containerPort: 27017
+          resources:
+            limits:
+              cpu: 500m
+              memory: "500Mi"
+            requests:
+              cpu: 250m
+              memory: "250Mi"
+          volumeMounts:
+            - mountPath: /data/db
+              name: db-scoreboard-claim0
+      restartPolicy: Always
+      volumes:
+        - name: db-scoreboard-claim0
+          persistentVolumeClaim:
+            claimName: db-scoreboard-claim0
