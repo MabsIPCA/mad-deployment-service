@@ -13,6 +13,7 @@ All relevant Docker Compose files are located in the `compose` folder.
 
 ## :clipboard: Prequisites
 
+
 1. Install Docker
 2. Install Docker Compose
 3. Increase the memory limit of Docker to at least 12GB (16GB recommended) (WIP)

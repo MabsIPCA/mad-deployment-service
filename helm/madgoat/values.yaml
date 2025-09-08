@@ -1,5 +1,4 @@
 madServices:
-
   - name: lesson
     deployment:
       image: ghcr.io/mad-goat-project/mad-lessons-service:main
@@ -10,14 +9,13 @@ madServices:
         - env-lesson
         - env-keycloak-secrets
     service:
-      type: ClusterIP
       ports:
         - name: "3000"
           port: 3000
           targetPort: 3000
       traefik:
         routes:
-         -  name: lesson
+          - name: lesson
             service:
               name: lesson
               port: 3000
@@ -25,15 +23,26 @@ madServices:
               name: strip-prefix-lessons
               stripPrefix: "/api/lessons"
 
-
-
-
   - name: docs
     deployment:
       image: ghcr.io/mad-goat-project/mad-goat-docs:main
       ports:
         - containerPort: 4000
           protocol: TCP
+    service:
+      ports:
+        - name: "4000"
+          port: 4000
+          targetPort: 80
+      traefik:
+        routes:
+          - name: docs
+            service:
+              name: docs
+              port: 80
+            middleware:
+              name: strip-prefix-docs
+              stripPrefix: "/api/docs"
 
   - name: profile
     deployment:
@@ -44,6 +53,20 @@ madServices:
       envFromConfigMaps:
         - env-profile
         - env-keycloak-secrets
+    service:
+      ports:
+        - name: "3000"
+          port: 3000
+          targetPort: 3000
+      traefik:
+        routes:
+          - name: profile
+            service:
+              name: profile
+              port: 3000
+            middleware:
+              name: strip-prefix-profile
+              stripPrefix: "/api/profile"
 
   - name: scoreboard
     deployment:
@@ -54,6 +77,20 @@ madServices:
       envFromConfigMaps:
         - env-scoreboard
         - env-keycloak-secrets
+    service:
+      ports:
+        - name: "3004"
+          port: 3004
+          targetPort: 3000
+      traefik:
+        routes:
+          - name: scoreboard
+            service:
+              name: scoreboard
+              port: 3004
+            middleware:
+              name: strip-prefix-scoreboard
+              stripPrefix: "/api/scoreboard"
 
   - name: webapp
     deployment:
@@ -61,5 +98,64 @@ madServices:
       ports:
         - containerPort: 80
           protocol: TCP
+      envFromConfigMaps:
+        - env-webapp
+    service:
+      ports:
+        - name: "3000"
+          port: 3000
+          targetPort: 80
+      traefik:
+        routes:
+          - name: webapp
+            service:
+              name: webapp
+              port: 3000
+            middleware:
+              name: strip-prefix-scoreboard
+              stripPrefix: "/api/scoreboard"
 
 configMaps:
+  - name: env-lesson
+    data:
+      DB_HOST: "db-lesson"
+      DB_PORT: "5432"
+      DB_USERNAME: "postgres"
+      DB_PASSWORD: "postgres"
+      DB_NAME: "lessons"
+
+      # Lesson Database"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_DB: "lessons"
+
+      # RabbitMQ"
+      RMQ_PRODUCER_QUEUE: "lesson_completed_queue"
+      RMQ_PRODUCER_URL: "amqp://guest:guest@rabbitmq:5672"
+      RMQ_PRODUCER_QUEUE_DURABLE: "true"
+
+      NODE_ENV: "development"
+  - name: env-profile
+    data:
+      GO_ENV: "production"
+      GO_PORT: "3000"
+      JWT_SECRET: "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvGJSXMLY2fKdoN/D0oTYekvandITVIUAnIn719MQ5fQFg3TuEU5F9YU5l+VCkp4c4isW4ozpiQiJdFp8xnQfIiizO8LohNJbajzxkwvhqNsy9HqR1/iDD5zoroksvsCS7TPmM9J5bkgqhNGdK1hHJX91De3RLQfcQY9ZDYE6+NX3fAzuK9jx5TJc9k2KRJofniv/1RMaOaUhleP1ljdxI1ttyvU6FZCMCJoNAFVIXaPtA3/1jSJCE37XWORoWPG6Ri2d5rDwioJxc5rllTM/Av07qdXZVt446YFjwUoT113IbxAzX6fY2Mh48doKertXlkPcVcmrcOoivoxRp4KzQwIDAQAB"
+  - name: env-webapp
+    data:
+      # Web Application
+      VITE_KEYCLOAK_URL: "keycloak.madgoat.tech"
+      VITE_KEYCLOAK_REALM: "MADGoat"
+      VITE_KEYCLOAK_CLIENT_ID: "mad-goat-web-app"
+
+      VITE_LESSON_BASE_URL: "http://madgoat.tech/api/lessons"
+      VITE_GOAT4SHELL_BASE_URL: "http://madgoat.tech/api/goat4shell-unsafe"
+      VITE_SCOREBOARD_BASE_URL: "http://madgoat.tech/api/scoreboard"
+      VITE_DOCS_BASE_URL: "http://madgoat.tech/api/docs"
+      VITE_PROFILE_BASE_URL: "http://madgoat.tech/profile/api/v1"
+      VITE_OBJECT_STORAGE_BASE_URL: "http://madgoat.tech/s3/mad-images"
+  - name: env-keycloak-secrets
+    data:
+      KC_CLIENT_ID: "mad-goat-services"
+      KC_REALM: "MADGoat"
+      KC_SECRET: "RvWEVib2wgZRr7DnOIQzW1JISiNWSHhz"
+      KC_SERVER_URL: "http://keycloak.madgoat.tech"

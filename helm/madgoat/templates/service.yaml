@@ -27,7 +27,7 @@ metadata:
 spec:
   stripPrefixRegex:
     regex:
-        {{ .middleware.stripPrefix }}
+        - "{{ .middleware.stripPrefix }}"
         {{- end }}
 ---
 apiVersion: traefik.io/v1alpha1
@@ -43,7 +43,7 @@ spec:
         {{- if hasKey .middleware "stripPrefix" }}
       match: Host(`madgoat.tech`) && PathPrefix(`{{.middleware.stripPrefix}}`)
         {{- else }}
-      match: Host(`madgoat.tech`)
+      match: Host(`madgoat.tech`) && PathPrefix(`/`)
         {{- end }}
         {{- if hasKey . "middleware" }}
       middlewares:
