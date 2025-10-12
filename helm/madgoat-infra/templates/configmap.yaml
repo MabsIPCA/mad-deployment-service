@@ -9,3 +9,11 @@ data:
   {{ $envKey }}: "{{ $envValue }}"
   {{- end }}
 {{- end}}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: realm-config
+data:
+  realm-config-json: |-
+{{ .Files.Get "realm-config.json" | nindent 4 }}
