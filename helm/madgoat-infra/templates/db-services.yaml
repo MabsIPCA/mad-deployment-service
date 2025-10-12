@@ -1,5 +1,5 @@
-{{- range .Values.madServices }}
-  {{- if hasKey . "service" }}
+{{- range .Values.dbs }}
+  {{if hasKey . "service" }}
 ---
 apiVersion: v1
 kind: Service
@@ -10,17 +10,16 @@ metadata:
   name: {{ .name }}
 spec:
   ports:
-  {{- range .service.ports }}
-    - name: "{{ .name }}"
-      port: {{ .port }}
-      targetPort: {{ .targetPort }}
-  {{- end }}
+    {{- range .service.ports }}
+    - name: "{{ . }}"
+      port: {{ . }}
+      targetPort: {{ . }}
+    {{- end }}
   selector:
     io.mad.service: {{ .name }}
----
     {{- if hasKey .service "traefik" }}
       {{- range .service.traefik.routes }}
-        {{- if hasKey . "middleware" }}
+---
 apiVersion: traefik.io/v1alpha1
 kind: Middleware
 metadata:
@@ -29,7 +28,6 @@ spec:
   stripPrefixRegex:
     regex:
         - "{{ .middleware.stripPrefix }}"
-        {{- end }}
 ---
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
@@ -41,15 +39,9 @@ spec:
     - web
   routes:
     - kind: Rule
-        {{- if eq .name "webapp" }}
-      match: Host(`madgoat.tech`) && PathPrefix(`/`)
-        {{- else }}
       match: Host(`madgoat.tech`) && PathPrefix(`{{.middleware.stripPrefix}}`)
-        {{- end }}
-        {{- if hasKey . "middleware" }}
       middlewares:
         - name: strip-prefix-{{.name}}
-        {{- end}}
       services:
         - kind: Service
           name: {{ .service.name }}
@@ -58,5 +50,4 @@ spec:
       {{- end }}
     {{- end }}
   {{- end }}
-
 {{- end }}

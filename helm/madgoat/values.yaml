@@ -111,9 +111,50 @@ madServices:
             service:
               name: webapp
               port: 3000
+      middleware:
+
+  - name: mad4shell-safe
+    deployment:
+      image: ghcr.io/mad-goat-project/mad-goat4shell-service:safe
+      ports:
+        - containerPort: 8080
+          protocol: TCP
+    service:
+      ports:
+        - name: "3002"
+          port: 3002
+          targetPort: 8080
+      traefik:
+        routes:
+          - name: mad4shell-safe
+            service:
+              name: mad4shell-safe
+              port: 3002
             middleware:
-              name: strip-prefix-scoreboard
-              stripPrefix: "/api/scoreboard"
+              name: strip-prefix-safe
+              stripPrefix: "/api/goat4shell-safe"
+
+  - name: mad4shell-unsafe
+    deployment:
+      image: ghcr.io/mad-goat-project/mad-goat4shell-service:unsafe
+      ports:
+        - containerPort: 8080
+          protocol: TCP
+    service:
+      ports:
+        - name: "3003"
+          port: 3003
+          targetPort: 8080
+      traefik:
+        routes:
+          - name: mad4shell-unsafe
+            service:
+              name: mad4shell-unsafe
+              port: 3003
+            middleware:
+              name: strip-prefix-unsafe
+              stripPrefix: "/api/goat4shell-unsafe"
+
 
 configMaps:
   - name: env-lesson
@@ -159,3 +200,13 @@ configMaps:
       KC_REALM: "MADGoat"
       KC_SECRET: "RvWEVib2wgZRr7DnOIQzW1JISiNWSHhz"
       KC_SERVER_URL: "http://keycloak.madgoat.tech"
+  - name: env-scoreboard
+    data:
+      MONGO_CONNECTION_STRING: "mongodb://root:root@db-scoreboard:27017/?retryWrites=false&serverSelectionTimeoutMS=5000&connectTimeoutMS=10000&authSource=admin&authMechanism=SCRAM-SHA-256"
+      MONGO_DATABASE_NAME: "scoreboard"
+      MONGO_INITDB_ROOT_PASSWORD: "root"
+      MONGO_INITDB_ROOT_USERNAME: "root"
+      PORT: "3000"
+      RMQ_PRODUCER_QUEUE: "lesson_completed_queue"
+      RMQ_PRODUCER_QUEUE_DURABLE: "true"
+      RMQ_PRODUCER_URL: "amqp://guest:guest@mad-rabbitmq:5672"
