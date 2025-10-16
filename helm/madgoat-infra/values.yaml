@@ -34,7 +34,7 @@ dbs:
     type: postgres
     pvc: true
     initialization:
-      image: ghcr.io/mad-goat-project/mad-goat-db-lesson-init:latest
+      image: ghcr.io/mad-goat-project/db-lesson:data
       path: /var/lib/postgresql/data
     envFromConfigMaps:
       - env-lesson
@@ -55,6 +55,7 @@ dbs:
 
   - name: db-keycloak
     type: postgres
+    pvc: true
     envFromConfigMaps:
       - env-keycloak
     service:
@@ -97,10 +98,10 @@ core:
         - 8080
       traefik:
         routes:
-          - name: keycloak
-            service:
-              name: mad-keycloak
-              port: 8080
+          name: keycloak
+          service:
+            name: mad-keycloak
+            port: 8080
   - name: rabbitmq
     image: rabbitmq:3-management-alpine
     ports:
@@ -158,3 +159,28 @@ configMaps:
       MINIO_ROOT_PASSWORD: "minio123"
       MINIO_ROOT_USER: "minio"
       MINIO_SECRET_KEY: "mysupersecretkey"
+
+
+traefik:
+  global:
+    debug: true
+    logLevel: "DEBUG"
+
+  networks:
+    traefik-net:
+      name: traefik-net
+
+  services:
+    traefik:
+      image: traefik:latest
+      ports:
+        - name: http
+          containerPort: 80
+        - name: https
+          containerPort: 443
+      networks:
+        - traefik-net
+
+  ports:
+    web:
+      nodePort: 30340

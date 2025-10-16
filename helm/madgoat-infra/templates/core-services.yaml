@@ -68,7 +68,7 @@ spec:
         - kind: Service
           name: {{.name}}
           namespace: default
-          port: {{ .service.port }}
+          port: {{ .service.traefik.routes.service.port }}
     {{- end }}
   {{- end }}
 {{- end }}
