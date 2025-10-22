@@ -77,7 +77,7 @@ It contains the following services:
     # Domains=~madgoat.tech
     ```
 
-2Execute `make start-minikube-k8s` command
+2. Execute `make start-minikube-k8s` command
 
 ## Minikube K8s Helm
 
