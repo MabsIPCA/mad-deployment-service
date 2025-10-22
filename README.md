@@ -70,7 +70,13 @@ It contains the following services:
     Domains=~madgoat.tech
     EOF
     sudo systemctl restart systemd-resolved
+   
+    # Should result in something like this
+    # [Resolve]
+    # DNS=192.168.49.2
+    # Domains=~madgoat.tech
     ```
+   
 2Execute `make start-minikube-k8s` command
 
 ## Minikube K8s Helm
@@ -85,6 +91,11 @@ It contains the following services:
     Domains=~madgoat.tech
     EOF
     sudo systemctl restart systemd-resolved
+   
+    # Should result in something like this
+    # [Resolve]
+    # DNS=192.168.49.2
+    # Domains=~madgoat.tech
     ```
 2. Execute `make start-minikube-helm` command
 
