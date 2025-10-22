@@ -2,6 +2,13 @@ madServices:
   - name: lesson
     deployment:
       image: ghcr.io/mad-goat-project/mad-lessons-service:main
+      resources:
+        limits:
+          memory: "512Mi"
+          cpu: "500m"
+        requests:
+          memory: "256Mi"
+          cpu: "250m"
       ports:
         - containerPort: 3000
           protocol: TCP
@@ -26,6 +33,13 @@ madServices:
   - name: docs
     deployment:
       image: ghcr.io/mad-goat-project/mad-goat-docs:main
+      resources:
+        limits:
+          memory: "512Mi"
+          cpu: "500m"
+        requests:
+          memory: "256Mi"
+          cpu: "250m"
       ports:
         - containerPort: 4000
           protocol: TCP
@@ -47,6 +61,13 @@ madServices:
   - name: profile
     deployment:
       image: ghcr.io/mad-goat-project/mad-profile-service:main
+      resources:
+        limits:
+          memory: "512Mi"
+          cpu: "500m"
+        requests:
+          memory: "256Mi"
+          cpu: "250m"
       ports:
         - containerPort: 3000
           protocol: TCP
@@ -71,6 +92,13 @@ madServices:
   - name: scoreboard
     deployment:
       image: ghcr.io/mad-goat-project/mad-scoreboard-service:main
+      resources:
+        limits:
+          memory: "512Mi"
+          cpu: "500m"
+        requests:
+          memory: "256Mi"
+          cpu: "250m"
       ports:
         - containerPort: 3000
           protocol: TCP
@@ -95,6 +123,13 @@ madServices:
   - name: webapp
     deployment:
       image: ghcr.io/mad-goat-project/mad-web-app:madgoat-tech
+      resources:
+        limits:
+          memory: "512Mi"
+          cpu: "500m"
+        requests:
+          memory: "256Mi"
+          cpu: "250m"
       ports:
         - containerPort: 80
           protocol: TCP
@@ -116,6 +151,13 @@ madServices:
   - name: mad4shell-safe
     deployment:
       image: ghcr.io/mad-goat-project/mad-goat4shell-service:safe
+      resources:
+        limits:
+          memory: "512Mi"
+          cpu: "500m"
+        requests:
+          memory: "256Mi"
+          cpu: "250m"
       ports:
         - containerPort: 8080
           protocol: TCP
@@ -137,6 +179,13 @@ madServices:
   - name: mad4shell-unsafe
     deployment:
       image: ghcr.io/mad-goat-project/mad-goat4shell-service:unsafe
+      resources:
+        limits:
+          memory: "512Mi"
+          cpu: "500m"
+        requests:
+          memory: "256Mi"
+          cpu: "250m"
       ports:
         - containerPort: 8080
           protocol: TCP

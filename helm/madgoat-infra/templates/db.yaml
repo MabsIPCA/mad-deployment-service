@@ -48,11 +48,11 @@ spec:
       containers:
       - resources:
           limits:
-            cpu: 500m
-            memory: "500Mi"
+            cpu: {{ .resources.limits.cpu }}
+            memory: "{{ .resources.limits.memory }}"
           requests:
-            cpu: 250m
-            memory: "250Mi"
+            cpu: {{ .resources.requests.cpu }}
+            memory: "{{ .resources.requests.memory }}"
           {{- if .envFromConfigMaps }}
         envFrom:
             {{- range .envFromConfigMaps }}
