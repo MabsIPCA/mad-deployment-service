@@ -1,0 +1,186 @@
+
+dbs:
+  - name: minio
+    type: minio
+    pvc: true
+    initialization:
+      image: ghcr.io/mad-goat-project/minio:data
+      path: /minio-data
+    envFromConfigMaps:
+      - env-minio
+    service:
+      name: minio
+      ports:
+        - 9000
+        - 9001
+      traefik:
+        routes:
+          - name: minio
+            service:
+              name: minio
+              port: 9000
+            middleware:
+              name: strip-prefix-s3
+              stripPrefix: "/s3"
+          - name: minio-console
+            service:
+              name: minio
+              port: 9001
+            middleware:
+              name: strip-prefix-s3-console
+              stripPrefix: "/s3-console"
+
+  - name: db-lesson
+    type: postgres
+    pvc: true
+    initialization:
+      image: ghcr.io/mad-goat-project/db-lesson:data
+      path: /var/lib/postgresql/data
+    envFromConfigMaps:
+      - env-lesson
+    service:
+      name: db-lesson
+      ports:
+        - 5432
+
+  - name: db-scoreboard
+    type: mongo
+    pvc: true
+    envFromConfigMaps:
+      - env-scoreboard
+    service:
+      name: db-scoreboard
+      ports:
+        - 27017
+
+  - name: db-keycloak
+    type: postgres
+    pvc: true
+    envFromConfigMaps:
+      - env-keycloak
+    service:
+      name: db-keycloak
+      ports:
+        - 5432
+
+core:
+  - name: mad-keycloak
+    image: ghcr.io/mad-goat-project/keycloak:main
+    args:
+      - "start-dev"
+    ports:
+      - 8080
+    configmap:
+      - env-keycloak
+    initContainers:
+      - name: initialize-realm
+        envFrom:
+          - configMapRef:
+              name: env-keycloak
+        image: ghcr.io/mad-goat-project/keycloak:main
+        args:
+          - "import"
+          - "--file"
+          - "/cfg-mount/MADGoat-config.json"
+        volumeMounts:
+          - mountPath: /cfg-mount
+            name: keycloak-init-mount
+    volumes:
+      - name: keycloak-init-mount
+        configMap:
+          name: realm-config
+          items:
+            - key: "realm-config.json"
+              path: "MADGoat-config.json"
+    service:
+      name: mad-keycloak
+      ports:
+        - 8080
+      traefik:
+        routes:
+          name: keycloak
+          service:
+            name: mad-keycloak
+            port: 8080
+  - name: rabbitmq
+    image: rabbitmq:3-management-alpine
+    ports:
+      - 5672
+      - 15672
+    volumes:
+      - claim: rabbitmq-claim0
+        mountPath: /var/lib/rabbitmq
+        pvc: true
+      - claim: rabbitmq-claim1
+        mountPath: /var/log/rabbitmq
+        pvc: true
+    service:
+      name: rabbitmq
+      ports:
+        - 5672
+        - 15672
+      traefik:
+        routes:
+          - name: rabbitmq
+            service:
+              name: rabbitmq
+              port: 15672
+            middleware:
+              name: strip-prefix-rabbitmq
+              stripPrefix: "/rabbitmq"
+
+
+
+
+configMaps:
+  - name: env-keycloak
+    data:
+      # Keycloak Database
+      POSTGRES_DB: "keycloak"
+      POSTGRES_USER: "keycloak"
+      POSTGRES_PASSWORD: "password"
+
+      # Keycloak Service
+      KEYCLOAK_ADMIN: "admin"
+      KEYCLOAK_ADMIN_PASSWORD: "admin"
+      KC_DB: "postgres"
+      KC_DB_USERNAME: "keycloak"
+      KC_DB_PASSWORD: "password"
+      KC_DB_URL_HOST: "db-keycloak"
+      KC_DB_URL_PORT: "5432"
+      KC_DB_SCHEMA: "public"
+
+      # Traefik Configuration
+      PROXY_ADDRESS_FORWARDING: "true"
+      KEYCLOAK_HOSTNAME: "keycloak.madgoat.tech"
+  - name: env-minio
+    data:
+      MINIO_ACCESS_KEY: "myaccesskey"
+      MINIO_ROOT_PASSWORD: "minio123"
+      MINIO_ROOT_USER: "minio"
+      MINIO_SECRET_KEY: "mysupersecretkey"
+
+
+traefik:
+  global:
+    debug: true
+    logLevel: "DEBUG"
+
+  networks:
+    traefik-net:
+      name: traefik-net
+
+  services:
+    traefik:
+      image: traefik:latest
+      ports:
+        - name: http
+          containerPort: 80
+        - name: https
+          containerPort: 443
+      networks:
+        - traefik-net
+
+  ports:
+    web:
+      nodePort: 30340

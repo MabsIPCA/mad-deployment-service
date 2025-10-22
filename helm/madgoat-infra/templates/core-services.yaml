@@ -1,0 +1,74 @@
+{{- range .Values.core }}
+  {{- if hasKey . "service"}}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    io.mad.service: {{ .name }}
+
+  name: {{ .name }}
+spec:
+  ports:
+    {{- range .service.ports }}
+    - name: "{{ . }}"
+      port: {{ . }}
+      targetPort: {{ . }}
+    {{- end }}
+  selector:
+    io.mad.service: {{ .name }}
+
+    {{ if ne .name "mad-keycloak"}}
+      {{- if hasKey .service "traefik" }}
+        {{- range .service.traefik.routes }}
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: strip-prefix-{{ .name }}
+spec:
+  stripPrefixRegex:
+    regex:
+        - "{{ .middleware.stripPrefix }}"
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: {{ .name }}
+  namespace: default
+spec:
+  entryPoints:
+    - web
+  routes:
+    - kind: Rule
+      match: Host(`madgoat.tech`) && PathPrefix(`{{.middleware.stripPrefix}}`)
+      middlewares:
+        - name: strip-prefix-{{.name}}
+      services:
+        - kind: Service
+          name: {{ .service.name }}
+          namespace: default
+          port: {{ .service.port }}
+      {{- end }}
+    {{- end }}
+    {{ else if eq .name "mad-keycloak" }}
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: {{.name}}
+  namespace: default
+spec:
+  entryPoints:
+    - web
+  routes:
+    - kind: Rule
+      match: Host(`keycloak.madgoat.tech`)
+      services:
+        - kind: Service
+          name: {{.name}}
+          namespace: default
+          port: {{ .service.traefik.routes.service.port }}
+    {{- end }}
+  {{- end }}
+{{- end }}

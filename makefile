@@ -4,6 +4,13 @@ start-minikube-k8s:
 	k8s/minikube_setup.sh
 	k8s/install.sh
 
+.PHONY: start-minikube-helm
+start-minikube-helm:
+	k8s/minikube_setup.sh
+	sleep 10
+	cd helm/madgoat-infra && helm dependency build && helm install madgoat-infra .
+	cd helm/madgoat && helm install madgoat-app .
+
 .PHONY: build-and-push-file-copy-images
 build-and-push-file-copy-images:
 	docker build -t ghcr.io/mad-goat-project/db-lesson:data -f k8s/db/image/dockerfile . --build-arg SRC_PATH=./compose/data/db-lesson-service --build-arg ENTRYPOINT_PATH=./k8s/db/image
