@@ -52,18 +52,52 @@ It contains the following services:
 
 # :wheel_of_dharma: Kubernetes Deployment
 
-# :clipboard: Prequisites
+# :clipboard: Prerequisites
 
 1. Install Minikube
 2. Install kubectl
 3. Install Helm
 
-## Minikube
+## Minikube K8s
 
-1. Install Minikube
-2. Install kubectl
-3. Follow  [Minikube instructions](https://minikube.sigs.k8s.io/docs/handbook/addons/ingress-dns/#Linux) to configure `madgoat.tech` to resolve to your Minikube IP 
-4. Execute `make start-minikube-k8s` command
+1. Follow  [Minikube instructions](https://minikube.sigs.k8s.io/docs/handbook/addons/ingress-dns/#Linux) to configure `madgoat.tech` to resolve to your Minikube IP  
+   Example for Linux OS with systemd-resolved
+    ```aiignore
+    sudo mkdir -p /etc/systemd/resolved.conf.d
+    sudo tee /etc/systemd/resolved.conf.d/minikube.conf << EOF
+    [Resolve]
+    DNS=$(minikube ip)
+    Domains=~madgoat.tech
+    EOF
+    sudo systemctl restart systemd-resolved
+   
+    # Should result in something like this
+    # [Resolve]
+    # DNS=192.168.49.2
+    # Domains=~madgoat.tech
+    ```
+
+2Execute `make start-minikube-k8s` command
+
+## Minikube K8s Helm
+
+1. Follow  [Minikube instructions](https://minikube.sigs.k8s.io/docs/handbook/addons/ingress-dns/#Linux) to configure `madgoat.tech` to resolve to your Minikube IP  
+   Example for Linux OS with systemd-resolved
+    ```aiignore
+    sudo mkdir -p /etc/systemd/resolved.conf.d
+    sudo tee /etc/systemd/resolved.conf.d/minikube.conf << EOF
+    [Resolve]
+    DNS=$(minikube ip)
+    Domains=~madgoat.tech
+    EOF
+    sudo systemctl restart systemd-resolved
+   
+    # Should result in something like this
+    # [Resolve]
+    # DNS=192.168.49.2
+    # Domains=~madgoat.tech
+    ```
+2. Execute `make start-minikube-helm` command
 
 ### :rocket: Quickstart
 
