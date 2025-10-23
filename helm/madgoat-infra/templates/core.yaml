@@ -1,0 +1,123 @@
+{{ range .Values.core }}
+
+  {{ range .volumes }}
+    {{ if .pvc }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    io.mad.service: {{ .claim }}
+  name: {{ .claim }}
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 5Gi
+    {{- end}}
+  {{- end}}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    io.mad.service: {{ .name }}
+  name: {{ .name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.mad.service: {{ .name }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        io.mad.service: {{ .name }}
+    spec:
+{{- if hasKey . "initContainers"}}
+      initContainers:
+        {{ range .initContainers }}
+        - name: {{ .name }}
+          image: {{ .image }}
+          {{ if hasKey . "args" }}
+          args:
+            {{ range .args }}
+            - {{ . }}
+            {{ end }}
+          {{ end }}
+          {{ if hasKey . "envFrom" }}
+          envFrom:
+            {{ range .envFrom }}
+            - configMapRef:
+                name: {{ .configMapRef.name }}
+            {{ end }}
+          {{ end }}
+          {{ if hasKey . "volumeMounts" }}
+          volumeMounts:
+            {{ range .volumeMounts }}
+            - mountPath: {{ .mountPath }}
+              name: {{ .name }}
+            {{ end }}
+          {{ end }}
+        {{ end }}
+{{- end }}
+      containers:
+        - image: {{ .image }}
+          name: {{ .name }}
+          {{ if hasKey . "args" }}
+          args:
+            {{ range .args }}
+            - {{ . }}
+            {{ end }}
+          {{ end }}
+          ports:
+            {{ range .ports }}
+            - containerPort: {{ . }}
+              protocol: TCP
+            {{ end }}
+          resources:
+            limits:
+              cpu: {{ .resources.limits.cpu }}
+              memory: "{{ .resources.limits.memory }}"
+            requests:
+              cpu: {{ .resources.requests.cpu }}
+              memory: "{{ .resources.requests.memory }}"
+          {{ if hasKey . "configmap" }}
+          envFrom:
+            {{ range .configmap }}
+            - configMapRef:
+                name: {{ . }}
+            {{ end }}
+          {{ end }}
+          {{ if hasKey . "pvc" }}
+          volumeMounts:
+            {{ range .pvc }}
+            - mountPath: {{ .mountPath }}
+              name: {{ .claim }}
+            {{ end }}
+          {{ end }}
+      restartPolicy: Always
+      {{ if hasKey . "volumes" }}
+      volumes:
+        {{ range .volumes }}
+          {{ if .pvc }}
+          - name: {{ .claim }}
+            persistentVolumeClaim:
+              claimName: {{ .claim }}
+          {{ else if .configMap }}
+          - name: {{ .name }}
+            configMap:
+              name: {{ .configMap.name }}
+              items:
+                {{- range .configMap.items }}
+                - key: {{ .key }}
+                  path: {{ .path }}
+                {{- end }}
+          {{- end}}
+        {{- end}}
+      {{- end }}
+{{- end}}
+
+

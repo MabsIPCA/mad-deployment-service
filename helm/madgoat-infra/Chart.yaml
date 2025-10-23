@@ -1,0 +1,9 @@
+apiVersion: v2
+name: madgoat-infra
+description: A Helm chart for Kubernetes
+type: application
+version: 0.1.0
+dependencies:
+  - name: traefik
+    version: 37.1.2
+    repository: https://traefik.github.io/charts
