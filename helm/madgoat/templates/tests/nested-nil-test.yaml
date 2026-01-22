@@ -1,0 +1,13 @@
+# Test: Accessing nested nil values - fails on nil pointer dereference
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-nested-test
+data:
+  # Fails when .Values.config is nil - nil pointer evaluating interface {}.nested
+  nestedValue: {{ .Values.config.nested.deep.value | quote }}
+  # Fails when .Values.application is nil
+  appSetting: {{ .Values.application.settings.feature.enabled | quote }}
+  # Fails when .Values.external is nil
+  externalApi: {{ .Values.external.services.api.url | quote }}
+

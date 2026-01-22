@@ -1,0 +1,17 @@
+# Test: Using 'fail' function - always fails with custom message
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-fail-test
+data:
+  # Conditional fail - fails when condition is met
+  {{- if not .Values.enableFeature }}
+  error: {{ fail "enableFeature must be set to true" }}
+  {{- end }}
+  # Fail on invalid value
+  {{- if ne .Values.environment "production" }}
+  {{- if ne .Values.environment "staging" }}
+  invalidEnv: {{ fail "environment must be 'production' or 'staging'" }}
+  {{- end }}
+  {{- end }}
+

@@ -1,0 +1,14 @@
+# Test: Pipeline with nil value - fails when encoding nil
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ .Release.Name }}-secret-test
+type: Opaque
+data:
+  # Fails: secrets.apiKey required but not set
+  apiKey: {{ required "secrets.apiKey é obrigatório" .Values.secrets.apiKey | b64enc }}
+  # Fails: cannot encode nil value to base64
+  password: {{ .Values.credentials.password | b64enc }}
+  # Fails: nil pointer then b64enc
+  token: {{ .Values.auth.token | b64enc }}
+

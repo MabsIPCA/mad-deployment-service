@@ -1,0 +1,13 @@
+# Test: Using 'required' function - fails if value is missing
+  dbPort: {{ required "database.port is required" .Values.database.port | quote }}
+  # This will fail with: "database.port is required"
+  dbHost: {{ required "database.host deve ser definido" .Values.database.host | quote }}
+  # This will fail with: "database.host deve ser definido"
+  requiredField: {{ required "O valor 'requiredValue' é obrigatório" .Values.requiredValue | quote }}
+  # This will fail with: "O valor 'requiredValue' é obrigatório"
+data:
+  name: {{ .Release.Name }}-required-test
+metadata:
+kind: ConfigMap
+apiVersion: v1
+

@@ -1,0 +1,15 @@
+# Test: Type mismatch errors - fails on wrong type operations
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-type-test
+data:
+  # Fails if .Values.port is not a number - cannot range over number
+  {{- range .Values.port }}
+  portItem: {{ . | quote }}
+  {{- end }}
+  # Fails trying to add string and int
+  computed: {{ add .Values.stringValue 10 | quote }}
+  # Fails trying to use int as string
+  formatted: {{ printf "%s-suffix" .Values.numericId }}
+
