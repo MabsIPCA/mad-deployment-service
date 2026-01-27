@@ -1,0 +1,27 @@
+# Test: Cryptographic operation errors - fails on crypto errors
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-crypto-test
+data:
+  # Fails: Invalid base64 decode
+  {{- if .Values.testBase64DecodeInvalid }}
+  decoded: {{ .Values.invalidBase64 | b64dec | quote }}
+  {{- end }}
+  # Fails: genPrivateKey with invalid type
+  {{- if .Values.testGenPrivateKeyInvalid }}
+  privateKey: {{ genPrivateKey "invalid-type" | quote }}
+  {{- end }}
+  # Fails: encryptAES with wrong key size
+  {{- if .Values.testEncryptAESInvalid }}
+  encrypted: {{ encryptAES .Values.shortKey .Values.data | quote }}
+  {{- end }}
+  # Fails: decryptAES with invalid data
+  {{- if .Values.testDecryptAESInvalid }}
+  decrypted: {{ decryptAES .Values.aesKey .Values.invalidEncryptedData | quote }}
+  {{- end }}
+  # Fails: derivePassword with invalid params
+  {{- if .Values.testDerivePasswordInvalid }}
+  password: {{ derivePassword 0 "long" .Values.password .Values.user .Values.site | quote }}
+  {{- end }}
+

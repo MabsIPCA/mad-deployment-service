@@ -1,0 +1,23 @@
+# Test: Index out of range - fails when accessing non-existent indices
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-index-test
+data:
+  # Fails: Index on empty list
+  {{- if .Values.testIndexEmpty }}
+  firstItem: {{ index .Values.emptyList 0 | quote }}
+  {{- end }}
+  # Fails: Index beyond list length
+  {{- if .Values.testIndexBeyond }}
+  secondServer: {{ index .Values.servers 10 | quote }}
+  {{- end }}
+  # Fails: Negative index
+  {{- if .Values.testIndexNegative }}
+  negativeIndex: {{ index .Values.items -1 | quote }}
+  {{- end }}
+  # Fails: Index on nil
+  {{- if .Values.testIndexNil }}
+  nilIndex: {{ index .Values.nilList 0 | quote }}
+  {{- end }}
+

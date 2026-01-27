@@ -1,0 +1,31 @@
+# Test type changes in overrides
+# This demonstrates what happens when you change the type of a value
+
+# Change number to string
+replicas: "3"
+
+# Change boolean to string
+enabled: "yes"
+
+# Change object to string (complete replacement)
+database: "connection-string://user:pass@host:5432/db"
+
+# Change list to object
+tags:
+  primary: "main"
+  secondary: "backup"
+
+# Change string to number
+version: 2.1
+
+# Change null to object
+optionalConfig:
+  key1: "value1"
+  key2: "value2"
+
+# Change simple value to complex nested structure
+appName:
+  fullName: "complex-app"
+  shortName: "app"
+  namespace: "default"
+

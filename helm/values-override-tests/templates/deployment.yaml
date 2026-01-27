@@ -1,0 +1,52 @@
+# Sample deployment to show how merged values are used in a real resource
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ if kindIs "map" .Values.appName }}{{ .Values.appName.fullName }}{{ else }}{{ .Values.appName }}{{ end }}
+  labels:
+    app: {{ if kindIs "map" .Values.appName }}{{ .Values.appName.shortName }}{{ else }}{{ .Values.appName }}{{ end }}
+    environment: {{ .Values.environment }}
+    {{- with .Values.service.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  replicas: {{ if kindIs "string" .Values.replicas }}{{ .Values.replicas | int }}{{ else }}{{ .Values.replicas }}{{ end }}
+  selector:
+    matchLabels:
+      app: {{ if kindIs "map" .Values.appName }}{{ .Values.appName.shortName }}{{ else }}{{ .Values.appName }}{{ end }}
+  template:
+    metadata:
+      labels:
+        app: {{ if kindIs "map" .Values.appName }}{{ .Values.appName.shortName }}{{ else }}{{ .Values.appName }}{{ end }}
+        environment: {{ .Values.environment }}
+    spec:
+      containers:
+      - name: app
+        image: nginx:{{ .Values.version }}
+        ports:
+        - containerPort: {{ .Values.service.port }}
+        env:
+        - name: ENVIRONMENT
+          value: {{ .Values.environment | quote }}
+        - name: LOG_LEVEL
+          value: {{ .Values.config.logLevel | quote }}
+        - name: ENABLED
+          value: {{ .Values.enabled | quote }}
+        {{- if kindIs "map" .Values.database }}
+        - name: DB_HOST
+          value: {{ .Values.database.host | quote }}
+        - name: DB_PORT
+          value: {{ .Values.database.port | quote }}
+        - name: DB_NAME
+          value: {{ .Values.database.name | quote }}
+        {{- else }}
+        - name: DATABASE_URL
+          value: {{ .Values.database | quote }}
+        {{- end }}
+        {{- if .Values.optionalValue }}
+        - name: OPTIONAL_VALUE
+          value: {{ .Values.optionalValue | quote }}
+        {{- end }}
+        resources:
+          {{- toYaml .Values.resources | nindent 10 }}
+

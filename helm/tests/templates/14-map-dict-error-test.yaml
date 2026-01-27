@@ -1,0 +1,29 @@
+# Test: Map/dict operation errors - fails on invalid map operations
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-map-test
+data:
+  # Fails: pluck on non-existent keys with required
+  {{- if .Values.testPluckRequired }}
+  {{- $result := pluck "nonExistentKey" .Values.emptyDict }}
+  pluckedValue: {{ required "Key not found" (first $result) }}
+  {{- end }}
+  # Fails: hasKey on non-map value
+  {{- if .Values.testHasKeyNonMap }}
+  hasKeyResult: {{ hasKey .Values.stringValue "key" }}
+  {{- end }}
+  # Fails: keys on non-dict
+  {{- if .Values.testKeysNonDict }}
+  keysList: {{ keys .Values.stringValue | toJson }}
+  {{- end }}
+  # Fails: values on non-dict
+  {{- if .Values.testValuesNonDict }}
+  valuesList: {{ values .Values.listValue | toJson }}
+  {{- end }}
+  # Fails: merge with non-dict argument
+  {{- if .Values.testMergeNonDict }}
+  {{- $result := merge .Values.dict1 .Values.stringValue }}
+  merged: {{ $result | toJson }}
+  {{- end }}
+

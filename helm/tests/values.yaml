@@ -1,0 +1,188 @@
+# Values file for Helm template rendering failure tests
+# Set individual test flags to true to trigger specific failure scenarios
+
+# 01-required-function-test.yaml
+testRequired: false
+testNestedRequired: false
+testRequiredEmpty: false
+database: {}
+# Missing: database.port, database.host
+# Missing: requiredValue
+
+# 02-fail-function-test.yaml
+testFailCondition: false
+testFailValidation: false
+testFailUnconditional: false
+enableFeature: false
+environment: "development"
+
+# 03-type-mismatch-test.yaml
+testRangeNumber: false
+testMathString: false
+testPrintfType: false
+testRangeString: false
+port: 8080
+stringValue: "text"
+numericId: 12345
+
+# 04-index-out-of-range-test.yaml
+testIndexEmpty: false
+testIndexBeyond: false
+testIndexNegative: false
+testIndexNil: false
+emptyList: []
+servers: []
+items: []
+nilList: null
+
+# 05-nil-pointer-test.yaml
+testNilMap: false
+testNilNested: false
+testNilPipeline: false
+testNilBase64: false
+nilMap: null
+nilValue: null
+config: null
+
+# 06-template-syntax-error-test.yaml
+testUnclosedAction: false
+testInvalidFunction: false
+testWrongArgs: false
+testUndefinedVar: false
+testInvalidRange: false
+
+# 07-missing-template-test.yaml
+testMissingInclude: false
+testMissingTemplate: false
+testMissingSubchart: false
+
+# 08-division-by-zero-test.yaml
+testDivZero: false
+testModZero: false
+testBothZero: false
+number: 100
+
+# 09-invalid-regex-test.yaml
+testInvalidRegex: false
+testInvalidRegexReplace: false
+testUnclosedClass: false
+testInvalidEscape: false
+inputString: "test123"
+text: "sample text"
+
+# 10-file-read-error-test.yaml
+testMissingFile: false
+testGlobRequired: false
+testAsConfigEmpty: false
+
+# 11-invalid-json-yaml-test.yaml
+testFromJsonInvalid: false
+testFromYamlInvalid: false
+testMustFromJson: false
+testToJsonInvalid: false
+invalidJsonString: "{invalid json"
+invalidYamlString: "invalid: yaml: syntax:"
+badJson: "not json"
+
+# 12-list-operation-error-test.yaml
+testFirstEmpty: false
+testRestEmpty: false
+testLastEmpty: false
+testSliceOutOfBounds: false
+testAppendNonList: false
+testPrependNonList: false
+shortList: [1, 2]
+notAList: "string"
+
+# 13-string-operation-error-test.yaml
+testSubstrInvalid: false
+testTruncNegative: false
+testAtoiInvalid: false
+testInt64Invalid: false
+testFloat64Invalid: false
+shortString: "hi"
+nonNumeric: "abc"
+invalidNumber: "not-a-number"
+notAFloat: "xyz"
+
+# 14-map-dict-error-test.yaml
+testPluckRequired: false
+testHasKeyNonMap: false
+testKeysNonDict: false
+testValuesNonDict: false
+testMergeNonDict: false
+emptyDict: {}
+dict1:
+  key: value
+listValue: [1, 2, 3]
+
+# 15-date-time-error-test.yaml
+testInvalidDateFormat: false
+testInvalidTimezone: false
+testToDateInvalid: false
+testDateModifyInvalid: false
+testDurationInvalid: false
+invalidDateString: "not-a-date"
+invalidDuration: "invalid"
+
+# 16-crypto-error-test.yaml
+testBase64DecodeInvalid: false
+testGenPrivateKeyInvalid: false
+testEncryptAESInvalid: false
+testDecryptAESInvalid: false
+testDerivePasswordInvalid: false
+invalidBase64: "not!!!base64"
+shortKey: "short"
+data: "data"
+aesKey: "1234567890123456"
+invalidEncryptedData: "invalid"
+password: "pass"
+user: "user"
+site: "site"
+
+# 17-helper-template-test.yaml
+testHelperUndefinedVar: false
+testHelperSyntaxError: false
+testHelperTypeMismatch: false
+testHelperDivZero: false
+testHelperRequired: false
+testHelperNilPointer: false
+testHelperMissingInclude: false
+testHelperInvalidFunc: false
+# Missing: helperRequiredValue
+nilHelper: null
+
+# 18-tpl-function-test.yaml
+testTplSyntaxError: false
+testTplUndefinedVar: false
+testTplRequired: false
+testTplDivZero: false
+testTplTypeMismatch: false
+testTplNilPointer: false
+testTplInvalidFunc: false
+testTplMissingTemplate: false
+testTplFail: false
+testTplNested: false
+tplSyntaxError: "{{ .Values.someValue"
+tplUndefinedVar: "{{ .Values.nonExistent.nested.value }}"
+tplRequired: "{{ required \"tpl required value\" .Values.missingTplValue }}"
+tplDivZero: "{{ div 100 0 }}"
+tplTypeMismatch: "{{ range .Values.port }}item{{ end }}"
+tplNilPointer: "{{ .Values.nilValue.nested.field }}"
+tplInvalidFunc: "{{ invalidFunc \"arg\" }}"
+tplMissingTemplate: "{{ include \"missing.template\" . }}"
+tplFail: "{{ fail \"tpl triggered failure\" }}"
+tplNested: "{{ .Values.tplSyntaxError }}"
+
+# 19-files-advanced-test.yaml
+testFilesBytesRequired: false
+testFilesLines: false
+testFilesAsSecrets: false
+testFilesGlobInvalid: false
+testFilesGetEmpty: false
+testFilesAsConfigRequired: false
+testFilesContentError: false
+testFilesNilPath: false
+fileToProcess: "file-with-template-error.txt"
+nilFilePath: null
+

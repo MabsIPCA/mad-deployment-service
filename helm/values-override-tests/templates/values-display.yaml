@@ -1,0 +1,73 @@
+# This ConfigMap displays all the merged values after overrides
+# Use this to see the final state of values after applying multiple -f flags
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: values-display
+  labels:
+    app: values-override-test
+data:
+  # Simple scalar values
+  appName: {{ .Values.appName | quote }}
+  environment: {{ .Values.environment | quote }}
+  version: {{ .Values.version | quote }}
+  replicas: {{ .Values.replicas | quote }}
+  enabled: {{ .Values.enabled | quote }}
+  
+  # Database configuration (if it's still an object)
+  {{- if kindIs "map" .Values.database }}
+  database.host: {{ .Values.database.host | quote }}
+  database.port: {{ .Values.database.port | quote }}
+  database.name: {{ .Values.database.name | quote }}
+  database.username: {{ .Values.database.username | quote }}
+  database.password: {{ .Values.database.password | quote }}
+  database.ssl.enabled: {{ .Values.database.ssl.enabled | quote }}
+  database.ssl.mode: {{ .Values.database.ssl.mode | quote }}
+  database.pool.min: {{ .Values.database.pool.min | quote }}
+  database.pool.max: {{ .Values.database.pool.max | quote }}
+  {{- else }}
+  database: {{ .Values.database | quote }}
+  {{- end }}
+  
+  # Tags (if it's a list)
+  {{- if kindIs "slice" .Values.tags }}
+  tags: {{ .Values.tags | toJson | quote }}
+  {{- else }}
+  tags: {{ .Values.tags | toJson | quote }}
+  {{- end }}
+  
+  # Features
+  features: {{ .Values.features | toJson | quote }}
+  
+  # Service configuration
+  service.type: {{ .Values.service.type | quote }}
+  service.port: {{ .Values.service.port | quote }}
+  service.annotations: {{ .Values.service.annotations | toJson | quote }}
+  service.labels: {{ .Values.service.labels | toJson | quote }}
+  
+  # Resources
+  resources: {{ .Values.resources | toJson | quote }}
+  
+  # Config
+  config.logLevel: {{ .Values.config.logLevel | quote }}
+  config.timeout: {{ .Values.config.timeout | quote }}
+  config.retries: {{ .Values.config.retries | quote }}
+  config.features: {{ .Values.config.features | toJson | quote }}
+  
+  # Optional values
+  {{- if .Values.optionalValue }}
+  optionalValue: {{ .Values.optionalValue | quote }}
+  {{- else }}
+  optionalValue: "null"
+  {{- end }}
+  
+  {{- if .Values.optionalConfig }}
+  optionalConfig: {{ .Values.optionalConfig | toJson | quote }}
+  {{- else }}
+  optionalConfig: "null"
+  {{- end }}
+  
+  # Full values dump for complete inspection
+  all-values: |
+{{ .Values | toYaml | indent 4 }}
+

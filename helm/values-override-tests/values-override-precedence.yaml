@@ -1,0 +1,37 @@
+# Third override file to demonstrate precedence
+# Usage: helm template test ./helm/values-override-tests -f values-dev.yaml -f values-override-precedence.yaml
+# This file will override values from both base and dev
+
+# This will override the environment from dev
+environment: "staging"
+
+# This will override replicas from dev
+replicas: 3
+
+# Partial override - will merge with previous overrides
+database:
+  host: "staging-db.local"
+  # All other database fields keep their values from previous files
+
+# Override just one tag by replacing the entire list
+tags:
+  - "staging"
+  - "override-test"
+
+# Partial service override
+service:
+  annotations:
+    prometheus.io/scrape: "false"
+    # This adds a new annotation while keeping others from previous files
+    staging.custom/annotation: "staging-value"
+
+# Override a specific nested value
+config:
+  logLevel: "error"
+  features:
+    monitoring: false
+    # Other features keep their previous values
+
+# Set null to a previously set value (demonstrates null override)
+optionalValue: null
+

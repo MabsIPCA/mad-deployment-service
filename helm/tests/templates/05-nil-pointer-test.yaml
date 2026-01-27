@@ -1,0 +1,23 @@
+# Test: Nil pointer access - fails when accessing fields on nil
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-nil-test
+data:
+  # Fails: Accessing field on nil map
+  {{- if .Values.testNilMap }}
+  nilMapValue: {{ .Values.nilMap.key | quote }}
+  {{- end }}
+  # Fails: Accessing nested field on nil
+  {{- if .Values.testNilNested }}
+  nestedValue: {{ .Values.config.database.host | quote }}
+  {{- end }}
+  # Fails: Pipeline with nil value
+  {{- if .Values.testNilPipeline }}
+  pipelineValue: {{ .Values.nilValue | upper | quote }}
+  {{- end }}
+  # Fails: Encoding nil to base64
+  {{- if .Values.testNilBase64 }}
+  base64Value: {{ .Values.nilValue | b64enc }}
+  {{- end }}
+

@@ -1,0 +1,23 @@
+# Test: Using 'fail' function - always fails with custom message
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-fail-test
+data:
+  # Fails: Conditional fail when condition is met
+  {{- if .Values.testFailCondition }}
+  {{- if not .Values.enableFeature }}
+  error: {{ fail "enableFeature must be set to true" }}
+  {{- end }}
+  {{- end }}
+  # Fails: Validation fail on invalid value
+  {{- if .Values.testFailValidation }}
+  {{- if and (ne .Values.environment "production") (ne .Values.environment "staging") }}
+  invalidEnv: {{ fail "environment must be 'production' or 'staging'" }}
+  {{- end }}
+  {{- end }}
+  # Fails: Unconditional fail
+  {{- if .Values.testFailUnconditional }}
+  alwaysFails: {{ fail "This template always fails" }}
+  {{- end }}
+

@@ -1,0 +1,27 @@
+# Test: Date/time operation errors - fails on invalid date operations
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-datetime-test
+data:
+  # Fails: Invalid date format string
+  {{- if .Values.testInvalidDateFormat }}
+  formattedDate: {{ dateInZone "invalid-format-string" (now) "UTC" | quote }}
+  {{- end }}
+  # Fails: Invalid timezone
+  {{- if .Values.testInvalidTimezone }}
+  zonedDate: {{ dateInZone "2006-01-02" (now) "Invalid/Timezone" | quote }}
+  {{- end }}
+  # Fails: toDate with invalid date string
+  {{- if .Values.testToDateInvalid }}
+  parsedDate: {{ toDate "2006-01-02" .Values.invalidDateString }}
+  {{- end }}
+  # Fails: dateModify with invalid duration
+  {{- if .Values.testDateModifyInvalid }}
+  modifiedDate: {{ dateModify "invalid-duration" (now) | quote }}
+  {{- end }}
+  # Fails: durationRound with invalid duration
+  {{- if .Values.testDurationInvalid }}
+  duration: {{ durationRound .Values.invalidDuration }}
+  {{- end }}
+

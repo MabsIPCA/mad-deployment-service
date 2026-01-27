@@ -1,0 +1,19 @@
+# Test: Missing template/include - fails when template doesn't exist
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-missing-template-test
+data:
+  # Fails: Including non-existent template
+  {{- if .Values.testMissingInclude }}
+  includedValue: {{ include "non.existent.template" . | quote }}
+  {{- end }}
+  # Fails: Using non-existent named template
+  {{- if .Values.testMissingTemplate }}
+  templateValue: {{ template "undefined.template" . }}
+  {{- end }}
+  # Fails: Including helper from missing subchart
+  {{- if .Values.testMissingSubchart }}
+  subchartHelper: {{ include "missing-subchart.fullname" . }}
+  {{- end }}
+

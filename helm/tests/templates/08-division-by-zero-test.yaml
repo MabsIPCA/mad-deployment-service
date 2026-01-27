@@ -1,0 +1,19 @@
+# Test: Division by zero - fails on math errors
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-division-test
+data:
+  # Fails: Division by zero
+  {{- if .Values.testDivZero }}
+  divisionResult: {{ div .Values.number 0 | quote }}
+  {{- end }}
+  # Fails: Modulo by zero
+  {{- if .Values.testModZero }}
+  moduloResult: {{ mod .Values.number 0 | quote }}
+  {{- end }}
+  # Fails: Division with zero dividend and divisor
+  {{- if .Values.testBothZero }}
+  bothZero: {{ div 0 0 | quote }}
+  {{- end }}
+

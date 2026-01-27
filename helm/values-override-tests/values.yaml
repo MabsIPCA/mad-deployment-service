@@ -1,0 +1,69 @@
+# Base values.yaml - These are the default values
+# Override precedence: values.yaml < -f file1.yaml < -f file2.yaml < --set flags
+
+# Simple scalar values
+appName: "base-app"
+environment: "default"
+version: "1.0.0"
+replicas: 1
+enabled: false
+
+# Nested object/map values
+database:
+  host: "localhost"
+  port: 5432
+  name: "base_db"
+  username: "base_user"
+  password: "base_password"
+  ssl:
+    enabled: false
+    mode: "disable"
+  pool:
+    min: 5
+    max: 10
+
+# List/array values
+tags:
+  - "base"
+  - "default"
+
+features:
+  - name: "feature1"
+    enabled: false
+  - name: "feature2"
+    enabled: false
+
+# Complex nested structure
+service:
+  type: "ClusterIP"
+  port: 8080
+  annotations:
+    prometheus.io/scrape: "false"
+    prometheus.io/port: "8080"
+  labels:
+    app: "base"
+    tier: "backend"
+
+# Resource limits
+resources:
+  requests:
+    cpu: "100m"
+    memory: "128Mi"
+  limits:
+    cpu: "200m"
+    memory: "256Mi"
+
+# Configuration map
+config:
+  logLevel: "info"
+  timeout: 30
+  retries: 3
+  features:
+    caching: false
+    monitoring: false
+    tracing: false
+
+# Null value test
+optionalValue: null
+optionalConfig: null
+

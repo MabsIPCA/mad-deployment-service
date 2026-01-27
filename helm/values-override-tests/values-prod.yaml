@@ -1,0 +1,79 @@
+# Production environment overrides
+# Usage: helm template test ./helm/values-override-tests -f ./helm/values-override-tests/values-prod.yaml
+
+# Override simple values
+environment: "production"
+version: "2.0.0"
+replicas: 5
+enabled: true
+
+# Complete database override with production settings
+database:
+  host: "prod-db.example.com"
+  port: 5432
+  name: "prod_db"
+  username: "prod_user"
+  password: "prod_secure_password"
+  ssl:
+    enabled: true
+    mode: "require"
+  pool:
+    min: 20
+    max: 100
+
+# Production tags (completely replaces base tags)
+tags:
+  - "prod"
+  - "production"
+  - "stable"
+  - "v2"
+
+# Production features
+features:
+  - name: "feature1"
+    enabled: true
+  - name: "feature2"
+    enabled: true
+  - name: "prod-feature"
+    enabled: true
+  - name: "high-availability"
+    enabled: true
+
+# Production service configuration
+service:
+  type: "LoadBalancer"
+  port: 443
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "9090"
+    service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+  labels:
+    app: "production"
+    tier: "backend"
+    criticality: "high"
+
+# Production resource limits
+resources:
+  requests:
+    cpu: "1000m"
+    memory: "2Gi"
+  limits:
+    cpu: "2000m"
+    memory: "4Gi"
+
+# Production config
+config:
+  logLevel: "warn"
+  timeout: 60
+  retries: 5
+  features:
+    caching: true
+    monitoring: true
+    tracing: true
+
+# Production specific value
+optionalValue: "prod-value"
+optionalConfig:
+  backupEnabled: true
+  backupSchedule: "0 2 * * *"
+

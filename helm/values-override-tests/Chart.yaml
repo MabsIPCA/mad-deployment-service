@@ -1,0 +1,7 @@
+apiVersion: v2
+name: values-override-tests
+description: Test chart to demonstrate how multiple values files override each other
+type: application
+version: 0.1.0
+appVersion: "1.0"
+

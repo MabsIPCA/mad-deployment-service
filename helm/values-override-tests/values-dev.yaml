@@ -1,0 +1,57 @@
+# Development environment overrides
+# Usage: helm template test ./helm/values-override-tests -f ./helm/values-override-tests/values-dev.yaml
+
+# Override simple values
+environment: "development"
+replicas: 2
+enabled: true
+
+# Partial database override - only some fields
+database:
+  host: "dev-db.local"
+  name: "dev_db"
+  username: "dev_user"
+  # Note: password, port, ssl, and pool are NOT overridden, so they keep base values
+  # This demonstrates partial object merging
+
+# Override entire list (lists are replaced, not merged)
+tags:
+  - "dev"
+  - "development"
+  - "testing"
+
+# Add more features to the list
+features:
+  - name: "feature1"
+    enabled: true
+  - name: "feature2"
+    enabled: true
+  - name: "dev-feature"
+    enabled: true
+
+# Partial service override
+service:
+  type: "NodePort"
+  # port is not overridden, keeps base value
+  annotations:
+    prometheus.io/scrape: "true"
+    # prometheus.io/port keeps base value
+    custom.dev/annotation: "dev-value"
+
+# Override some resource values
+resources:
+  requests:
+    cpu: "200m"
+    # memory keeps base value
+
+# Partial config override
+config:
+  logLevel: "debug"
+  features:
+    caching: true
+    monitoring: true
+    # tracing keeps base value (false)
+
+# Set a previously null value
+optionalValue: "dev-value"
+
