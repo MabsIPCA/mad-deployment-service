@@ -1,0 +1,54 @@
+---
+# Source: values-override-tests/templates/values-display.yaml
+all-values: |
+    appName: base-app
+    config:
+      features:
+        caching: false
+        monitoring: false
+        tracing: false
+      logLevel: info
+      retries: 3
+      timeout: 30
+    database:
+      host: localhost
+      name: base_db
+      password: base_password
+      pool:
+        max: 10
+        min: 5
+      port: 5432
+      ssl:
+        enabled: false
+        mode: disable
+      username: base_user
+    enabled: false
+    environment: default
+    features:
+    - enabled: false
+      name: feature1
+    - enabled: false
+      name: feature2
+    optionalConfig: null
+    optionalValue: null
+    replicas: 1
+    resources:
+      limits:
+        cpu: 200m
+        memory: 256Mi
+      requests:
+        cpu: 100m
+        memory: 128Mi
+    service:
+      annotations:
+        prometheus.io/port: "8080"
+        prometheus.io/scrape: "false"
+      labels:
+        app: base
+        tier: backend
+      port: 8080
+      type: ClusterIP
+    tags:
+    - base
+    - default
+    version: 1.0.0

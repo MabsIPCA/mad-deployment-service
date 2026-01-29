@@ -1,0 +1,311 @@
+---
+# Source: madgoat/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    io.mad.service: 
+
+  name: 
+spec:
+  ports:
+    - name: "3000"
+      port: 3000
+      targetPort: 3000
+  selector:
+    io.mad.service:
+---
+# Source: madgoat/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    io.mad.service: docs
+
+  name: docs
+spec:
+  ports:
+    - name: "4000"
+      port: 4000
+      targetPort: 80
+  selector:
+    io.mad.service: docs
+---
+# Source: madgoat/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    io.mad.service: profile
+
+  name: profile
+spec:
+  ports:
+    - name: "3000"
+      port: 3000
+      targetPort: 3000
+  selector:
+    io.mad.service: profile
+---
+# Source: madgoat/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    io.mad.service: scoreboard
+
+  name: scoreboard
+spec:
+  ports:
+    - name: "3004"
+      port: 3004
+      targetPort: 3000
+  selector:
+    io.mad.service: scoreboard
+---
+# Source: madgoat/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    io.mad.service: webapp
+
+  name: webapp
+spec:
+  ports:
+    - name: "3000"
+      port: 3000
+      targetPort: 80
+  selector:
+    io.mad.service: webapp
+---
+# Source: madgoat/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    io.mad.service: mad4shell-safe
+
+  name: mad4shell-safe
+spec:
+  ports:
+    - name: "3002"
+      port: 3002
+      targetPort: 8080
+  selector:
+    io.mad.service: mad4shell-safe
+---
+# Source: madgoat/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    io.mad.service: mad4shell-unsafe
+
+  name: mad4shell-unsafe
+spec:
+  ports:
+    - name: "3003"
+      port: 3003
+      targetPort: 8080
+  selector:
+    io.mad.service: mad4shell-unsafe
+---
+# Source: madgoat/templates/service.yaml
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: lesson
+  namespace: default
+spec:
+  entryPoints:
+    - web
+  routes:
+    - kind: Rule
+      match: Host(`madgoat.tech`) && PathPrefix(`/api/lessons`)
+      middlewares:
+        - name: strip-prefix-lesson
+      services:
+        - kind: Service
+          name: lesson
+          namespace: default
+          port: 3000
+---
+# Source: madgoat/templates/service.yaml
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: docs
+  namespace: default
+spec:
+  entryPoints:
+    - web
+  routes:
+    - kind: Rule
+      match: Host(`madgoat.tech`) && PathPrefix(`/api/docs`)
+      middlewares:
+        - name: strip-prefix-docs
+      services:
+        - kind: Service
+          name: docs
+          namespace: default
+          port: 80
+---
+# Source: madgoat/templates/service.yaml
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: profile
+  namespace: default
+spec:
+  entryPoints:
+    - web
+  routes:
+    - kind: Rule
+      match: Host(`madgoat.tech`) && PathPrefix(`/api/profile`)
+      middlewares:
+        - name: strip-prefix-profile
+      services:
+        - kind: Service
+          name: profile
+          namespace: default
+          port: 3000
+---
+# Source: madgoat/templates/service.yaml
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: scoreboard
+  namespace: default
+spec:
+  entryPoints:
+    - web
+  routes:
+    - kind: Rule
+      match: Host(`madgoat.tech`) && PathPrefix(`/api/scoreboard`)
+      middlewares:
+        - name: strip-prefix-scoreboard
+      services:
+        - kind: Service
+          name: scoreboard
+          namespace: default
+          port: 3004
+---
+# Source: madgoat/templates/service.yaml
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: webapp
+  namespace: default
+spec:
+  entryPoints:
+    - web
+  routes:
+    - kind: Rule
+      match: Host(`madgoat.tech`) && PathPrefix(`/`)
+      services:
+        - kind: Service
+          name: webapp
+          namespace: default
+          port: 3000
+---
+# Source: madgoat/templates/service.yaml
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: mad4shell-safe
+  namespace: default
+spec:
+  entryPoints:
+    - web
+  routes:
+    - kind: Rule
+      match: Host(`madgoat.tech`) && PathPrefix(`/api/goat4shell-safe`)
+      middlewares:
+        - name: strip-prefix-mad4shell-safe
+      services:
+        - kind: Service
+          name: mad4shell-safe
+          namespace: default
+          port: 3002
+---
+# Source: madgoat/templates/service.yaml
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: mad4shell-unsafe
+  namespace: default
+spec:
+  entryPoints:
+    - web
+  routes:
+    - kind: Rule
+      match: Host(`madgoat.tech`) && PathPrefix(`/api/goat4shell-unsafe`)
+      middlewares:
+        - name: strip-prefix-mad4shell-unsafe
+      services:
+        - kind: Service
+          name: mad4shell-unsafe
+          namespace: default
+          port: 3003
+---
+# Source: madgoat/templates/service.yaml
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: strip-prefix-lesson
+spec:
+  stripPrefixRegex:
+    regex:
+        - "/api/lessons"
+---
+# Source: madgoat/templates/service.yaml
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: strip-prefix-docs
+spec:
+  stripPrefixRegex:
+    regex:
+        - "/api/docs"
+---
+# Source: madgoat/templates/service.yaml
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: strip-prefix-profile
+spec:
+  stripPrefixRegex:
+    regex:
+        - "/api/profile"
+---
+# Source: madgoat/templates/service.yaml
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: strip-prefix-scoreboard
+spec:
+  stripPrefixRegex:
+    regex:
+        - "/api/scoreboard"
+---
+# Source: madgoat/templates/service.yaml
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: strip-prefix-mad4shell-safe
+spec:
+  stripPrefixRegex:
+    regex:
+        - "/api/goat4shell-safe"
+---
+# Source: madgoat/templates/service.yaml
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: strip-prefix-mad4shell-unsafe
+spec:
+  stripPrefixRegex:
+    regex:
+        - "/api/goat4shell-unsafe"

@@ -1,0 +1,58 @@
+---
+# Source: values-override-tests/templates/values-display.yaml
+all-values: |
+    appName: base-app
+    config:
+      features:
+        caching: true
+        monitoring: true
+        tracing: false
+      logLevel: debug
+      retries: 3
+      timeout: 30
+    database:
+      host: dev-db.local
+      name: dev_db
+      password: base_password
+      pool:
+        max: 10
+        min: 5
+      port: 5432
+      ssl:
+        enabled: false
+        mode: disable
+      username: dev_user
+    enabled: true
+    environment: development
+    features:
+    - enabled: true
+      name: feature1
+    - enabled: true
+      name: feature2
+    - enabled: true
+      name: dev-feature
+    optionalConfig: null
+    optionalValue: dev-value
+    replicas: 2
+    resources:
+      limits:
+        cpu: 200m
+        memory: 256Mi
+      requests:
+        cpu: 200m
+        memory: 128Mi
+    service:
+      annotations:
+        custom.dev/annotation: dev-value
+        prometheus.io/port: "8080"
+        prometheus.io/scrape: "true"
+      labels:
+        app: base
+        tier: backend
+      port: 8080
+      type: NodePort
+    tags:
+    - dev
+    - development
+    - testing
+    version: 1.0.0
