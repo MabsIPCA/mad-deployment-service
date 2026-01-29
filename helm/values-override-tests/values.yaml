@@ -1,6 +1,9 @@
 # Base values.yaml - These are the default values
 # Override precedence: values.yaml < -f file1.yaml < -f file2.yaml < --set flags
 
+batata:
+  ascii: "🍠"
+
 # Simple scalar values
 appName: "base-app"
 environment: "default"

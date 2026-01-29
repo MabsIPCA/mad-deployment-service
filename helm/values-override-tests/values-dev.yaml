@@ -1,6 +1,8 @@
 # Development environment overrides
 # Usage: helm template test ./helm/values-override-tests -f ./helm/values-override-tests/values-dev.yaml
 
+batata: null
+
 # Override simple values
 environment: "development"
 replicas: 2
