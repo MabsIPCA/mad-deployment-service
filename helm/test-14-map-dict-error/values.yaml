@@ -1,0 +1,10 @@
+﻿# Values file for map/dict error test
+testPluckRequired: false
+testHasKeyNonMap: false
+testKeysNonDict: false
+testValuesNonDict: false
+testMergeNonDict: false
+emptyDict: {}
+dict1:
+  key: value
+listValue: [1, 2, 3]

@@ -1,0 +1,6 @@
+apiVersion: v2
+name: test-01-required-function
+description: Test for 'required' function failures
+type: application
+version: 0.1.0
+appVersion: "1.0"

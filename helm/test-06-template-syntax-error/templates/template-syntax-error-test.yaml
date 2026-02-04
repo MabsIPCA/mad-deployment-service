@@ -1,0 +1,29 @@
+# Test: Template syntax errors - fails on Go template syntax issues
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-syntax-test
+data:
+  # Fails: Unclosed template action
+  {{- if .Values.testUnclosedAction }}
+  badTemplate: {{ .Values.someValue
+  {{- end }}
+  # Fails: Invalid function name
+  {{- if .Values.testInvalidFunction }}
+  badFunction: {{ nonExistentFunction .Values.data }}
+  {{- end }}
+  # Fails: Wrong number of arguments
+  {{- if .Values.testWrongArgs }}
+  wrongArgs: {{ printf "%s %s %s" .Values.arg1 .Values.arg2 }}
+  {{- end }}
+  # Fails: Undefined variable
+  {{- if .Values.testUndefinedVar }}
+  undefined: {{ $undefinedVariable }}
+  {{- end }}
+  # Fails: Invalid range syntax (missing comma)
+  {{- if .Values.testInvalidRange }}
+  {{- range $key $value .Values.items }}
+  item: {{ $value }}
+  {{- end }}
+  {{- end }}
+

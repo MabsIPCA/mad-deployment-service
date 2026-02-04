@@ -1,0 +1,58 @@
+# Test: Advanced .Files operations - fails with various file access errors
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-files-advanced-test
+data:
+  # Fails: .Files.GetBytes on non-existent file with required
+  {{- if .Values.testFilesBytesRequired }}
+  bytes: {{ required "File bytes required" (.Files.GetBytes "missing-file.bin") | b64enc | quote }}
+  {{- end }}
+  
+  # Fails: .Files.Lines on non-existent file
+  {{- if .Values.testFilesLines }}
+  {{- $lines := .Files.Lines "non-existent.txt" }}
+  {{- if not $lines }}
+  error: {{ fail "No lines found in file" }}
+  {{- end }}
+  {{- end }}
+  
+  # Fails: .Files.AsSecrets with empty result
+  {{- if .Values.testFilesAsSecrets }}
+  {{- $secrets := (.Files.Glob "secrets/*.key").AsSecrets }}
+  {{- if not $secrets }}
+  error: {{ fail "No secret files found" }}
+  {{- end }}
+  {{- end }}
+  
+  # Fails: .Files.Glob with invalid pattern (requires match)
+  {{- if .Values.testFilesGlobInvalid }}
+  {{- $matched := .Files.Glob "***/invalid[[[pattern" }}
+  content: {{ required "Files must match" $matched | quote }}
+  {{- end }}
+  
+  # Fails: Accessing .Files.Get result that's empty with required
+  {{- if .Values.testFilesGetEmpty }}
+  {{- $content := .Files.Get "empty-pattern-*.yaml" }}
+  data: {{ required "File content cannot be empty" $content | quote }}
+  {{- end }}
+  
+  # Fails: .Files.AsConfig with required non-empty result
+  {{- if .Values.testFilesAsConfigRequired }}
+  {{- $config := (.Files.Glob "config/*.properties").AsConfig }}
+  {{- if eq (len $config) 0 }}
+  error: {{ fail "Config files are required" }}
+  {{- end }}
+  {{- end }}
+  
+  # Fails: Processing file content that causes template error
+  {{- if .Values.testFilesContentError }}
+  {{- $content := .Files.Get .Values.fileToProcess }}
+  processed: {{ tpl $content . | quote }}
+  {{- end }}
+  
+  # Fails: .Files with nil/invalid path
+  {{- if .Values.testFilesNilPath }}
+  content: {{ .Files.Get .Values.nilFilePath | required "File path cannot be nil" | quote }}
+  {{- end }}
+

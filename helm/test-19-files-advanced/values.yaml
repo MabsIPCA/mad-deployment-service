@@ -1,0 +1,11 @@
+﻿# Values file for files advanced test
+testFilesBytesRequired: false
+testFilesLines: false
+testFilesAsSecrets: false
+testFilesGlobInvalid: false
+testFilesGetEmpty: false
+testFilesAsConfigRequired: false
+testFilesContentError: false
+testFilesNilPath: false
+fileToProcess: "file-with-template-error.txt"
+nilFilePath: null

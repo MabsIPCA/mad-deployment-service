@@ -1,0 +1,6 @@
+﻿apiVersion: v2
+name: test-14-map-dict-error
+description: Test for map/dict operation errors
+type: application
+version: 0.1.0
+appVersion: "1.0"

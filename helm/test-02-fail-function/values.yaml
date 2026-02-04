@@ -1,0 +1,6 @@
+﻿# Values file for fail function test
+testFailCondition: false
+testFailValidation: false
+testFailUnconditional: false
+enableFeature: false
+environment: "development"

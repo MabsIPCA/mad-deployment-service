@@ -1,0 +1,14 @@
+﻿# Values file for crypto error test
+testBase64DecodeInvalid: false
+testGenPrivateKeyInvalid: false
+testEncryptAESInvalid: false
+testDecryptAESInvalid: false
+testDerivePasswordInvalid: false
+invalidBase64: "not!!!base64"
+shortKey: "short"
+data: "data"
+aesKey: "1234567890123456"
+invalidEncryptedData: "invalid"
+password: "pass"
+user: "user"
+site: "site"

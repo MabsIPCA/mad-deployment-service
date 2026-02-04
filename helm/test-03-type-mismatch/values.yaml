@@ -1,0 +1,8 @@
+﻿# Values file for type mismatch test
+testRangeNumber: false
+testMathString: false
+testPrintfType: false
+testRangeString: false
+port: 8080
+stringValue: "text"
+numericId: 12345

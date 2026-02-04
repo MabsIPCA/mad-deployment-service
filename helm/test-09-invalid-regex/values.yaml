@@ -1,0 +1,7 @@
+﻿# Values file for invalid regex test
+testInvalidRegex: false
+testInvalidRegexReplace: false
+testUnclosedClass: false
+testInvalidEscape: false
+inputString: "test123"
+text: "sample text"

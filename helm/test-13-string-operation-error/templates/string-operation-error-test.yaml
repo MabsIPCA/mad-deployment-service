@@ -1,0 +1,27 @@
+# Test: String operation errors - fails on invalid string operations
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-string-test
+data:
+  # Fails: substr with invalid indices
+  {{- if .Values.testSubstrInvalid }}
+  substring: {{ substr -5 100 .Values.shortString | quote }}
+  {{- end }}
+  # Fails: trunc with negative length
+  {{- if .Values.testTruncNegative }}
+  truncated: {{ trunc -10 .Values.text | quote }}
+  {{- end }}
+  # Fails: atoi on non-numeric string
+  {{- if .Values.testAtoiInvalid }}
+  converted: {{ atoi .Values.nonNumeric }}
+  {{- end }}
+  # Fails: int64 conversion error
+  {{- if .Values.testInt64Invalid }}
+  int64Value: {{ int64 .Values.invalidNumber }}
+  {{- end }}
+  # Fails: float64 conversion error
+  {{- if .Values.testFloat64Invalid }}
+  floatValue: {{ float64 .Values.notAFloat }}
+  {{- end }}
+

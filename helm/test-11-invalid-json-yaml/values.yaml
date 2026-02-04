@@ -1,0 +1,8 @@
+﻿# Values file for invalid JSON/YAML test
+testFromJsonInvalid: false
+testFromYamlInvalid: false
+testMustFromJson: false
+testToJsonInvalid: false
+invalidJsonString: "{invalid json"
+invalidYamlString: "invalid: yaml: syntax:"
+badJson: "not json"

@@ -1,0 +1,6 @@
+﻿apiVersion: v2
+name: test-05-nil-pointer
+description: Test for nil pointer errors
+type: application
+version: 0.1.0
+appVersion: "1.0"

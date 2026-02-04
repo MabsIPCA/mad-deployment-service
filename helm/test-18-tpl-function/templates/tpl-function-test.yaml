@@ -1,0 +1,56 @@
+# Test: tpl function errors - fails when tpl evaluates invalid templates
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-tpl-test
+data:
+  # Fails: tpl with syntax error in string
+  {{- if .Values.testTplSyntaxError }}
+  value1: {{ tpl .Values.tplSyntaxError . | quote }}
+  {{- end }}
+  
+  # Fails: tpl with undefined variable
+  {{- if .Values.testTplUndefinedVar }}
+  value2: {{ tpl .Values.tplUndefinedVar . | quote }}
+  {{- end }}
+  
+  # Fails: tpl with required function failure
+  {{- if .Values.testTplRequired }}
+  value3: {{ tpl .Values.tplRequired . | quote }}
+  {{- end }}
+  
+  # Fails: tpl with division by zero
+  {{- if .Values.testTplDivZero }}
+  value4: {{ tpl .Values.tplDivZero . | quote }}
+  {{- end }}
+  
+  # Fails: tpl with type mismatch
+  {{- if .Values.testTplTypeMismatch }}
+  value5: {{ tpl .Values.tplTypeMismatch . | quote }}
+  {{- end }}
+  
+  # Fails: tpl with nil pointer
+  {{- if .Values.testTplNilPointer }}
+  value6: {{ tpl .Values.tplNilPointer . | quote }}
+  {{- end }}
+  
+  # Fails: tpl with invalid function
+  {{- if .Values.testTplInvalidFunc }}
+  value7: {{ tpl .Values.tplInvalidFunc . | quote }}
+  {{- end }}
+  
+  # Fails: tpl with missing template reference
+  {{- if .Values.testTplMissingTemplate }}
+  value8: {{ tpl .Values.tplMissingTemplate . | quote }}
+  {{- end }}
+  
+  # Fails: tpl with fail function
+  {{- if .Values.testTplFail }}
+  value9: {{ tpl .Values.tplFail . | quote }}
+  {{- end }}
+  
+  # Fails: nested tpl with error
+  {{- if .Values.testTplNested }}
+  value10: {{ tpl (tpl .Values.tplNested .) . | quote }}
+  {{- end }}
+

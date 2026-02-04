@@ -1,0 +1,6 @@
+﻿apiVersion: v2
+name: test-04-index-out-of-range
+description: Test for index out of range errors
+type: application
+version: 0.1.0
+appVersion: "1.0"

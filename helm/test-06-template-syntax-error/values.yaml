@@ -1,0 +1,6 @@
+﻿# Values file for template syntax error test
+testUnclosedAction: false
+testInvalidFunction: false
+testWrongArgs: false
+testUndefinedVar: false
+testInvalidRange: false

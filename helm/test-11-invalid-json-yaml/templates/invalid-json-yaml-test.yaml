@@ -1,0 +1,26 @@
+# Test: Invalid JSON/YAML conversion - fails on parsing errors
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-json-yaml-test
+data:
+  # Fails: fromJson with invalid JSON string
+  {{- if .Values.testFromJsonInvalid }}
+  {{- $parsed := .Values.invalidJsonString | fromJson }}
+  parsedValue: {{ $parsed.key }}
+  {{- end }}
+  # Fails: fromYaml with invalid YAML string
+  {{- if .Values.testFromYamlInvalid }}
+  {{- $parsed := .Values.invalidYamlString | fromYaml }}
+  yamlValue: {{ $parsed.key }}
+  {{- end }}
+  # Fails: mustFromJson with invalid JSON
+  {{- if .Values.testMustFromJson }}
+  {{- $parsed := mustFromJson .Values.badJson }}
+  mustValue: {{ $parsed }}
+  {{- end }}
+  # Fails: toJson on channel (non-serializable)
+  {{- if .Values.testToJsonInvalid }}
+  jsonData: {{ .Files | toJson }}
+  {{- end }}
+

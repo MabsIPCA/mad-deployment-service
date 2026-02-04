@@ -1,0 +1,8 @@
+﻿# Values file for date/time error test
+testInvalidDateFormat: false
+testInvalidTimezone: false
+testToDateInvalid: false
+testDateModifyInvalid: false
+testDurationInvalid: false
+invalidDateString: "not-a-date"
+invalidDuration: "invalid"

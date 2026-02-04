@@ -1,0 +1,19 @@
+# Test: Using 'required' function - fails if value is missing
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-required-test
+data:
+  # Fails: required value not provided
+  {{- if .Values.testRequired }}
+  dbPort: {{ required "database.port is required" .Values.database.port | quote }}
+  {{- end }}
+  # Fails: nested required value missing
+  {{- if .Values.testNestedRequired }}
+  dbHost: {{ required "database.host is required" .Values.database.host | quote }}
+  {{- end }}
+  # Fails: required with empty string
+  {{- if .Values.testRequiredEmpty }}
+  requiredField: {{ required "requiredValue cannot be empty" .Values.requiredValue | quote }}
+  {{- end }}
+

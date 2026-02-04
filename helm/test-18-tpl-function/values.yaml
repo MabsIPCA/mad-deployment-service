@@ -1,0 +1,21 @@
+﻿# Values file for tpl function test
+testTplSyntaxError: false
+testTplUndefinedVar: false
+testTplRequired: false
+testTplDivZero: false
+testTplTypeMismatch: false
+testTplNilPointer: false
+testTplInvalidFunc: false
+testTplMissingTemplate: false
+testTplFail: false
+testTplNested: false
+tplSyntaxError: "{{ .Values.someValue"
+tplUndefinedVar: "{{ .Values.nonExistent.nested.value }}"
+tplRequired: "{{ required \"tpl required value\" .Values.missingTplValue }}"
+tplDivZero: "{{ div 100 0 }}"
+tplTypeMismatch: "{{ range .Values.port }}item{{ end }}"
+tplNilPointer: "{{ .Values.nilValue.nested.field }}"
+tplInvalidFunc: "{{ invalidFunc \"arg\" }}"
+tplMissingTemplate: "{{ include \"missing.template\" . }}"
+tplFail: "{{ fail \"tpl triggered failure\" }}"
+tplNested: "{{ .Values.tplSyntaxError }}"

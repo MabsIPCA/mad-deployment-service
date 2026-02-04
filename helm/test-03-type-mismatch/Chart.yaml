@@ -1,0 +1,6 @@
+﻿apiVersion: v2
+name: test-03-type-mismatch
+description: Test for type mismatch errors
+type: application
+version: 0.1.0
+appVersion: "1.0"

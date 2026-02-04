@@ -1,0 +1,9 @@
+﻿# Values file for list operation error test
+testFirstEmpty: false
+testRestEmpty: false
+testLastEmpty: false
+testSliceOutOfBounds: false
+testAppendNonList: false
+testPrependNonList: false
+shortList: [1, 2]
+notAList: "string"

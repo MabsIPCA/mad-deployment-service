@@ -1,0 +1,4 @@
+﻿# Values file for file read error test
+testMissingFile: false
+testGlobRequired: false
+testAsConfigEmpty: false

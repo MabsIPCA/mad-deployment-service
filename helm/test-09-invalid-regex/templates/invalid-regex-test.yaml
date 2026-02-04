@@ -1,0 +1,23 @@
+# Test: Invalid regex patterns - fails on regex compilation errors
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-regex-test
+data:
+  # Fails: Invalid regex pattern
+  {{- if .Values.testInvalidRegex }}
+  regexMatch: {{ regexMatch "[invalid(regex" .Values.inputString | quote }}
+  {{- end }}
+  # Fails: regexReplaceAll with invalid pattern
+  {{- if .Values.testInvalidRegexReplace }}
+  regexReplace: {{ regexReplaceAll "(?P<invalid" "${invalid}" .Values.text | quote }}
+  {{- end }}
+  # Fails: Unclosed character class
+  {{- if .Values.testUnclosedClass }}
+  unclosed: {{ regexMatch "[a-z" .Values.text | quote }}
+  {{- end }}
+  # Fails: Invalid escape sequence
+  {{- if .Values.testInvalidEscape }}
+  invalidEscape: {{ regexMatch "\\k" .Values.text | quote }}
+  {{- end }}
+

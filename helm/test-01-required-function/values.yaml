@@ -1,0 +1,9 @@
+# Values file for required function test
+# Set individual test flags to true to trigger specific failure scenarios
+
+testRequired: false
+testNestedRequired: false
+testRequiredEmpty: false
+database: {}
+# Missing: database.port, database.host
+# Missing: requiredValue

@@ -1,0 +1,31 @@
+# Test: List operation errors - fails on invalid list operations
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-list-test
+data:
+  # Fails: first on empty list
+  {{- if .Values.testFirstEmpty }}
+  firstItem: {{ first .Values.emptyList | quote }}
+  {{- end }}
+  # Fails: rest on empty list
+  {{- if .Values.testRestEmpty }}
+  restItems: {{ rest .Values.emptyList | toJson }}
+  {{- end }}
+  # Fails: last on empty list
+  {{- if .Values.testLastEmpty }}
+  lastItem: {{ last .Values.emptyList | quote }}
+  {{- end }}
+  # Fails: slice with out of bounds indices
+  {{- if .Values.testSliceOutOfBounds }}
+  slicedList: {{ slice .Values.shortList 5 10 | toJson }}
+  {{- end }}
+  # Fails: append to non-list
+  {{- if .Values.testAppendNonList }}
+  appendedList: {{ append .Values.notAList "newItem" | toJson }}
+  {{- end }}
+  # Fails: prepend to non-list
+  {{- if .Values.testPrependNonList }}
+  prependedList: {{ prepend .Values.notAList "newItem" | toJson }}
+  {{- end }}
+

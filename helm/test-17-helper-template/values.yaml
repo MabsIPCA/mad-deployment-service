@@ -1,0 +1,11 @@
+﻿# Values file for helper template test
+testHelperUndefinedVar: false
+testHelperSyntaxError: false
+testHelperTypeMismatch: false
+testHelperDivZero: false
+testHelperRequired: false
+testHelperNilPointer: false
+testHelperMissingInclude: false
+testHelperInvalidFunc: false
+# Missing: helperRequiredValue
+nilHelper: null

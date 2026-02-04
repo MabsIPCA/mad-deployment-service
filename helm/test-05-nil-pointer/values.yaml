@@ -1,0 +1,8 @@
+﻿# Values file for nil pointer test
+testNilMap: false
+testNilNested: false
+testNilPipeline: false
+testNilBase64: false
+nilMap: null
+nilValue: null
+config: null

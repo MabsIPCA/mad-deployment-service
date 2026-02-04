@@ -1,0 +1,6 @@
+﻿apiVersion: v2
+name: test-09-invalid-regex
+description: Test for invalid regex errors
+type: application
+version: 0.1.0
+appVersion: "1.0"

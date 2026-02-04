@@ -1,0 +1,10 @@
+﻿# Values file for string operation error test
+testSubstrInvalid: false
+testTruncNegative: false
+testAtoiInvalid: false
+testInt64Invalid: false
+testFloat64Invalid: false
+shortString: "hi"
+nonNumeric: "abc"
+invalidNumber: "not-a-number"
+notAFloat: "xyz"
