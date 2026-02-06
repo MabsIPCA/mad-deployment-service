@@ -1,0 +1,39 @@
+---
+# Source: test-12-list-operation-error/templates/list-operation-error-test.yaml
+# Test: List operation errors - fails on invalid list operations
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: release-name-list-test
+data:
+  # Fails: first on empty list
+  # Fails: mustFirst on empty list
+  mustFirstItem: 
+  # Fails: rest on empty list
+  # Fails: mustRest on empty list
+  # Fails: last on empty list
+  # Fails: mustLast on empty list
+  # Fails: initial on empty list
+  # Fails: mustInitial on empty list
+  # Fails: append to non-list
+  # Fails: mustAppend to non-list
+  # Fails: prepend to non-list
+  # Fails: mustPrepend to non-list
+  # Fails: concat with non-list
+  # Fails: reverse on non-list
+  # Fails: mustReverse on non-list
+  # Fails: uniq on non-list
+  # Fails: mustUniq on non-list
+  # Fails: without on non-list
+  # Fails: mustWithout on non-list
+  # Fails: has on non-list
+  # Fails: mustHas on non-list
+  # Fails: compact on non-list
+  # Fails: mustCompact on non-list
+  # Fails: index out of bounds
+  # Fails: slice with out of bounds indices
+  # Fails: mustSlice with out of bounds indices
+  # Fails: until with negative number
+  # Fails: untilStep with invalid step (zero)
+  # Fails: seq with invalid arguments
+  # Fails: chunk with invalid size

@@ -2,7 +2,7 @@
 testNilMap: false
 testNilNested: false
 testNilPipeline: false
-testNilBase64: false
+testNilBase64: true
 nilMap: null
 nilValue: null
 config: null

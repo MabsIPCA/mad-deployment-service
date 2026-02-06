@@ -1,4 +1,4 @@
 ﻿# Values file for missing template test
 testMissingInclude: false
-testMissingTemplate: false
+testMissingTemplate: true
 testMissingSubchart: false

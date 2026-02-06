@@ -4,20 +4,63 @@ kind: ConfigMap
 metadata:
   name: {{ .Release.Name }}-regex-test
 data:
-  # Fails: Invalid regex pattern
-  {{- if .Values.testInvalidRegex }}
-  regexMatch: {{ regexMatch "[invalid(regex" .Values.inputString | quote }}
+  # Fails: regexMatch with invalid pattern
+  {{- if .Values.testRegexMatch }}
+  regexMatch: {{ regexMatch "(?P<invalid" .Values.inputString | quote }}
   {{- end }}
+
+  # Fails: mustRegexMatch with invalid pattern
+  {{- if .Values.testMustRegexMatch }}
+  mustRegexMatch: {{ mustRegexMatch "(?P<invalid" .Values.inputString | quote }}
+  {{- end }}
+
+  # Fails: regexFindAll with invalid pattern
+  {{- if .Values.testRegexFindAll }}
+  regexFindAll: {{ regexFindAll "[unclosed" .Values.text -1 | quote }}
+  {{- end }}
+
+  # Fails: mustRegexFindAll with invalid pattern
+  {{- if .Values.testMustRegexFindAll }}
+  mustRegexFindAll: {{ mustRegexFindAll "[unclosed" .Values.text -1 | quote }}
+  {{- end }}
+
+  # Fails: regexFind with invalid pattern
+  {{- if .Values.testRegexFind }}
+  regexFind: {{ regexFind "(?P<bad" .Values.text | quote }}
+  {{- end }}
+
+  # Fails: mustRegexFind with invalid pattern
+  {{- if .Values.testMustRegexFind }}
+  mustRegexFind: {{ mustRegexFind "(?P<bad" .Values.text | quote }}
+  {{- end }}
+
   # Fails: regexReplaceAll with invalid pattern
-  {{- if .Values.testInvalidRegexReplace }}
-  regexReplace: {{ regexReplaceAll "(?P<invalid" "${invalid}" .Values.text | quote }}
+  {{- if .Values.testRegexReplaceAll }}
+  regexReplaceAll: {{ regexReplaceAll "(?P<invalid" "${invalid}" .Values.text | quote }}
   {{- end }}
-  # Fails: Unclosed character class
-  {{- if .Values.testUnclosedClass }}
-  unclosed: {{ regexMatch "[a-z" .Values.text | quote }}
+
+  # Fails: mustRegexReplaceAll with invalid pattern
+  {{- if .Values.testMustRegexReplaceAll }}
+  mustRegexReplaceAll: {{ mustRegexReplaceAll "(?P<invalid" "${invalid}" .Values.text | quote }}
   {{- end }}
-  # Fails: Invalid escape sequence
-  {{- if .Values.testInvalidEscape }}
-  invalidEscape: {{ regexMatch "\\k" .Values.text | quote }}
+
+  # Fails: regexReplaceAllLiteral with invalid pattern
+  {{- if .Values.testRegexReplaceAllLiteral }}
+  regexReplaceAllLiteral: {{ regexReplaceAllLiteral "*invalid[" "replacement" .Values.text | quote }}
+  {{- end }}
+
+  # Fails: mustRegexReplaceAllLiteral with invalid pattern
+  {{- if .Values.testMustRegexReplaceAllLiteral }}
+  mustRegexReplaceAllLiteral: {{ mustRegexReplaceAllLiteral "*invalid[" "replacement" .Values.text | quote }}
+  {{- end }}
+
+  # Fails: regexSplit with invalid pattern
+  {{- if .Values.testRegexSplit }}
+  regexSplit: {{ regexSplit "(?P<bad" .Values.text -1 | quote }}
+  {{- end }}
+
+  # Fails: mustRegexSplit with invalid pattern
+  {{- if .Values.testMustRegexSplit }}
+  mustRegexSplit: {{ mustRegexSplit "(?P<bad" .Values.text -1 | quote }}
   {{- end }}
 

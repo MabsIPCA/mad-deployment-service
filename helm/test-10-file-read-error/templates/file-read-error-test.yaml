@@ -4,13 +4,9 @@ kind: ConfigMap
 metadata:
   name: {{ .Release.Name }}-file-test
 data:
-  # Fails: Reading non-existent file with required
-  {{- if .Values.testMissingFile }}
-  fileContent: {{ required "File must exist" (.Files.Get "non-existent-file.txt") | quote }}
-  {{- end }}
   # Fails: Glob with required match
   {{- if .Values.testGlobRequired }}
-  {{- $files := .Files.Glob "non-existent-pattern-*.yaml" }}
+  {{- $files := .Files.Glob "files/non-existent-pattern-*.yaml" }}
   {{- if not $files }}
   error: {{ fail "No files matched the pattern" }}
   {{- end }}

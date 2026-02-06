@@ -2,7 +2,7 @@
 testIndexEmpty: false
 testIndexBeyond: false
 testIndexNegative: false
-testIndexNil: false
+testIndexNil: true
 emptyList: []
 servers: []
 items: []

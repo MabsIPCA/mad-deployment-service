@@ -1,26 +1,111 @@
-# Test: Invalid JSON/YAML conversion - fails on parsing errors
+# Test: Type conversion errors - fails on invalid conversions
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .Release.Name }}-json-yaml-test
+  name: {{ .Release.Name }}-type-conversion-test
 data:
+  # Fails: atoi with non-numeric string
+  {{- if .Values.testAtoi }}
+  atoiValue: {{ atoi .Values.nonNumericString | quote }}
+  {{- end }}
+
+  # Fails: float64 with invalid string
+  {{- if .Values.testFloat64 }}
+  float64Value: {{ float64 .Values.invalidFloat | quote }}
+  {{- end }}
+
+  # Fails: int with non-integer value
+  {{- if .Values.testInt }}
+  intValue: {{ int .Values.nonInteger | quote }}
+  {{- end }}
+
+  # Fails: int64 with invalid value
+  {{- if .Values.testInt64 }}
+  int64Value: {{ int64 .Values.invalidInt64 | quote }}
+  {{- end }}
+
+  # Fails: toDecimal with invalid octal
+  {{- if .Values.testToDecimal }}
+  decimalValue: {{ toDecimal .Values.invalidOctal | quote }}
+  {{- end }}
+
+  # Fails: toString on unsupported type (channel)
+  {{- if .Values.testToString }}
+  stringValue: {{ toString .Files | quote }}
+  {{- end }}
+
+  # Fails: toStrings with non-convertible items
+  {{- if .Values.testToStrings }}
+  stringsValue: {{ toStrings .Values.unconvertibleList | quote }}
+  {{- end }}
+
+  # Fails: toJson with non-serializable type
+  {{- if .Values.testToJson }}
+  jsonValue: {{ toJson .Files | quote }}
+  {{- end }}
+
+  {{- if .Values.testMustToJson }}
+  mustJsonValue: {{ mustToJson .Values.circularValue | quote }}
+  {{- end }}
+
+  # Fails: toPrettyJson with non-serializable type
+  {{- if .Values.testToPrettyJson }}
+  prettyJsonValue: {{ toPrettyJson .Files | quote }}
+  {{- end }}
+
+  # Fails: mustToPrettyJson with non-serializable type
+  {{- if .Values.testMustToPrettyJson }}
+  mustPrettyJsonValue: {{ mustToPrettyJson .Files | quote }}
+  {{- end }}
+
+  # Fails: toRawJson with non-serializable type
+  {{- if .Values.testToRawJson }}
+  rawJsonValue: {{ toRawJson .Files | quote }}
+  {{- end }}
+
+  # Fails: mustToRawJson with non-serializable type
+  {{- if .Values.testMustToRawJson }}
+  mustRawJsonValue: {{ mustToRawJson .Files | quote }}
+  {{- end }}
+
   # Fails: fromJson with invalid JSON string
-  {{- if .Values.testFromJsonInvalid }}
+  {{- if .Values.testFromJson }}
   {{- $parsed := .Values.invalidJsonString | fromJson }}
-  parsedValue: {{ $parsed.key }}
+  fromJsonValue: {{ $parsed.key | quote }}
   {{- end }}
+
   # Fails: fromYaml with invalid YAML string
-  {{- if .Values.testFromYamlInvalid }}
+  {{- if .Values.testFromYaml }}
   {{- $parsed := .Values.invalidYamlString | fromYaml }}
-  yamlValue: {{ $parsed.key }}
+  fromYamlValue: {{ $parsed.key | quote }}
   {{- end }}
-  # Fails: mustFromJson with invalid JSON
-  {{- if .Values.testMustFromJson }}
-  {{- $parsed := mustFromJson .Values.badJson }}
-  mustValue: {{ $parsed }}
+
+  # Fails: fromJsonArray with invalid JSON array
+  {{- if .Values.testFromJsonArray }}
+  {{- $arr := .Values.invalidJsonArray | fromJsonArray }}
+  fromJsonArrayValue: {{ index $arr 0 | quote }}
   {{- end }}
-  # Fails: toJson on channel (non-serializable)
-  {{- if .Values.testToJsonInvalid }}
-  jsonData: {{ .Files | toJson }}
+
+  # Fails: toYaml with non-serializable type
+  {{- if .Values.testToYaml }}
+  toYamlValue: |
+{{ toYaml .Files | indent 4 }}
+  {{- end }}
+
+  # Fails: toYamlPretty with non-serializable type
+  {{- if .Values.testToYamlPretty }}
+  toYamlPrettyValue: |
+  {{ toYamlPretty .Files | indent 4 }}
+  {{- end }}
+
+  # Fails: toToml with non-serializable type
+  {{- if .Values.testToToml }}
+  toTomlValue: {{ toToml .Files | quote }}
+  {{- end }}
+
+  # Fails: fromYamlArray with invalid YAML array
+  {{- if .Values.testFromYamlArray }}
+  {{- $arr := .Values.invalidYamlArray | fromYamlArray }}
+  fromYamlArrayValue: {{ index $arr 0 | quote }}
   {{- end }}
 

@@ -1,31 +1,127 @@
 # Test: List operation errors - fails on invalid list operations
+{{- $testData := index .Values .Values.testDataType }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: {{ .Release.Name }}-list-test
 data:
-  # Fails: first on empty list
-  {{- if .Values.testFirstEmpty }}
-  firstItem: {{ first .Values.emptyList | quote }}
+  # Test: first
+  {{- if .Values.testFirst }}
+  firstItem: {{ first $testData | quote }}
   {{- end }}
-  # Fails: rest on empty list
-  {{- if .Values.testRestEmpty }}
-  restItems: {{ rest .Values.emptyList | toJson }}
+  # Test: mustFirst
+  {{- if .Values.testMustFirst }}
+  mustFirstItem: {{ mustFirst $testData | quote }}
   {{- end }}
-  # Fails: last on empty list
-  {{- if .Values.testLastEmpty }}
-  lastItem: {{ last .Values.emptyList | quote }}
+  # Test: rest
+  {{- if .Values.testRest }}
+  restItems: {{ rest $testData | toJson }}
   {{- end }}
-  # Fails: slice with out of bounds indices
-  {{- if .Values.testSliceOutOfBounds }}
-  slicedList: {{ slice .Values.shortList 5 10 | toJson }}
+  # Test: mustRest
+  {{- if .Values.testMustRest }}
+  mustRestItems: {{ mustRest $testData | toJson }}
   {{- end }}
-  # Fails: append to non-list
-  {{- if .Values.testAppendNonList }}
-  appendedList: {{ append .Values.notAList "newItem" | toJson }}
+  # Test: last
+  {{- if .Values.testLast }}
+  lastItem: {{ last $testData | quote }}
   {{- end }}
-  # Fails: prepend to non-list
-  {{- if .Values.testPrependNonList }}
-  prependedList: {{ prepend .Values.notAList "newItem" | toJson }}
+  # Test: mustLast
+  {{- if .Values.testMustLast }}
+  mustLastItem: {{ mustLast $testData | quote }}
   {{- end }}
-
+  # Test: initial
+  {{- if .Values.testInitial }}
+  initialItems: {{ initial $testData | toJson }}
+  {{- end }}
+  # Test: mustInitial
+  {{- if .Values.testMustInitial }}
+  mustInitialItems: {{ mustInitial $testData | toJson }}
+  {{- end }}
+  # Test: append
+  {{- if .Values.testAppend }}
+  appendedList: {{ append $testData "item" | toJson }}
+  {{- end }}
+  # Test: mustAppend
+  {{- if .Values.testMustAppend }}
+  mustAppendedList: {{ mustAppend $testData "item" | toJson }}
+  {{- end }}
+  # Test: prepend
+  {{- if .Values.testPrepend }}
+  prependedList: {{ prepend $testData "item" | toJson }}
+  {{- end }}
+  # Test: mustPrepend
+  {{- if .Values.testMustPrepend }}
+  mustPrependedList: {{ mustPrepend $testData "item" | toJson }}
+  {{- end }}
+  # Test: concat
+  {{- if .Values.testConcat }}
+  concatenatedList: {{ concat .Values.validList $testData | toJson }}
+  {{- end }}
+  # Test: reverse
+  {{- if .Values.testReverse }}
+  reversedList: {{ reverse $testData | toJson }}
+  {{- end }}
+  # Test: mustReverse
+  {{- if .Values.testMustReverse }}
+  mustReversedList: {{ mustReverse $testData | toJson }}
+  {{- end }}
+  # Test: uniq
+  {{- if .Values.testUniq }}
+  uniqueList: {{ uniq $testData | toJson }}
+  {{- end }}
+  # Test: mustUniq
+  {{- if .Values.testMustUniq }}
+  mustUniqueList: {{ mustUniq $testData | toJson }}
+  {{- end }}
+  # Test: without
+  {{- if .Values.testWithout }}
+  withoutList: {{ without $testData "item" | toJson }}
+  {{- end }}
+  # Test: mustWithout
+  {{- if .Values.testMustWithout }}
+  mustWithoutList: {{ mustWithout $testData "item" | toJson }}
+  {{- end }}
+  # Test: has
+  {{- if .Values.testHas }}
+  hasList: {{ has "item" $testData | quote }}
+  {{- end }}
+  # Test: mustHas
+  {{- if .Values.testMustHas }}
+  mustHasList: {{ mustHas "item" $testData | quote }}
+  {{- end }}
+  # Test: compact
+  {{- if .Values.testCompact }}
+  compactList: {{ compact $testData | toJson }}
+  {{- end }}
+  # Test: mustCompact
+  {{- if .Values.testMustCompact }}
+  mustCompactList: {{ mustCompact $testData | toJson }}
+  {{- end }}
+  # Test: index
+  {{- if .Values.testIndex }}
+  indexedItem: {{ index $testData 10 | quote }}
+  {{- end }}
+  # Test: slice
+  {{- if .Values.testSlice }}
+  slicedList: {{ slice $testData 5 10 | toJson }}
+  {{- end }}
+  # Test: mustSlice
+  {{- if .Values.testMustSlice }}
+  mustSlicedList: {{ mustSlice $testData 5 10 | toJson }}
+  {{- end }}
+  # Test: until - separate test with different data
+  {{- if .Values.testUntil }}
+  untilList: {{ until .Values.negativeNumber | toJson }}
+  {{- end }}
+  # Test: untilStep - separate test
+  {{- if .Values.testUntilStep }}
+  untilStepList: {{ untilStep 0 10 0 | toJson }}
+  {{- end }}
+  # Test: seq - separate test
+  {{- if .Values.testSeq }}
+  seqList: {{ seq .Values.invalidSeqStart .Values.invalidSeqEnd | toJson }}
+  {{- end }}
+  # Test: chunk - separate test
+  {{- if .Values.testChunk }}
+  chunkedList: {{ chunk .Values.invalidChunkSize .Values.validList | toJson }}
+  {{- end }}

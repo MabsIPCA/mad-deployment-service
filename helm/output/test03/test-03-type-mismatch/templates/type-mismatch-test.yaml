@@ -1,0 +1,12 @@
+---
+# Source: test-03-type-mismatch/templates/type-mismatch-test.yaml
+# Test: Type mismatch errors - fails on wrong type operations
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: release-name-type-test
+data:
+  # Fails: Cannot range over non-iterable (number)
+  # Fails: Math operation on string
+  computed: "10"
+  # Fails: String formatting with wrong type

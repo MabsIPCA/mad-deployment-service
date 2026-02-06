@@ -1,0 +1,11 @@
+---
+# Source: test-08-division-by-zero/templates/division-by-zero-test.yaml
+# Test: Division by zero - fails on math errors
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: release-name-division-test
+data:
+  # Fails: Division by zero
+  # Fails: Modulo by zero
+  # Fails: Division with zero dividend and divisor

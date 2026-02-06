@@ -1,0 +1,10 @@
+---
+# Source: test-10-file-read-error/templates/file-read-error-test.yaml
+# Test: File reading errors - fails when files don't exist
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: release-name-file-test
+data:
+  # Fails: Glob with required match
+  # Fails: AsConfig on empty glob result

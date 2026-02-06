@@ -10,18 +10,7 @@ data:
   portItem: {{ . | quote }}
   {{- end }}
   {{- end }}
-  # Fails: Math operation on string
-  {{- if .Values.testMathString }}
-  computed: {{ add .Values.stringValue 10 | quote }}
-  {{- end }}
   # Fails: String formatting with wrong type
   {{- if .Values.testPrintfType }}
   formatted: {{ printf "%s-suffix" .Values.numericId }}
   {{- end }}
-  # Fails: Cannot range over string
-  {{- if .Values.testRangeString }}
-  {{- range .Values.stringValue }}
-  char: {{ . }}
-  {{- end }}
-  {{- end }}
-

@@ -1,0 +1,11 @@
+---
+# Source: test-02-fail-function/templates/fail-function-test.yaml
+# Test: Using 'fail' function - always fails with custom message
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: release-name-fail-test
+data:
+  # Fails: Conditional fail when condition is met
+  # Fails: Validation fail on invalid value
+  # Fails: Unconditional fail

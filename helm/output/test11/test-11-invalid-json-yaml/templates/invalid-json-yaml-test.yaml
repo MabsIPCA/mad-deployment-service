@@ -1,0 +1,46 @@
+---
+# Source: test-11-invalid-json-yaml/templates/invalid-json-yaml-test.yaml
+# Test: Type conversion errors - fails on invalid conversions
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: release-name-type-conversion-test
+data:
+  # Fails: atoi with non-numeric string
+
+  # Fails: float64 with invalid string
+
+  # Fails: int with non-integer value
+
+  # Fails: int64 with invalid value
+
+  # Fails: toDecimal with invalid octal
+
+  # Fails: toString on unsupported type (channel)
+
+  # Fails: toStrings with non-convertible items
+
+  # Fails: toJson with non-serializable type
+
+  # Fails: toPrettyJson with non-serializable type
+
+  # Fails: mustToPrettyJson with non-serializable type
+
+  # Fails: toRawJson with non-serializable type
+
+  # Fails: mustToRawJson with non-serializable type
+
+  # Fails: fromJson with invalid JSON string
+
+  # Fails: fromYaml with invalid YAML string
+
+  # Fails: fromJsonArray with invalid JSON array
+
+  # Fails: toYaml with non-serializable type
+
+  # Fails: toYamlPretty with non-serializable type
+
+  # Fails: toToml with non-serializable type
+  toTomlValue: "\"files/invalid.yaml\" = [116, 101, 115, 116, 58, 32, 98, 97, 116, 97, 116, 97, 115, 13, 10, 32, 32, 116, 101, 115, 116, 73, 110, 118, 97, 108, 105, 100, 74, 115, 111, 110, 58, 32, 116, 114, 117, 101]\n"
+
+  # Fails: fromYamlArray with invalid YAML array

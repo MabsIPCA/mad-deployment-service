@@ -1,0 +1,11 @@
+---
+# Source: test-07-missing-template/templates/missing-template-test.yaml
+# Test: Missing template/include - fails when template doesn't exist
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: release-name-missing-template-test
+data:
+  # Fails: Including non-existent template
+  # Fails: Using non-existent named template
+  # Fails: Including helper from missing subchart

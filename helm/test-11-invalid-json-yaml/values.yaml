@@ -1,8 +1,43 @@
-﻿# Values file for invalid JSON/YAML test
-testFromJsonInvalid: false
-testFromYamlInvalid: false
-testMustFromJson: false
-testToJsonInvalid: false
-invalidJsonString: "{invalid json"
-invalidYamlString: "invalid: yaml: syntax:"
-badJson: "not json"
+﻿# Values file for type conversion error tests
+# Numeric conversion tests
+testAtoi: false # writes 0 and does not fail
+testFloat64: false # writes 0 and does not fail
+testInt: false # writes 0 and does not fail
+testInt64: false # writes 0 and does not fail
+testToDecimal: false # writes "0" and does not fail
+
+# String conversion tests
+testToString: false # writes default data structure as string and does not fail
+testToStrings: false # converts list of values to strings and does not fail
+
+# JSON conversion tests
+testToJson: false # does not fail,
+testMustToJson: false # did not find a way to make this fail
+testToPrettyJson: false # did not find a way to make this fail
+testMustToPrettyJson: false # did not find a way to make this fail
+testToRawJson: false # writes unquoted string and does not fail
+testMustToRawJson: false # did not find a way to make this fail
+testFromJson: false # writes empty value , does not fail render, but adds empty value to output
+testFromJsonArray: false # writes error message to output and not fails render
+
+# YAML conversion tests
+testFromYaml: false # writes empty value , does not fail render, but adds empty value to output
+testToYaml: false # did not find a way to make this fail
+testToYamlPretty: false # did not find a way to make this fail
+testFromYamlArray: false # writes error message to output and not fails render
+
+# TOML conversion tests
+testToToml: false # did not find a way to make this fail
+#testMustToToml: false # no longer supported
+
+# Invalid test values
+nonNumericString: "not-a-number"
+invalidFloat: "abc.def"
+nonInteger: "12.34.56"
+invalidInt64: "999999999999999999999999999"
+invalidOctal: "9999"
+unconvertibleList: null
+invalidJsonString: "{invalid json syntax"
+invalidYamlString: "invalid: yaml: :[syntax"
+invalidJsonArray: "[1, 2, invalid]"
+invalidYamlArray: "- item1\n- item2\n- : invalid"

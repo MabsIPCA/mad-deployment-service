@@ -1,0 +1,32 @@
+---
+# Source: test-09-invalid-regex/templates/invalid-regex-test.yaml
+# Test: Invalid regex patterns - fails on regex compilation errors
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: release-name-regex-test
+data:
+  # Fails: regexMatch with invalid pattern
+  regexMatch: "false"
+
+  # Fails: mustRegexMatch with invalid pattern
+
+  # Fails: regexFindAll with invalid pattern
+
+  # Fails: mustRegexFindAll with invalid pattern
+
+  # Fails: regexFind with invalid pattern
+
+  # Fails: mustRegexFind with invalid pattern
+
+  # Fails: regexReplaceAll with invalid pattern
+
+  # Fails: mustRegexReplaceAll with invalid pattern
+
+  # Fails: regexReplaceAllLiteral with invalid pattern
+
+  # Fails: mustRegexReplaceAllLiteral with invalid pattern
+
+  # Fails: regexSplit with invalid pattern
+
+  # Fails: mustRegexSplit with invalid pattern

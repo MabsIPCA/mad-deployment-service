@@ -1,0 +1,12 @@
+---
+# Source: test-01-required-function/templates/required-function-test.yaml
+# Test: Using 'required' function - fails if value is missing
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: release-name-required-test
+data:
+  # Fails: required value not provided
+  dbPort: "1"
+  # Fails: nested required value missing
+  # Fails: required with empty string

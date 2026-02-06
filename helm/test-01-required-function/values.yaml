@@ -1,7 +1,7 @@
 # Values file for required function test
 # Set individual test flags to true to trigger specific failure scenarios
 
-testRequired: false
+testRequired: true
 testNestedRequired: false
 testRequiredEmpty: false
 database: {}

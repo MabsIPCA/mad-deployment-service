@@ -1,7 +1,16 @@
 ﻿# Values file for invalid regex test
-testInvalidRegex: false
-testInvalidRegexReplace: false
-testUnclosedClass: false
-testInvalidEscape: false
+testRegexMatch: false # pass, invalid regex is ignored
+testMustRegexMatch: false # fail due to invalid regex
+testRegexFindAll: false # fail due to invalid regex
+testMustRegexFindAll: false # fail due to invalid regex
+testRegexFind: false # fail due to invalid regex
+testMustRegexFind: false # fail due to invalid regex
+testRegexReplaceAll: false # fail due to invalid regex
+testMustRegexReplaceAll: false # fail due to invalid regex
+testRegexReplaceAllLiteral: false # fail due to invalid regex
+testMustRegexReplaceAllLiteral: false # fail due to invalid regex
+testRegexSplit: false  # fail due to invalid regex
+testMustRegexSplit: false  # fail due to invalid regex
+
 inputString: "test123"
 text: "sample text"
