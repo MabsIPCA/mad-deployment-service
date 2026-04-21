@@ -66,6 +66,15 @@ spec:
       containers:
         - image: {{ .image }}
           name: {{ .name }}
+          securityContext:
+            {{- if not $.Values.vulnerabilities.k01_runAsRoot }}
+            runAsNonRoot: true
+            runAsUser: 10001
+            allowPrivilegeEscalation: false
+            {{- end }}
+            {{- if not $.Values.vulnerabilities.k01_readOnlyRootFs }}
+            readOnlyRootFilesystem: true
+            {{- end }}
           {{ if hasKey . "args" }}
           args:
             {{ range .args }}

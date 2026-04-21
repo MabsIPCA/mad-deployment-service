@@ -46,7 +46,16 @@ spec:
               name: {{ .name }}-claim0
       {{ end }}
       containers:
-      - resources:
+      - securityContext:
+          {{- if not $.Values.vulnerabilities.k01_runAsRoot }}
+          runAsNonRoot: true
+          runAsUser: 999
+          allowPrivilegeEscalation: false
+          {{- end }}
+          {{- if not $.Values.vulnerabilities.k01_readOnlyRootFs }}
+          readOnlyRootFilesystem: true
+          {{- end }}
+        resources:
           limits:
             cpu: {{ .resources.limits.cpu }}
             memory: "{{ .resources.limits.memory }}"
