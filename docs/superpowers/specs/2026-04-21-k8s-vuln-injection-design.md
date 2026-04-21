@@ -354,11 +354,12 @@ IEEE numeric, BibTeX (not BibLaTeX). Output file: `thesis/kubernetes-vulns/refer
 
 ### 6c. Peer-reviewed / conference sources
 
-7. Zerouali et al., MSR 2023 — *Helm Charts for Kubernetes Applications: Evolution, Outdatedness and Security Risks.* (confirmed; user-supplied).
-8. Shamim et al., IEEE SecDev 2020 — *XI Commandments of Kubernetes Security* (SoK).
-9. Bose et al., ICSE 2023 — empirical study of container image security weaknesses.
-10. Minna & De Turck, IEEE TNSM 2024 — *Understanding the Security Implications of Kubernetes Networking* (K05 anchor).
-11. Candidate for K08/2025 (cluster-to-cloud): TBD during writing; flagged `VERIFY` in the `.bib` until confirmed.
+7. **Zerouali et al., MSR 2023** (confirmed) — *Helm Charts for Kubernetes Applications: Evolution, Outdatedness and Security Risks*, DOI 10.1109/MSR59073.2023.00078. Cited in motivation and in `k07-outdatedComponents`.
+8. **Rahman et al., ACM TOSEM 2023** (confirmed) — *Security Misconfigurations in Open Source Kubernetes Manifests: An Empirical Study*, DOI 10.1145/3579639. **Primary methodology anchor.** Introduces SLI-KUBE and identifies 11 categories of K8s manifest misconfigurations — directly adjacent to our catalogue. Cited in Methodology, and in every K01 sub-item (absent `securityContext`, absent resource limits) plus K03 (hostIPC/hostPID if those sub-items are later added), K02 (RBAC), and K09 (service account misuse).
+9. **Minna et al., IEEE Security & Privacy 2021** (confirmed) — *Understanding the Security Implications of Kubernetes Networking*, DOI 10.1109/MSEC.2021.3094726. Cited in K05 sub-items (default-deny, egress controls, overlay-network assumptions) and in K06 (exposed services).
+10. Shamim et al., IEEE SecDev 2020 — *XI Commandments of Kubernetes Security* (SoK). Candidate citation for Methodology and K01 generalities. Flagged `VERIFY` until confirmed during writing.
+11. Bose et al., ICSE 2023 — candidate empirical study of container image security weaknesses for K02/K07 outdated components. Flagged `VERIFY` until confirmed.
+12. K08/2025 (cluster-to-cloud) academic anchor — TBD during writing; flagged `VERIFY` in the `.bib` until confirmed.
 
 ### 6d. Vendor / tool references
 
