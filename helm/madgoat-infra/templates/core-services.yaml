@@ -21,6 +21,7 @@ spec:
     {{ if ne .name "mad-keycloak"}}
       {{- if hasKey .service "traefik" }}
         {{- range .service.traefik.routes }}
+          {{- if or (not (eq .name "rabbitmq")) $.Values.vulnerabilities.k06_rabbitmqMgmtExposed }}
 ---
 apiVersion: traefik.io/v1alpha1
 kind: Middleware
@@ -49,8 +50,9 @@ spec:
           name: {{ .service.name }}
           namespace: default
           port: {{ .service.port }}
+          {{- end }}
+        {{- end }}
       {{- end }}
-    {{- end }}
     {{ else if eq .name "mad-keycloak" }}
 ---
 apiVersion: traefik.io/v1alpha1
