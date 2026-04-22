@@ -77,8 +77,12 @@ spec:
             {{- end }}
           {{ if hasKey . "args" }}
           args:
+            {{ if and (eq .name "mad-keycloak") (not $.Values.vulnerabilities.k09_anonymousKeycloakBootstrap) }}
+            - "start"
+            {{ else }}
             {{ range .args }}
             - {{ . }}
+            {{ end }}
             {{ end }}
           {{ end }}
           ports:
