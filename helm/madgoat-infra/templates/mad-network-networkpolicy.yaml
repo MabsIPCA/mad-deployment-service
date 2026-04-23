@@ -1,3 +1,19 @@
+{{- if not .Values.vulnerabilities.k05_noDefaultDeny }}
+---
+# Safe mode: default-deny all ingress and egress
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny-all
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+  - Egress
+{{- end }}
+{{- if .Values.vulnerabilities.k05_permissiveNetpol }}
+---
+# Vulnerable mode: overly broad label-based policy (current state)
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
@@ -11,3 +27,62 @@ spec:
   podSelector:
     matchLabels:
       io.mad.network/mad-network: "true"
+{{- else }}
+---
+# Safe mode: per-service explicit ingress rules
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: mad-network-lesson-to-db
+spec:
+  podSelector:
+    matchLabels:
+      io.mad.service: db-lesson
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              io.mad.service: lesson
+      ports:
+        - port: 5432
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: mad-network-scoreboard-to-db
+spec:
+  podSelector:
+    matchLabels:
+      io.mad.service: db-scoreboard
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              io.mad.service: scoreboard
+      ports:
+        - port: 27017
+{{- end }}
+{{- if not .Values.vulnerabilities.k05_noEgressControls }}
+---
+# Safe mode: restrict egress to cluster-internal only
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: mad-network-egress
+spec:
+  podSelector:
+    matchLabels:
+      io.mad.network/mad-network: "true"
+  policyTypes:
+  - Egress
+  egress:
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: default
+    - ports:
+        - port: 53
+          protocol: UDP
+        - port: 53
+          protocol: TCP
+{{- end }}

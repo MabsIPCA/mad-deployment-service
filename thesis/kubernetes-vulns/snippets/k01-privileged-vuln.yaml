@@ -1,0 +1,7 @@
+# K01-c vulnerable: k01_privileged=true (madgoat chart only)
+# privileged=true grants full host kernel access from the container
+spec:
+  containers:
+    - name: mad4shell-unsafe
+      securityContext:
+        privileged: true

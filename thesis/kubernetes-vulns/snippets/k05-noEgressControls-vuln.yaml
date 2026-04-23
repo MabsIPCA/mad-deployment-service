@@ -1,0 +1,4 @@
+# K05-c vulnerable: k05_noEgressControls=true (default)
+# No egress NetworkPolicy — pods can reach any external IP or internet endpoint
+# Enables C2 callbacks, data exfiltration, and SSRF amplification
+# (Absence of egress NetworkPolicy is the vulnerability)

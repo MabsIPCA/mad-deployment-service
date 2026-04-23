@@ -1,0 +1,11 @@
+# K04: Remove Pod Security Admission enforcement labels from default namespace.
+# In a fresh cluster these labels are absent by default — this manifest ensures
+# they stay absent even if a safe-mode apply accidentally added them.
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: default
+  labels:
+    # Explicitly set to privileged to document the intended (vulnerable) state
+    pod-security.kubernetes.io/enforce: privileged
+    pod-security.kubernetes.io/enforce-version: latest

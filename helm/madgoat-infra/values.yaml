@@ -226,3 +226,16 @@ traefik:
   ports:
     web:
       nodePort: 30340
+vulnerabilities:
+  k01_runAsRoot: true
+  k01_readOnlyRootFs: true
+  k02_clusterAdminBinding: true
+  k02_secretsListWatch: true
+  k03_plaintextConfigMapSecrets: true
+  k05_noDefaultDeny: true
+  k05_permissiveNetpol: true
+  k05_noEgressControls: true
+  k06_traefikDashboardExposed: true
+  k06_rabbitmqMgmtExposed: true
+  k09_anonymousKeycloakBootstrap: true
+  k09_sharedServiceAccount: true

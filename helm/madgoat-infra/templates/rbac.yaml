@@ -1,0 +1,47 @@
+{{- if .Values.vulnerabilities.k02_clusterAdminBinding }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: mad-cluster-admin
+  labels:
+    io.mad.vuln: k02-clusterAdminBinding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: ServiceAccount
+  name: default
+  namespace: default
+{{- end }}
+{{- if .Values.vulnerabilities.k02_secretsListWatch }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: mad-secrets-reader
+  namespace: default
+  labels:
+    io.mad.vuln: k02-secretsListWatch
+rules:
+- apiGroups: [""]
+  resources: ["secrets"]
+  verbs: ["list", "watch", "get"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: mad-secrets-reader-binding
+  namespace: default
+  labels:
+    io.mad.vuln: k02-secretsListWatch
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: mad-secrets-reader
+subjects:
+- kind: ServiceAccount
+  name: default
+  namespace: default
+{{- end }}

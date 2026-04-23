@@ -1,0 +1,3 @@
+# K02-a remediated: k02_clusterAdminBinding=false
+# ClusterRoleBinding not created — default SA has no elevated permissions
+# (Safe state = absence of the ClusterRoleBinding resource above)

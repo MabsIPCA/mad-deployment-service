@@ -1,0 +1,12 @@
+# K03-a vulnerable: k03_plaintextConfigMapSecrets=true (pre-injected)
+# Database credentials in plaintext ConfigMap — readable by any pod in namespace
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mad-db-config
+  namespace: default
+data:
+  POSTGRES_USER: "madgoat"
+  POSTGRES_PASSWORD: "madgoat-dev-password"
+  MONGO_INITDB_ROOT_USERNAME: "root"
+  MONGO_INITDB_ROOT_PASSWORD: "example"

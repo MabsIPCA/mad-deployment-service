@@ -1,0 +1,14 @@
+# K09-a remediated: k09_anonymousKeycloakBootstrap=false
+# Switches to production 'start' command; admin console requires credentials
+spec:
+  containers:
+    - name: mad-keycloak
+      args:
+        - "start"
+        - "--hostname-strict=false"
+        - "--http-enabled=true"
+      env:
+        - name: KEYCLOAK_ADMIN
+          value: "admin"
+        - name: KEYCLOAK_ADMIN_PASSWORD
+          value: "admin"

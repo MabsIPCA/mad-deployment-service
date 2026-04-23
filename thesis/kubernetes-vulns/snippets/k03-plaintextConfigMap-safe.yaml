@@ -1,0 +1,13 @@
+# K03-a remediated: k03_plaintextConfigMapSecrets=false
+# Credentials migrated to a Kubernetes Secret (base64-encoded at rest)
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mad-db-credentials
+  namespace: default
+type: Opaque
+stringData:
+  POSTGRES_USER: "madgoat"
+  POSTGRES_PASSWORD: "madgoat-dev-password"
+  MONGO_INITDB_ROOT_USERNAME: "root"
+  MONGO_INITDB_ROOT_PASSWORD: "example"

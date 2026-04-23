@@ -1,0 +1,22 @@
+% Table 1: OWASP Kubernetes Top 10 crosswalk, 2022 vs. 2025
+\begin{table}[ht]
+\centering
+\caption{OWASP Kubernetes Top~10 Crosswalk: 2022 vs.\ 2025~\cite{owasp-k8s-2025,owasp-k8s-2022}}
+\label{tab:owasp-crosswalk}
+\begin{tabular}{@{}clcl@{}}
+\toprule
+\textbf{2025} & \textbf{2025 Title} & \textbf{2022} & \textbf{2022 Title} \\
+\midrule
+K01 & Insecure Workload Configurations      & K01  & Insecure Workload Configurations \\
+K02 & Overly Permissive RBAC                & K03  & Overly Permissive RBAC \\
+K03 & Secrets Management Failures           & K08  & Secrets Management Failures \\
+K04 & Lack of Centralised Policy Enforcement & K04  & Policy Enforcement \\
+K05 & Inadequate Network Segmentation       & K07  & Network Segmentation Failures \\
+K06 & Broken Authentication Mechanisms      & ---  & \textit{(new in 2025)} \\
+K07 & Misconfigured Cluster Components      & K09  & Misconfigured Cluster Components \\
+K08 & Supply Chain Vulnerabilities          & K02  & Supply Chain Vulnerabilities \\
+K09 & Misconfigured Authentication Defaults & K06  & Broken Authentication \\
+K10 & Inadequate Audit Logging              & K05  & Inadequate Logging \\
+\bottomrule
+\end{tabular}
+\end{table}
