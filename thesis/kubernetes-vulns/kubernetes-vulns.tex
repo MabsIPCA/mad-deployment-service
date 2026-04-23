@@ -416,3 +416,34 @@ Detected by: Trivy \texttt{KCV0019}, KICS rule \texttt{13a49a2e}, Kubescape \tex
 \inputminted[fontsize=\footnotesize,frame=lines]{yaml}{snippets/k10-auditPolicy-safe.yaml}
 \caption{K10-a remediated: audit policy capturing secrets access, pod exec, RBAC changes, and auth failures.}\label{lst:k10-auditPolicy-safe}
 \end{listing}
+
+% ─── Discussion ──────────────────────────────────────────────────────────────
+\subsection{Discussion}
+\label{sec:k8s-discussion}
+
+\paragraph{Outdated Kubernetes components (K10-related).}\label{sec:k8s-outdatedComponents}
+Zerouali et al.~\cite{zerouali-2023} demonstrate that a significant fraction of Docker images in the wild carry outdated system packages.
+The same phenomenon applies to the Kubernetes version itself: Minikube ships with a fixed Kubernetes release that accumulates \textsc{cve}s over time.
+MAD~Goat does not inject a specific outdated-components vulnerability because the benchmark's Minikube target version is already configurable via \texttt{minikube start -{}-kubernetes-version}; this axis is a natural extension for future benchmark releases.
+
+\paragraph{Log aggregation gap (K10-related).}\label{sec:k8s-logAggregation}
+The K10-a audit policy (Section~\ref{sec:k10-noAuditPolicy}) writes events to a local file on the Minikube node.
+A production deployment requires shipping these events to a central SIEM to survive node failure and support cross-cluster correlation.
+The benchmark documents this gap in \texttt{k8s/insecure-defaults/audit-policy-missing.md} but defers log-shipping configuration to the operator, as SIEM integration is out of scope for a local benchmark cluster.
+
+\paragraph{Scanner coverage gaps.}\label{sec:k8s-scannerGaps}
+Table~\ref{tab:scanner-coverage} reveals that application-layer misconfigurations (K06-a Traefik dashboard, K06-b RabbitMQ management, K09-a Keycloak \texttt{start-dev}) produce no findings in any of the four tested scanners.
+This is consistent with findings by Bose et al.~\cite{bose-2023} that a class of ``under-reported'' Kubernetes security defects exists outside the scope of manifest-level static analysis.
+These entries require application-aware or behavioural detection methods, such as custom Kyverno rules tuned to the specific service or network-anomaly detection on management-plane ports.
+
+% ─── Summary ─────────────────────────────────────────────────────────────────
+\subsection{Summary}
+\label{sec:k8s-summary}
+
+This section has extended the MAD~Goat benchmark with 20 toggle-controlled vulnerability entries spanning all ten OWASP Kubernetes Top~10 (2025) categories.
+Fifteen entries are implemented via Helm chart boolean flags in \texttt{helm/madgoat} and \texttt{helm/madgoat-infra}; five cluster-level entries are applied via \texttt{kubectl apply -k k8s/insecure-defaults/} and Minikube startup flags.
+Each entry ships with a verification script in \texttt{scripts/exploits/}, and a \texttt{Makefile} target (\texttt{make reset-vulnerable} / \texttt{make reset-safe}) provisions the full vulnerable or hardened cluster state.
+Two entries (K08) are conceptual-only, reflecting the cloud-specific nature of IMDS and workload-identity attacks.
+Table~\ref{tab:scanner-coverage} quantifies the detection gap: of the four scanners evaluated, none detect application-layer authentication defaults (K06, K09-a), underscoring the need for application-aware policy rules as a complement to generic manifest scanning~\cite{bose-2023,rahman-2019}.
+
+\input{tables/scanner-coverage}

@@ -15,4 +15,4 @@ terraform.tfstate.backup
 node_modules
 
 # Git worktrees
-.worktrees/
+.worktrees/_minted*
