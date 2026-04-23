@@ -16,3 +16,4 @@ node_modules
 
 # Git worktrees
 .worktrees/_minted*
+OWASP-K8s-Top10-Dual-Axis.ods
