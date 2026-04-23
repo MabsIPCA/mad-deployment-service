@@ -17,3 +17,12 @@ node_modules
 # Git worktrees
 .worktrees/_minted*
 OWASP-K8s-Top10-Dual-Axis.ods
+
+# LaTeX build artefacts
+thesis/kubernetes-vulns/test-main.pdf
+thesis/kubernetes-vulns/test-main.aux
+thesis/kubernetes-vulns/test-main.bbl
+thesis/kubernetes-vulns/test-main.blg
+thesis/kubernetes-vulns/test-main.log
+thesis/kubernetes-vulns/test-main.out
+thesis/kubernetes-vulns/test-main.toc
