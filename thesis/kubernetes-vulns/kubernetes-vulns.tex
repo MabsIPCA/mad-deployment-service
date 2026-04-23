@@ -20,7 +20,7 @@ This section extends MAD~Goat to the Kubernetes layer by injecting all ten categ
 \label{sec:k8s-methodology}
 
 Each vulnerability entry is controlled by a boolean flag in the chart's \texttt{values.yaml} (default: \texttt{true} = vulnerable).
-Chart-level entries (\texttt{scope: chart}) live in \texttt{helm/madgoat} or \texttt{helm/madgoat-infra} and can be toggled with \texttt{helm upgrade}.
+Chart-level entries (\texttt{scope: chart}) live in \texttt{helm/madgoat} or \texttt{helm/madgoat-infra} and can be toggled with \texttt{helm upgrade}~\cite{helm-docs,rahman-2023}.
 Cluster-level entries (\texttt{scope: cluster}) are applied via \texttt{kubectl apply -k k8s/insecure-defaults/} and require a full Minikube restart to remediate; the \texttt{make reset-safe} target automates this.
 Kubelet flags (K07) are passed as \texttt{minikube start -{}-extra-config} arguments and are therefore not Helm-controlled.
 Two entries (K08) are conceptual only: the IMDS credential-theft attack surface does not exist in a local Minikube cluster and is documented with references to cloud-vendor behaviour~\cite{aws-imds,azure-imds}.
@@ -49,7 +49,7 @@ MAD~Goat injects four orthogonal K01 sub-entries across both charts via independ
 \paragraph{K01-a: Run-as-root containers (CWE-250, CIS~5.2.6).}\label{sec:k01-runAsRoot}
 When no \texttt{securityContext} is applied, Kubernetes allows containers to execute as \textsc{uid}~0.
 A successful container escape from a root process gains equivalent privileges on the host filesystem.
-The flag \texttt{vulnerabilities.k01\_runAsRoot=true} (default) suppresses the security context on every pod in both charts; setting it to \texttt{false} injects \texttt{runAsNonRoot: true}, \texttt{runAsUser: 10001}, and \texttt{allowPrivilegeEscalation: false}~\cite{nsa-cisa-k8s-2022,cis-k8s-1.9}.
+The flag \texttt{vulnerabilities.k01\_runAsRoot=true} (default) suppresses the security context on every pod in both charts; setting it to \texttt{false} injects \texttt{runAsNonRoot: true}, \texttt{runAsUser: 10001}, and \texttt{allowPrivilegeEscalation: false}~\cite{nsa-cisa-k8s-2022,cis-k8s-v1.12}.
 Static scanners detect this pattern: KICS rule \texttt{cf34805e}, Trivy \texttt{KSV012}, KubeLinter \texttt{run-as-non-root}, Kubescape \texttt{C-0013}~\cite{trivy-k8s,kics-tool,kubelinter,kubescape}.
 
 \begin{listing}[ht]
@@ -226,7 +226,7 @@ Kubescape \texttt{C-0123} detects Audit-mode policies~\cite{kubescape}.
 \subsubsection{K05 --- Inadequate Network Segmentation (2022: K07)}
 \label{sec:k05}
 
-Without \texttt{NetworkPolicy} objects the Kubernetes virtual network is fully flat: every pod can reach every other pod and any external endpoint~\cite{k8s-netpol-docs}.
+Without \texttt{NetworkPolicy} objects the Kubernetes virtual network is fully flat: every pod can reach every other pod and any external endpoint~\cite{k8s-netpol-docs,minna-2021}.
 MAD~Goat injects three complementary K05 sub-entries into \texttt{helm/madgoat-infra} that were all \emph{already present} in the pre-injection baseline (\texttt{presentPreInjection: true}).
 
 \paragraph{K05-a: No default-deny \texttt{NetworkPolicy} (CWE-923, CIS~5.3.2).}\label{sec:k05-noDefaultDeny}
@@ -280,7 +280,7 @@ Detected by: Trivy \texttt{KSV038}, KICS rule \texttt{0401f71b}, KubeLinter \tex
 \label{sec:k06}
 
 K06 is a new category in the 2025 edition with no direct 2022 equivalent.
-It covers administrative interfaces and management planes that are exposed without authentication controls.
+It covers administrative interfaces and management planes that are exposed without authentication controls~\cite{minna-2021}.
 MAD~Goat injects two sub-entries into \texttt{helm/madgoat-infra}; both were present in the original deployment (\texttt{presentPreInjection: true}).
 
 \paragraph{K06-a: Traefik dashboard publicly exposed (CWE-284).}\label{sec:k06-traefikDashboard}
@@ -350,7 +350,7 @@ Mitigation requires IMDSv2 enforcement (\texttt{HttpTokens: required}) and an eg
 
 \paragraph{K08-b: Service-account token projection to cloud (conceptual).}\label{sec:k08-saTokenToCloud}
 Kubernetes service-account tokens projected into pods via the \texttt{BoundServiceAccountTokenVolume} feature can be exchanged for cloud-provider credentials using OIDC workload identity federation.
-Combined with the K09-b shared default ServiceAccount (Section~\ref{sec:k09-sharedServiceAccount}), a compromised pod can present its token to the cloud IAM endpoint and assume the node's workload identity~\cite{azure-imds}.
+Combined with the K09-b shared default ServiceAccount (Section~\ref{sec:k09-sharedServiceAccount}), a compromised pod can present its token to the cloud IAM endpoint and assume the node's workload identity~\cite{aws-imds,azure-imds,gcp-workload-identity}.
 Mitigation requires per-workload ServiceAccounts with explicit OIDC audience bindings and shortest-possible token TTLs.
 
 % ─── K09 ────────────────────────────────────────────────────────────────────
