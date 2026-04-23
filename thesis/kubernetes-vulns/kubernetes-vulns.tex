@@ -1,0 +1,40 @@
+% kubernetes-vulns.tex
+% Thesis section: Extending MAD Goat to the Kubernetes Layer
+% Compiled from thesis/kubernetes-vulns/ with:
+%   pdflatex -shell-escape test-main.tex
+
+\section{Extending the MAD Goat Benchmark to the Kubernetes Layer}
+\label{sec:k8s-vulns}
+
+\subsection{Motivation and Context}
+\label{sec:k8s-motivation}
+
+The MAD~Goat benchmark~\cite{mad-goat-repo} was originally designed to surface web-application and microservice-level vulnerabilities in containerised workloads.
+As Kubernetes adoption has grown, the attack surface has shifted from individual containers to the orchestration layer itself: cluster RBAC, admission controllers, network policies, kubelet configuration, and audit infrastructure all introduce exploitable misconfigurations that are invisible to application-layer scanners~\cite{shamim-2020,bose-2023}.
+The OWASP Kubernetes Top~10 2025 edition~\cite{owasp-k8s-2025} codifies ten categories of such weaknesses, updating and renumbering the 2022 list~\cite{owasp-k8s-2022} (Table~\ref{tab:owasp-crosswalk}).
+This section extends MAD~Goat to the Kubernetes layer by injecting all ten categories into the benchmark's Helm charts and cluster bootstrap configuration, providing a reproducible, toggle-controlled environment for evaluating both active exploits and static analysis tools.
+
+\input{tables/crosswalk-2022-2025}
+
+\subsection{Methodology}
+\label{sec:k8s-methodology}
+
+Each vulnerability entry is controlled by a boolean flag in the chart's \texttt{values.yaml} (default: \texttt{true} = vulnerable).
+Chart-level entries (\texttt{scope: chart}) live in \texttt{helm/madgoat} or \texttt{helm/madgoat-infra} and can be toggled with \texttt{helm upgrade}.
+Cluster-level entries (\texttt{scope: cluster}) are applied via \texttt{kubectl apply -k k8s/insecure-defaults/} and require a full Minikube restart to remediate; the \texttt{make reset-safe} target automates this.
+Kubelet flags (K07) are passed as \texttt{minikube start -{}-extra-config} arguments and are therefore not Helm-controlled.
+Two entries (K08) are conceptual only: the IMDS credential-theft attack surface does not exist in a local Minikube cluster and is documented with references to cloud-vendor behaviour~\cite{aws-imds,azure-imds}.
+
+For each \emph{full}-class entry the benchmark provides:
+\begin{itemize}
+  \item A \texttt{values.yaml} boolean flag that injects or suppresses the misconfiguration.
+  \item A verification script in \texttt{scripts/exploits/} that exits~0 (PASS) when the vulnerable condition is confirmed and exits~1 (FAIL/safe) otherwise.
+  \item Code snippets (Listings below) illustrating the vulnerable and remediated manifests.
+\end{itemize}
+
+The ground-truth inventory is maintained in \texttt{thesis/kubernetes-vulns/data/vulnerabilities.yaml}; Tables~\ref{tab:vuln-inventory} and~\ref{tab:scanner-coverage} are generated from it automatically by \texttt{scripts/gen-tables.py}~\cite{trivy-k8s,kics-tool,kubelinter,kubescape}.
+
+\input{tables/vuln-inventory}
+
+\subsection{Vulnerability Catalogue}
+\label{sec:k8s-catalogue}
