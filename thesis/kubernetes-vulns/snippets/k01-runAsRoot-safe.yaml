@@ -1,0 +1,9 @@
+# K01-a remediated: k01_runAsRoot=false
+spec:
+  containers:
+    - name: webapp
+      image: ghcr.io/mad-goat-project/webapp:latest
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        allowPrivilegeEscalation: false

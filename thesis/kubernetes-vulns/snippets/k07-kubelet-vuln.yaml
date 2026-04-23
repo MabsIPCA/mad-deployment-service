@@ -1,0 +1,14 @@
+# K07: kubelet started with anonymous auth + AlwaysAllow authorisation
+# Enabled by: make reset-vulnerable
+# Equivalent minikube flags:
+#   --extra-config=kubelet.anonymous-auth=true
+#   --extra-config=kubelet.authorization-mode=AlwaysAllow
+apiVersion: kubelet.config.k8s.io/v1beta1
+kind: KubeletConfiguration
+authentication:
+  anonymous:
+    enabled: true      # unauthenticated requests accepted
+  webhook:
+    enabled: false
+authorization:
+  mode: AlwaysAllow    # every request authorised unconditionally

@@ -1,0 +1,5 @@
+# K09-b vulnerable: k09_sharedServiceAccount=true (default)
+# All pods use the 'default' ServiceAccount — token auto-mounted and shared
+spec:
+  serviceAccountName: default
+  automountServiceAccountToken: true  # implicit default
