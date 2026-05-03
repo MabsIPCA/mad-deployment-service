@@ -1,0 +1,9 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{\PYGZsh{} K01\PYGZhy{}c remediated: k01\PYGZus{}privileged=false}
+\PYG{c+c1}{\PYGZsh{} privileged field absent in generated manifest \PYGZhy{}\PYGZgt{} false by default}
+\PYG{n+nt}{spec}\PYG{p}{:}
+\PYG{+w}{  }\PYG{n+nt}{containers}\PYG{p}{:}
+\PYG{+w}{    }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nt}{name}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{mad4shell\PYGZhy{}unsafe}
+\PYG{+w}{      }\PYG{n+nt}{securityContext}\PYG{p}{:}
+\PYG{+w}{        }\PYG{n+nt}{privileged}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{false}
+\end{Verbatim}

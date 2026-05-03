@@ -1,0 +1,18 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{\PYGZsh{} K05\PYGZhy{}b vulnerable: k05\PYGZus{}permissiveNetpol=true (default)}
+\PYG{c+c1}{\PYGZsh{} Broad label selector allows any pod labelled io.mad.service to reach any other}
+\PYG{n+nt}{apiVersion}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{networking.k8s.io/v1}
+\PYG{n+nt}{kind}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{NetworkPolicy}
+\PYG{n+nt}{metadata}\PYG{p}{:}
+\PYG{+w}{  }\PYG{n+nt}{name}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{mad\PYGZhy{}network\PYGZhy{}policy}
+\PYG{+w}{  }\PYG{n+nt}{namespace}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{default}
+\PYG{n+nt}{spec}\PYG{p}{:}
+\PYG{+w}{  }\PYG{n+nt}{podSelector}\PYG{p}{:}
+\PYG{+w}{    }\PYG{n+nt}{matchLabels}\PYG{p}{:}
+\PYG{+w}{      }\PYG{n+nt}{io.mad.service}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{webapp}
+\PYG{+w}{  }\PYG{n+nt}{ingress}\PYG{p}{:}
+\PYG{+w}{    }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nt}{from}\PYG{p}{:}
+\PYG{+w}{        }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nt}{podSelector}\PYG{p}{:}
+\PYG{+w}{            }\PYG{n+nt}{matchLabels}\PYG{p}{:}
+\PYG{+w}{              }\PYG{n+nt}{io.mad.service}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{webapp}\PYG{+w}{  }\PYG{c+c1}{\PYGZsh{} matches ALL MAD Goat pods}
+\end{Verbatim}

@@ -1,0 +1,6 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{\PYGZsh{} K05\PYGZhy{}c vulnerable: k05\PYGZus{}noEgressControls=true (default)}
+\PYG{c+c1}{\PYGZsh{} No egress NetworkPolicy — pods can reach any external IP or internet endpoint}
+\PYG{c+c1}{\PYGZsh{} Enables C2 callbacks, data exfiltration, and SSRF amplification}
+\PYG{c+c1}{\PYGZsh{} (Absence of egress NetworkPolicy is the vulnerability)}
+\end{Verbatim}

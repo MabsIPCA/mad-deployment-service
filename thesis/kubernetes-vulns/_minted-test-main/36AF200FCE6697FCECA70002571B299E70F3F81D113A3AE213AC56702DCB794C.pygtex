@@ -1,0 +1,8 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{\PYGZsh{} K01\PYGZhy{}d vulnerable: k01\PYGZus{}unboundedResources=true (lesson pod)}
+\PYG{c+c1}{\PYGZsh{} No CPU/memory limits — pod can starve other workloads (DoS)}
+\PYG{n+nt}{spec}\PYG{p}{:}
+\PYG{+w}{  }\PYG{n+nt}{containers}\PYG{p}{:}
+\PYG{+w}{    }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nt}{name}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{lesson}
+\PYG{+w}{      }\PYG{c+c1}{\PYGZsh{} resources: field absent \PYGZhy{}\PYGZgt{} no limits enforced by scheduler}
+\end{Verbatim}

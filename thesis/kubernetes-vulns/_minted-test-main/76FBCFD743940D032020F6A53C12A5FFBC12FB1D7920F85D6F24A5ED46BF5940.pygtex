@@ -1,0 +1,11 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{\PYGZsh{} K04\PYGZhy{}a remediated: enforce=baseline, warn+audit=restricted}
+\PYG{n+nt}{apiVersion}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{v1}
+\PYG{n+nt}{kind}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{Namespace}
+\PYG{n+nt}{metadata}\PYG{p}{:}
+\PYG{+w}{  }\PYG{n+nt}{name}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{default}
+\PYG{+w}{  }\PYG{n+nt}{labels}\PYG{p}{:}
+\PYG{+w}{    }\PYG{n+nt}{pod\PYGZhy{}security.kubernetes.io/enforce}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{baseline}
+\PYG{+w}{    }\PYG{n+nt}{pod\PYGZhy{}security.kubernetes.io/warn}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{restricted}
+\PYG{+w}{    }\PYG{n+nt}{pod\PYGZhy{}security.kubernetes.io/audit}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{restricted}
+\end{Verbatim}
