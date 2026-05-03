@@ -1,0 +1,14 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{\PYGZsh{} K03\PYGZhy{}a vulnerable: k03\PYGZus{}plaintextConfigMapSecrets=true (pre\PYGZhy{}injected)}
+\PYG{c+c1}{\PYGZsh{} Database credentials in plaintext ConfigMap — readable by any pod in namespace}
+\PYG{n+nt}{apiVersion}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{v1}
+\PYG{n+nt}{kind}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{ConfigMap}
+\PYG{n+nt}{metadata}\PYG{p}{:}
+\PYG{+w}{  }\PYG{n+nt}{name}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{mad\PYGZhy{}db\PYGZhy{}config}
+\PYG{+w}{  }\PYG{n+nt}{namespace}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{default}
+\PYG{n+nt}{data}\PYG{p}{:}
+\PYG{+w}{  }\PYG{n+nt}{POSTGRES\PYGZus{}USER}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}madgoat\PYGZdq{}}
+\PYG{+w}{  }\PYG{n+nt}{POSTGRES\PYGZus{}PASSWORD}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}madgoat\PYGZhy{}dev\PYGZhy{}password\PYGZdq{}}
+\PYG{+w}{  }\PYG{n+nt}{MONGO\PYGZus{}INITDB\PYGZus{}ROOT\PYGZus{}USERNAME}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}root\PYGZdq{}}
+\PYG{+w}{  }\PYG{n+nt}{MONGO\PYGZus{}INITDB\PYGZus{}ROOT\PYGZus{}PASSWORD}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}example\PYGZdq{}}
+\end{Verbatim}

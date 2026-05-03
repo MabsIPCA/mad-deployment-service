@@ -1,0 +1,14 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{\PYGZsh{} K07 remediated: make reset\PYGZhy{}safe (no \PYGZhy{}\PYGZhy{}extra\PYGZhy{}config kubelet flags)}
+\PYG{c+c1}{\PYGZsh{} Minikube default — webhook authentication and webhook authorisation}
+\PYG{n+nt}{apiVersion}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{kubelet.config.k8s.io/v1beta1}
+\PYG{n+nt}{kind}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{KubeletConfiguration}
+\PYG{n+nt}{authentication}\PYG{p}{:}
+\PYG{+w}{  }\PYG{n+nt}{anonymous}\PYG{p}{:}
+\PYG{+w}{    }\PYG{n+nt}{enabled}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{false}
+\PYG{+w}{  }\PYG{n+nt}{webhook}\PYG{p}{:}
+\PYG{+w}{    }\PYG{n+nt}{enabled}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{true}
+\PYG{+w}{    }\PYG{n+nt}{cacheTTL}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}2m0s\PYGZdq{}}
+\PYG{n+nt}{authorization}\PYG{p}{:}
+\PYG{+w}{  }\PYG{n+nt}{mode}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{Webhook}
+\end{Verbatim}

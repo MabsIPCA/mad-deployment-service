@@ -1,0 +1,16 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{\PYGZsh{} K07: kubelet started with anonymous auth + AlwaysAllow authorisation}
+\PYG{c+c1}{\PYGZsh{} Enabled by: make reset\PYGZhy{}vulnerable}
+\PYG{c+c1}{\PYGZsh{} Equivalent minikube flags:}
+\PYG{c+c1}{\PYGZsh{}   \PYGZhy{}\PYGZhy{}extra\PYGZhy{}config=kubelet.anonymous\PYGZhy{}auth=true}
+\PYG{c+c1}{\PYGZsh{}   \PYGZhy{}\PYGZhy{}extra\PYGZhy{}config=kubelet.authorization\PYGZhy{}mode=AlwaysAllow}
+\PYG{n+nt}{apiVersion}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{kubelet.config.k8s.io/v1beta1}
+\PYG{n+nt}{kind}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{KubeletConfiguration}
+\PYG{n+nt}{authentication}\PYG{p}{:}
+\PYG{+w}{  }\PYG{n+nt}{anonymous}\PYG{p}{:}
+\PYG{+w}{    }\PYG{n+nt}{enabled}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{true}\PYG{+w}{      }\PYG{c+c1}{\PYGZsh{} unauthenticated requests accepted}
+\PYG{+w}{  }\PYG{n+nt}{webhook}\PYG{p}{:}
+\PYG{+w}{    }\PYG{n+nt}{enabled}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{false}
+\PYG{n+nt}{authorization}\PYG{p}{:}
+\PYG{+w}{  }\PYG{n+nt}{mode}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{AlwaysAllow}\PYG{+w}{    }\PYG{c+c1}{\PYGZsh{} every request authorised unconditionally}
+\end{Verbatim}

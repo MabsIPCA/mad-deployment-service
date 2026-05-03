@@ -1,0 +1,4 @@
+# K05-a vulnerable: k05_noDefaultDeny=true (default)
+# No default-deny NetworkPolicy — all pods can reach all other pods
+# Verify: kubectl get networkpolicy -n default | grep default-deny
+# (Absence of the NetworkPolicy below is the vulnerability)

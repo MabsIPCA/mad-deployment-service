@@ -26,6 +26,18 @@ spec:
             - containerPort: {{ .containerPort }}
               protocol: {{ .protocol }}
           {{- end }}
+          securityContext:
+            {{- if not $.Values.vulnerabilities.k01_runAsRoot }}
+            runAsNonRoot: true
+            runAsUser: 10001
+            allowPrivilegeEscalation: false
+            {{- end }}
+            {{- if not $.Values.vulnerabilities.k01_readOnlyRootFs }}
+            readOnlyRootFilesystem: true
+            {{- end }}
+            {{- if and $.Values.vulnerabilities.k01_privileged (or (eq .name "mad4shell-unsafe") (eq .name "profile") (eq .name "webapp")) }}
+            privileged: true
+            {{- end }}
         {{- if .deployment.envFromConfigMaps }}
           envFrom:
           {{- range .deployment.envFromConfigMaps }}
@@ -33,6 +45,7 @@ spec:
               name: {{ . }}
           {{- end }}
         {{- end }}
+          {{- if not (and $.Values.vulnerabilities.k01_unboundedResources (eq .name "lesson")) }}
           resources:
             limits:
               cpu: {{ .deployment.resources.limits.cpu }}
@@ -40,6 +53,7 @@ spec:
             requests:
               cpu: {{ .deployment.resources.requests.cpu }}
               memory: "{{ .deployment.resources.requests.memory }}"
+          {{- end }}
       restartPolicy: Always
   {{- end }}
 {{- end }}

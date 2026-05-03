@@ -1,0 +1,21 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{\PYGZsh{} K04\PYGZhy{}b remediated: validationFailureAction=Enforce — violations blocked at admission}
+\PYG{n+nt}{apiVersion}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{kyverno.io/v1}
+\PYG{n+nt}{kind}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{ClusterPolicy}
+\PYG{n+nt}{metadata}\PYG{p}{:}
+\PYG{+w}{  }\PYG{n+nt}{name}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{require\PYGZhy{}non\PYGZhy{}root}
+\PYG{n+nt}{spec}\PYG{p}{:}
+\PYG{+w}{  }\PYG{n+nt}{validationFailureAction}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{Enforce}
+\PYG{+w}{  }\PYG{n+nt}{rules}\PYG{p}{:}
+\PYG{+w}{    }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nt}{name}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{check\PYGZhy{}non\PYGZhy{}root}
+\PYG{+w}{      }\PYG{n+nt}{match}\PYG{p}{:}
+\PYG{+w}{        }\PYG{n+nt}{resources}\PYG{p}{:}
+\PYG{+w}{          }\PYG{n+nt}{kinds}\PYG{p}{:}\PYG{+w}{ }\PYG{p+pIndicator}{[}\PYG{n+nv}{Pod}\PYG{p+pIndicator}{]}
+\PYG{+w}{      }\PYG{n+nt}{validate}\PYG{p}{:}
+\PYG{+w}{        }\PYG{n+nt}{message}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}Container}\PYG{n+nv}{ }\PYG{l+s}{must}\PYG{n+nv}{ }\PYG{l+s}{not}\PYG{n+nv}{ }\PYG{l+s}{run}\PYG{n+nv}{ }\PYG{l+s}{as}\PYG{n+nv}{ }\PYG{l+s}{root\PYGZdq{}}
+\PYG{+w}{        }\PYG{n+nt}{pattern}\PYG{p}{:}
+\PYG{+w}{          }\PYG{n+nt}{spec}\PYG{p}{:}
+\PYG{+w}{            }\PYG{n+nt}{containers}\PYG{p}{:}
+\PYG{+w}{              }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nt}{securityContext}\PYG{p}{:}
+\PYG{+w}{                  }\PYG{n+nt}{runAsNonRoot}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{true}
+\end{Verbatim}

@@ -1,0 +1,14 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{\PYGZsh{} K09\PYGZhy{}a vulnerable: k09\PYGZus{}anonymousKeycloakBootstrap=true (pre\PYGZhy{}injected)}
+\PYG{c+c1}{\PYGZsh{} Keycloak in start\PYGZhy{}dev mode: no HTTPS, embedded H2 DB, admin/admin}
+\PYG{n+nt}{spec}\PYG{p}{:}
+\PYG{+w}{  }\PYG{n+nt}{containers}\PYG{p}{:}
+\PYG{+w}{    }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nt}{name}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{mad\PYGZhy{}keycloak}
+\PYG{+w}{      }\PYG{n+nt}{args}\PYG{p}{:}
+\PYG{+w}{        }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}start\PYGZhy{}dev\PYGZdq{}}\PYG{+w}{   }\PYG{c+c1}{\PYGZsh{} development mode — admin console unauthenticated over HTTP}
+\PYG{+w}{      }\PYG{n+nt}{env}\PYG{p}{:}
+\PYG{+w}{        }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nt}{name}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{KEYCLOAK\PYGZus{}ADMIN}
+\PYG{+w}{          }\PYG{n+nt}{value}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}admin\PYGZdq{}}
+\PYG{+w}{        }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nt}{name}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{KEYCLOAK\PYGZus{}ADMIN\PYGZus{}PASSWORD}
+\PYG{+w}{          }\PYG{n+nt}{value}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}admin\PYGZdq{}}
+\end{Verbatim}

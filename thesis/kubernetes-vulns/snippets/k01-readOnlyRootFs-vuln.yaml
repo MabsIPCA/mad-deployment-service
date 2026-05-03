@@ -1,0 +1,6 @@
+# K01-b vulnerable: k01_readOnlyRootFs=true (default)
+# readOnlyRootFilesystem absent — attacker can modify container binaries
+spec:
+  containers:
+    - name: webapp
+      securityContext: {}  # readOnlyRootFilesystem implicitly false

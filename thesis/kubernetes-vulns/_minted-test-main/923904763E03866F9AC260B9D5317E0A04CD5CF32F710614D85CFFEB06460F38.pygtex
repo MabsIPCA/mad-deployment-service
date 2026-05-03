@@ -1,0 +1,11 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{\PYGZsh{} K03\PYGZhy{}b vulnerable: k03\PYGZus{}jwtKeyInEnv=true (pre\PYGZhy{}injected)}
+\PYG{c+c1}{\PYGZsh{} JWT signing key exposed in ConfigMap — any principal can forge tokens}
+\PYG{n+nt}{apiVersion}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{v1}
+\PYG{n+nt}{kind}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{ConfigMap}
+\PYG{n+nt}{metadata}\PYG{p}{:}
+\PYG{+w}{  }\PYG{n+nt}{name}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{mad\PYGZhy{}auth\PYGZhy{}config}
+\PYG{+w}{  }\PYG{n+nt}{namespace}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{default}
+\PYG{n+nt}{data}\PYG{p}{:}
+\PYG{+w}{  }\PYG{n+nt}{JWT\PYGZus{}SECRET}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}insecure\PYGZhy{}jwt\PYGZhy{}secret\PYGZhy{}for\PYGZhy{}dev\PYGZdq{}}
+\end{Verbatim}

@@ -1,0 +1,30 @@
+# K04: Kyverno ClusterPolicy that is deliberately permissive (no-op).
+# This models the "admission controller installed but misconfigured" scenario.
+# Kyverno must be installed in the cluster:
+#   kubectl apply -f https://github.com/kyverno/kyverno/releases/download/v1.12.0/install.yaml
+# After installing Kyverno, apply this policy to override any defaults.
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: mad-goat-allow-all
+  labels:
+    io.mad.vuln: k04-weakKyverno
+  annotations:
+    policies.kyverno.io/title: "MAD Goat No-Op Policy"
+    policies.kyverno.io/description: >-
+      Intentionally permissive policy that allows all workloads including
+      privileged containers, root processes, and host network access.
+      Demonstrates admission controller misconfiguration (K04/2025).
+spec:
+  validationFailureAction: Audit
+  background: false
+  rules:
+  - name: allow-all-workloads
+    match:
+      any:
+      - resources:
+          kinds:
+          - Pod
+    validate:
+      message: "All pods allowed (no-op policy — vulnerable benchmark mode)"
+      deny: {}

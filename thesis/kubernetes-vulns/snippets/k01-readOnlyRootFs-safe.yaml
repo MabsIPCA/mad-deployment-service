@@ -1,0 +1,6 @@
+# K01-b remediated: k01_readOnlyRootFs=false
+spec:
+  containers:
+    - name: webapp
+      securityContext:
+        readOnlyRootFilesystem: true

@@ -1,7 +1,10 @@
+{{- if .Values.vulnerabilities.k06_traefikDashboardExposed }}
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
   name: dashboard
+  labels:
+    io.mad.vuln: k06-traefikDashboardExposed
 spec:
   entryPoints:
     - web
@@ -11,3 +14,4 @@ spec:
       services:
         - name: api@internal
           kind: TraefikService
+{{- end }}

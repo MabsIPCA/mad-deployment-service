@@ -1,0 +1,12 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{\PYGZsh{} K03\PYGZhy{}b remediated: k03\PYGZus{}jwtKeyInEnv=false}
+\PYG{c+c1}{\PYGZsh{} JWT key moved to a Secret; containers reference it via secretKeyRef}
+\PYG{n+nt}{apiVersion}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{v1}
+\PYG{n+nt}{kind}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{Secret}
+\PYG{n+nt}{metadata}\PYG{p}{:}
+\PYG{+w}{  }\PYG{n+nt}{name}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{mad\PYGZhy{}jwt\PYGZhy{}secret}
+\PYG{+w}{  }\PYG{n+nt}{namespace}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{default}
+\PYG{n+nt}{type}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{Opaque}
+\PYG{n+nt}{stringData}\PYG{p}{:}
+\PYG{+w}{  }\PYG{n+nt}{JWT\PYGZus{}SECRET}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}insecure\PYGZhy{}jwt\PYGZhy{}secret\PYGZhy{}for\PYGZhy{}dev\PYGZdq{}}
+\end{Verbatim}

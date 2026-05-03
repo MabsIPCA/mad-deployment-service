@@ -1,0 +1,29 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{\PYGZsh{} K10 remediated: audit policy applied via minikube cp + apiserver restart}
+\PYG{c+c1}{\PYGZsh{} Captures: secret access, pod exec/attach, RBAC changes, auth metadata}
+\PYG{n+nt}{apiVersion}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{audit.k8s.io/v1}
+\PYG{n+nt}{kind}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{Policy}
+\PYG{n+nt}{rules}\PYG{p}{:}
+\PYG{+w}{  }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nt}{level}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{RequestResponse}
+\PYG{+w}{    }\PYG{n+nt}{resources}\PYG{p}{:}
+\PYG{+w}{    }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nt}{group}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}\PYGZdq{}}
+\PYG{+w}{      }\PYG{n+nt}{resources}\PYG{p}{:}\PYG{+w}{ }\PYG{p+pIndicator}{[}\PYG{l+s}{\PYGZdq{}secrets\PYGZdq{}}\PYG{p+pIndicator}{]}
+\PYG{+w}{  }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nt}{level}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{RequestResponse}
+\PYG{+w}{    }\PYG{n+nt}{verbs}\PYG{p}{:}\PYG{+w}{ }\PYG{p+pIndicator}{[}\PYG{l+s}{\PYGZdq{}create\PYGZdq{}}\PYG{p+pIndicator}{]}
+\PYG{+w}{    }\PYG{n+nt}{resources}\PYG{p}{:}
+\PYG{+w}{    }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nt}{group}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}\PYGZdq{}}
+\PYG{+w}{      }\PYG{n+nt}{resources}\PYG{p}{:}\PYG{+w}{ }\PYG{p+pIndicator}{[}\PYG{l+s}{\PYGZdq{}pods/exec\PYGZdq{}}\PYG{p+pIndicator}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}pods/attach\PYGZdq{}}\PYG{p+pIndicator}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}pods/portforward\PYGZdq{}}\PYG{p+pIndicator}{]}
+\PYG{+w}{  }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nt}{level}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{RequestResponse}
+\PYG{+w}{    }\PYG{n+nt}{resources}\PYG{p}{:}
+\PYG{+w}{    }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nt}{group}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}rbac.authorization.k8s.io\PYGZdq{}}
+\PYG{+w}{      }\PYG{n+nt}{resources}\PYG{p}{:}\PYG{+w}{ }\PYG{p+pIndicator}{[}\PYG{l+s}{\PYGZdq{}clusterrolebindings\PYGZdq{}}\PYG{p+pIndicator}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}rolebindings\PYGZdq{}}\PYG{p+pIndicator}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}clusterroles\PYGZdq{}}\PYG{p+pIndicator}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}roles\PYGZdq{}}\PYG{p+pIndicator}{]}
+\PYG{+w}{  }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nt}{level}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{Metadata}
+\PYG{+w}{    }\PYG{n+nt}{omitStages}\PYG{p}{:}
+\PYG{+w}{      }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{RequestReceived}
+\PYG{+w}{  }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nt}{level}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{None}
+\PYG{+w}{    }\PYG{n+nt}{users}\PYG{p}{:}\PYG{+w}{ }\PYG{p+pIndicator}{[}\PYG{l+s}{\PYGZdq{}system:kube\PYGZhy{}proxy\PYGZdq{}}\PYG{p+pIndicator}{]}
+\PYG{+w}{    }\PYG{n+nt}{verbs}\PYG{p}{:}\PYG{+w}{ }\PYG{p+pIndicator}{[}\PYG{l+s}{\PYGZdq{}watch\PYGZdq{}}\PYG{p+pIndicator}{]}
+\PYG{+w}{    }\PYG{n+nt}{resources}\PYG{p}{:}
+\PYG{+w}{    }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nt}{group}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}\PYGZdq{}}
+\PYG{+w}{      }\PYG{n+nt}{resources}\PYG{p}{:}\PYG{+w}{ }\PYG{p+pIndicator}{[}\PYG{l+s}{\PYGZdq{}endpoints\PYGZdq{}}\PYG{p+pIndicator}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}services\PYGZdq{}}\PYG{p+pIndicator}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}services/status\PYGZdq{}}\PYG{p+pIndicator}{]}
+\end{Verbatim}
