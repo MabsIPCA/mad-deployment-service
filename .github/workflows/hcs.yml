@@ -1,4 +1,4 @@
-name: HCS Helm SBOM
+name: HCS Helm Chart Scan
 
 on:
   push:
@@ -11,14 +11,15 @@ on:
 permissions:
   contents: read
   pull-requests: write
+  security-events: write
 
 jobs:
   hcs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: HCS Helm SBOM scan
-        uses: MabsIPCA/hcs@v0.0.2
+      - name: HCS scan
+        uses: MabsIPCA/hcs@v0.0.3
         with:
           path: "helm/render-problems"
           # kics-config: ".kics.yaml"
