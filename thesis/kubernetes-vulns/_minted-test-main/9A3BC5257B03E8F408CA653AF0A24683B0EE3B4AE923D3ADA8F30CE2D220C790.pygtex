@@ -1,0 +1,12 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+ch}{\PYGZsh{}!/bin/bash}
+\PYG{c+c1}{\PYGZsh{} Verify absence of kube\PYGZhy{}apiserver audit policy (K10)}
+\PYG{n+nb}{set}\PYG{+w}{ }\PYGZhy{}e
+\PYG{n+nv}{AUDIT\PYGZus{}FLAG}\PYG{o}{=}\PYG{k}{\PYGZdl{}(}minikube\PYG{+w}{ }ssh\PYG{+w}{ }\PYGZhy{}\PYGZhy{}\PYG{+w}{ }\PYG{l+s+se}{\PYGZbs{}}
+\PYG{+w}{  }\PYG{l+s+s2}{\PYGZdq{}ps aux | grep kube\PYGZhy{}apiserver | grep \PYGZhy{}o \PYGZsq{}audit\PYGZhy{}policy\PYGZhy{}file=[\PYGZca{} ]*\PYGZsq{} 2\PYGZgt{}/dev/null || true\PYGZdq{}}\PYG{k}{)}
+\PYG{k}{if}\PYG{+w}{ }\PYG{o}{[}\PYG{+w}{ }\PYGZhy{}z\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}}\PYG{n+nv}{\PYGZdl{}AUDIT\PYGZus{}FLAG}\PYG{l+s+s2}{\PYGZdq{}}\PYG{+w}{ }\PYG{o}{]}\PYG{p}{;}\PYG{+w}{ }\PYG{k}{then}
+\PYG{+w}{  }\PYG{n+nb}{echo}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}PASS: No audit\PYGZhy{}policy\PYGZhy{}file \PYGZhy{}\PYGZhy{} API audit logging absent (vulnerable)\PYGZdq{}}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nb}{exit}\PYG{+w}{ }\PYG{l+m}{0}
+\PYG{k}{else}
+\PYG{+w}{  }\PYG{n+nb}{echo}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}FAIL: audit\PYGZhy{}policy\PYGZhy{}file=}\PYG{n+nv}{\PYGZdl{}AUDIT\PYGZus{}FLAG}\PYG{l+s+s2}{ \PYGZhy{}\PYGZhy{} safe mode active\PYGZdq{}}\PYG{p}{;}\PYG{+w}{ }\PYG{n+nb}{exit}\PYG{+w}{ }\PYG{l+m}{1}
+\PYG{k}{fi}
+\end{Verbatim}

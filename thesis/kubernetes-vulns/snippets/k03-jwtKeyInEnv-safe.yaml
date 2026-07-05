@@ -1,0 +1,10 @@
+# K03-b remediated: k03_jwtKeyInEnv=false
+# JWT key moved to a Secret; containers reference it via secretKeyRef
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mad-jwt-secret
+  namespace: default
+type: Opaque
+stringData:
+  JWT_SECRET: "insecure-jwt-secret-for-dev"

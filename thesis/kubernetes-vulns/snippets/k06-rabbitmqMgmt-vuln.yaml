@@ -1,0 +1,16 @@
+# K06-b vulnerable: k06_rabbitmqMgmtExposed=true (pre-injected)
+# RabbitMQ management UI exposed via Traefik — default guest/guest credentials
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: rabbitmq-management
+  namespace: default
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: "Host(`rabbitmq.localhost`)"
+      kind: Rule
+      services:
+        - name: mad-rabbitmq
+          port: 15672

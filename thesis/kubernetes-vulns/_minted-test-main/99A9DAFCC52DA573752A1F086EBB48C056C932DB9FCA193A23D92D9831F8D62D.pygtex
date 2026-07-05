@@ -1,0 +1,9 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{\PYGZsh{} K01\PYGZhy{}a vulnerable: k01\PYGZus{}runAsRoot=true (default)}
+\PYG{c+c1}{\PYGZsh{} Container runs as UID 0 — no securityContext hardening applied}
+\PYG{n+nt}{spec}\PYG{p}{:}
+\PYG{+w}{  }\PYG{n+nt}{containers}\PYG{p}{:}
+\PYG{+w}{    }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nt}{name}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{webapp}
+\PYG{+w}{      }\PYG{n+nt}{image}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{ghcr.io/mad\PYGZhy{}goat\PYGZhy{}project/webapp:latest}
+\PYG{+w}{      }\PYG{c+c1}{\PYGZsh{} securityContext absent \PYGZhy{}\PYGZgt{} root user, privilege escalation permitted}
+\end{Verbatim}

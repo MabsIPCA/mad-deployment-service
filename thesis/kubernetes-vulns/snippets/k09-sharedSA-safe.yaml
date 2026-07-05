@@ -1,0 +1,13 @@
+# K09-b remediated: k09_sharedServiceAccount=false
+# Per-service ServiceAccount with automount disabled
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: sa-webapp
+  namespace: default
+automountServiceAccountToken: false
+---
+# Deployment references dedicated SA
+spec:
+  serviceAccountName: sa-webapp
+  automountServiceAccountToken: false

@@ -1,0 +1,7 @@
+# K01-c remediated: k01_privileged=false
+# privileged field absent in generated manifest -> false by default
+spec:
+  containers:
+    - name: mad4shell-unsafe
+      securityContext:
+        privileged: false

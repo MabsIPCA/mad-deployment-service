@@ -1,0 +1,6 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{\PYGZsh{} K05\PYGZhy{}a vulnerable: k05\PYGZus{}noDefaultDeny=true (default)}
+\PYG{c+c1}{\PYGZsh{} No default\PYGZhy{}deny NetworkPolicy — all pods can reach all other pods}
+\PYG{c+c1}{\PYGZsh{} Verify: kubectl get networkpolicy \PYGZhy{}n default | grep default\PYGZhy{}deny}
+\PYG{c+c1}{\PYGZsh{} (Absence of the NetworkPolicy below is the vulnerability)}
+\end{Verbatim}

@@ -1,0 +1,5 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{\PYGZsh{} K02\PYGZhy{}b remediated: k02\PYGZus{}secretsListWatch=false}
+\PYG{c+c1}{\PYGZsh{} Role not created — no principal has list/watch access to Secrets}
+\PYG{c+c1}{\PYGZsh{} (Safe state = absence of the Role and RoleBinding resources above)}
+\end{Verbatim}

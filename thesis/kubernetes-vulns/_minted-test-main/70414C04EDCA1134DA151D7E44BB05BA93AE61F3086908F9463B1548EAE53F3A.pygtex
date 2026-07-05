@@ -1,0 +1,27 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{\PYGZsh{} K05\PYGZhy{}c remediated: k05\PYGZus{}noEgressControls=false}
+\PYG{n+nt}{apiVersion}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{networking.k8s.io/v1}
+\PYG{n+nt}{kind}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{NetworkPolicy}
+\PYG{n+nt}{metadata}\PYG{p}{:}
+\PYG{+w}{  }\PYG{n+nt}{name}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{restrict\PYGZhy{}egress}
+\PYG{+w}{  }\PYG{n+nt}{namespace}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{default}
+\PYG{n+nt}{spec}\PYG{p}{:}
+\PYG{+w}{  }\PYG{n+nt}{podSelector}\PYG{p}{:}\PYG{+w}{ }\PYG{p+pIndicator}{\PYGZob{}\PYGZcb{}}
+\PYG{+w}{  }\PYG{n+nt}{policyTypes}\PYG{p}{:}
+\PYG{+w}{    }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{Egress}
+\PYG{+w}{  }\PYG{n+nt}{egress}\PYG{p}{:}
+\PYG{+w}{    }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nt}{to}\PYG{p}{:}
+\PYG{+w}{        }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nt}{namespaceSelector}\PYG{p}{:}
+\PYG{+w}{            }\PYG{n+nt}{matchLabels}\PYG{p}{:}
+\PYG{+w}{              }\PYG{n+nt}{kubernetes.io/metadata.name}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{kube\PYGZhy{}system}
+\PYG{+w}{      }\PYG{n+nt}{ports}\PYG{p}{:}
+\PYG{+w}{        }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nt}{protocol}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{UDP}
+\PYG{+w}{          }\PYG{n+nt}{port}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{53}\PYG{+w}{   }\PYG{c+c1}{\PYGZsh{} DNS only}
+\PYG{+w}{    }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nt}{to}\PYG{p}{:}
+\PYG{+w}{        }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nt}{podSelector}\PYG{p}{:}
+\PYG{+w}{            }\PYG{n+nt}{matchLabels}\PYG{p}{:}
+\PYG{+w}{              }\PYG{n+nt}{io.mad.service}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{postgres}
+\PYG{+w}{      }\PYG{n+nt}{ports}\PYG{p}{:}
+\PYG{+w}{        }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nt}{protocol}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{TCP}
+\PYG{+w}{          }\PYG{n+nt}{port}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{5432}
+\end{Verbatim}

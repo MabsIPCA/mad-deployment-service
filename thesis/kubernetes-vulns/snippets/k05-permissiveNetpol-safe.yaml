@@ -1,0 +1,19 @@
+# K05-b remediated: k05_permissiveNetpol=false
+# Per-service rules: only traefik may reach webapp on port 8080
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-webapp-ingress
+  namespace: default
+spec:
+  podSelector:
+    matchLabels:
+      io.mad.service: webapp
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              io.mad.service: traefik
+      ports:
+        - protocol: TCP
+          port: 8080

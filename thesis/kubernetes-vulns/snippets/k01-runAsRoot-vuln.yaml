@@ -1,0 +1,7 @@
+# K01-a vulnerable: k01_runAsRoot=true (default)
+# Container runs as UID 0 — no securityContext hardening applied
+spec:
+  containers:
+    - name: webapp
+      image: ghcr.io/mad-goat-project/webapp:latest
+      # securityContext absent -> root user, privilege escalation permitted

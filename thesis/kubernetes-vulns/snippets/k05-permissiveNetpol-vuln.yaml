@@ -1,0 +1,16 @@
+# K05-b vulnerable: k05_permissiveNetpol=true (default)
+# Broad label selector allows any pod labelled io.mad.service to reach any other
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: mad-network-policy
+  namespace: default
+spec:
+  podSelector:
+    matchLabels:
+      io.mad.service: webapp
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              io.mad.service: webapp  # matches ALL MAD Goat pods

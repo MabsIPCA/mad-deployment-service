@@ -1,0 +1,8 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{\PYGZsh{} K01\PYGZhy{}b remediated: k01\PYGZus{}readOnlyRootFs=false}
+\PYG{n+nt}{spec}\PYG{p}{:}
+\PYG{+w}{  }\PYG{n+nt}{containers}\PYG{p}{:}
+\PYG{+w}{    }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nt}{name}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{webapp}
+\PYG{+w}{      }\PYG{n+nt}{securityContext}\PYG{p}{:}
+\PYG{+w}{        }\PYG{n+nt}{readOnlyRootFilesystem}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{true}
+\end{Verbatim}

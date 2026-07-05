@@ -1,0 +1,62 @@
+{{- if .Values.renderErrors.r01_nilPointer }}
+---
+# r01_nilPointer: .Values.renderErrors.nilPointerCfg is not defined in values.yaml.
+# Helm evaluates nilPointerCfg as nil; accessing .db.host on it produces:
+#   "nil pointer evaluating interface.db"
+# The fixer resolves this with KindNilPointer by injecting an empty --set.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: render-error-nil-pointer
+  labels:
+    io.mad.render-error: r01-nilPointer
+data:
+  db-host: {{ .Values.renderErrors.nilPointerCfg.db.host }}
+{{- end }}
+
+{{- if .Values.renderErrors.r02_typeMismatch }}
+---
+# r02_typeMismatch: trimPrefix receives a map[string]interface{} from typeMismatchValue: {}
+# producing: "wrong type for value; expected string"
+# Uses direct-call form (not pipe) so the at<> clause names .Values.renderErrors.typeMismatchValue
+# — the fixer's atValuesRe requires a .Values. path to extract the --set target.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: render-error-type-mismatch
+  labels:
+    io.mad.render-error: r02-typeMismatch
+data:
+  db-url: {{ trimPrefix "postgres://" .Values.renderErrors.typeMismatchValue }}
+{{- end }}
+
+{{- if .Values.renderErrors.r03_requiredValue }}
+---
+# r03_requiredValue: adminToken is not set in values.yaml; the required guard fires with:
+#   "error calling required: renderErrors.adminToken is required"
+# The fixer resolves this with KindRequiredValue by injecting kics-placeholder.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: render-error-required-value
+  labels:
+    io.mad.render-error: r03-requiredValue
+data:
+  admin-token: {{ required "renderErrors.adminToken is required" .Values.renderErrors.adminToken }}
+{{- end }}
+
+{{- if .Values.renderErrors.r04_unsupportedBuiltin }}
+---
+# r04_unsupportedBuiltin: .Release.Time was removed in Helm 3. Accessing .Seconds on the
+# nil field produces:
+#   "nil pointer evaluating interface.Seconds"
+# The fixer short-circuits this as non_fixable_builtin (builtin nil, not a values path).
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: render-error-unsupported-builtin
+  labels:
+    io.mad.render-error: r04-unsupportedBuiltin
+data:
+  render-epoch: {{ .Release.Time.Seconds | quote }}
+{{- end }}

@@ -1,0 +1,9 @@
+# K03-b vulnerable: k03_jwtKeyInEnv=true (pre-injected)
+# JWT signing key exposed in ConfigMap — any principal can forge tokens
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mad-auth-config
+  namespace: default
+data:
+  JWT_SECRET: "insecure-jwt-secret-for-dev"

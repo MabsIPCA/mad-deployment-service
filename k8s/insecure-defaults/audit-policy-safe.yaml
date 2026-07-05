@@ -1,0 +1,32 @@
+# K10 safe-mode reference: basic audit policy capturing security-relevant events.
+# Apply per instructions in audit-policy-missing.md
+apiVersion: audit.k8s.io/v1
+kind: Policy
+rules:
+  # Log all secret access at RequestResponse level
+  - level: RequestResponse
+    resources:
+    - group: ""
+      resources: ["secrets"]
+  # Log all pod exec, attach, portforward
+  - level: RequestResponse
+    verbs: ["create"]
+    resources:
+    - group: ""
+      resources: ["pods/exec", "pods/attach", "pods/portforward"]
+  # Log RBAC changes
+  - level: RequestResponse
+    resources:
+    - group: "rbac.authorization.k8s.io"
+      resources: ["clusterrolebindings", "rolebindings", "clusterroles", "roles"]
+  # Log authentication failures (Metadata level for performance)
+  - level: Metadata
+    omitStages:
+      - RequestReceived
+  # Ignore noisy read-only operations from system components
+  - level: None
+    users: ["system:kube-proxy"]
+    verbs: ["watch"]
+    resources:
+    - group: ""
+      resources: ["endpoints", "services", "services/status"]

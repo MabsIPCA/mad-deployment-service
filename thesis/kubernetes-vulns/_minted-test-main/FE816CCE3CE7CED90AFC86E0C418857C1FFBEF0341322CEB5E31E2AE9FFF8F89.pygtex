@@ -1,0 +1,13 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{\PYGZsh{} K04\PYGZhy{}a vulnerable: namespace labelled with PSA enforce=privileged}
+\PYG{c+c1}{\PYGZsh{} Applied by: kubectl apply \PYGZhy{}k k8s/insecure\PYGZhy{}defaults/}
+\PYG{c+c1}{\PYGZsh{} Any pod may run privileged — PSA enforcement disabled at namespace level}
+\PYG{n+nt}{apiVersion}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{v1}
+\PYG{n+nt}{kind}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{Namespace}
+\PYG{n+nt}{metadata}\PYG{p}{:}
+\PYG{+w}{  }\PYG{n+nt}{name}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{default}
+\PYG{+w}{  }\PYG{n+nt}{labels}\PYG{p}{:}
+\PYG{+w}{    }\PYG{n+nt}{pod\PYGZhy{}security.kubernetes.io/enforce}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{privileged}
+\PYG{+w}{    }\PYG{n+nt}{pod\PYGZhy{}security.kubernetes.io/warn}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{privileged}
+\PYG{+w}{    }\PYG{n+nt}{pod\PYGZhy{}security.kubernetes.io/audit}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{privileged}
+\end{Verbatim}

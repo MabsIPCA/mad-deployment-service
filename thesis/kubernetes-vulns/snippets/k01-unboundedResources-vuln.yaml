@@ -1,0 +1,6 @@
+# K01-d vulnerable: k01_unboundedResources=true (lesson pod)
+# No CPU/memory limits — pod can starve other workloads (DoS)
+spec:
+  containers:
+    - name: lesson
+      # resources: field absent -> no limits enforced by scheduler

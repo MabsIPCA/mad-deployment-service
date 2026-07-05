@@ -1,0 +1,19 @@
+# K04-b remediated: validationFailureAction=Enforce — violations blocked at admission
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: require-non-root
+spec:
+  validationFailureAction: Enforce
+  rules:
+    - name: check-non-root
+      match:
+        resources:
+          kinds: [Pod]
+      validate:
+        message: "Container must not run as root"
+        pattern:
+          spec:
+            containers:
+              - securityContext:
+                  runAsNonRoot: true

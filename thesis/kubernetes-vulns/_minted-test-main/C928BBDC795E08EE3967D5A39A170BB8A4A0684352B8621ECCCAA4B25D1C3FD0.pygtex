@@ -1,0 +1,5 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{\PYGZsh{} K02\PYGZhy{}a remediated: k02\PYGZus{}clusterAdminBinding=false}
+\PYG{c+c1}{\PYGZsh{} ClusterRoleBinding not created — default SA has no elevated permissions}
+\PYG{c+c1}{\PYGZsh{} (Safe state = absence of the ClusterRoleBinding resource above)}
+\end{Verbatim}

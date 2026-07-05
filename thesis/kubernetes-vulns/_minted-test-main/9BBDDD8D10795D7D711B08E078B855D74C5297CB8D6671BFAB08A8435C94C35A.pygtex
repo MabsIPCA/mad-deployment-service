@@ -1,0 +1,8 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{\PYGZsh{} K01\PYGZhy{}b vulnerable: k01\PYGZus{}readOnlyRootFs=true (default)}
+\PYG{c+c1}{\PYGZsh{} readOnlyRootFilesystem absent — attacker can modify container binaries}
+\PYG{n+nt}{spec}\PYG{p}{:}
+\PYG{+w}{  }\PYG{n+nt}{containers}\PYG{p}{:}
+\PYG{+w}{    }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nt}{name}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{webapp}
+\PYG{+w}{      }\PYG{n+nt}{securityContext}\PYG{p}{:}\PYG{+w}{ }\PYG{p+pIndicator}{\PYGZob{}\PYGZcb{}}\PYG{+w}{  }\PYG{c+c1}{\PYGZsh{} readOnlyRootFilesystem implicitly false}
+\end{Verbatim}

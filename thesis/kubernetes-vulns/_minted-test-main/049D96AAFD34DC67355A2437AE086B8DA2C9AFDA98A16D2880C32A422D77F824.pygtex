@@ -1,0 +1,11 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{\PYGZsh{} K01\PYGZhy{}a remediated: k01\PYGZus{}runAsRoot=false}
+\PYG{n+nt}{spec}\PYG{p}{:}
+\PYG{+w}{  }\PYG{n+nt}{containers}\PYG{p}{:}
+\PYG{+w}{    }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nt}{name}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{webapp}
+\PYG{+w}{      }\PYG{n+nt}{image}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{ghcr.io/mad\PYGZhy{}goat\PYGZhy{}project/webapp:latest}
+\PYG{+w}{      }\PYG{n+nt}{securityContext}\PYG{p}{:}
+\PYG{+w}{        }\PYG{n+nt}{runAsNonRoot}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{true}
+\PYG{+w}{        }\PYG{n+nt}{runAsUser}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{10001}
+\PYG{+w}{        }\PYG{n+nt}{allowPrivilegeEscalation}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{false}
+\end{Verbatim}

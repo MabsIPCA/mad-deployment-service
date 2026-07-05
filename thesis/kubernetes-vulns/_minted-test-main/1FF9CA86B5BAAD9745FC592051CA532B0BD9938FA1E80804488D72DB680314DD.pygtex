@@ -1,0 +1,7 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{\PYGZsh{} K09\PYGZhy{}b vulnerable: k09\PYGZus{}sharedServiceAccount=true (default)}
+\PYG{c+c1}{\PYGZsh{} All pods use the \PYGZsq{}default\PYGZsq{} ServiceAccount — token auto\PYGZhy{}mounted and shared}
+\PYG{n+nt}{spec}\PYG{p}{:}
+\PYG{+w}{  }\PYG{n+nt}{serviceAccountName}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{default}
+\PYG{+w}{  }\PYG{n+nt}{automountServiceAccountToken}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{true}\PYG{+w}{  }\PYG{c+c1}{\PYGZsh{} implicit default}
+\end{Verbatim}

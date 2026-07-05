@@ -1,0 +1,18 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{\PYGZsh{} K06\PYGZhy{}a vulnerable: k06\PYGZus{}traefikDashboardExposed=true (pre\PYGZhy{}injected)}
+\PYG{c+c1}{\PYGZsh{} Traefik dashboard IngressRoute — no auth middleware, publicly accessible}
+\PYG{n+nt}{apiVersion}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{traefik.io/v1alpha1}
+\PYG{n+nt}{kind}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{IngressRoute}
+\PYG{n+nt}{metadata}\PYG{p}{:}
+\PYG{+w}{  }\PYG{n+nt}{name}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{traefik\PYGZhy{}dashboard}
+\PYG{+w}{  }\PYG{n+nt}{namespace}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{default}
+\PYG{n+nt}{spec}\PYG{p}{:}
+\PYG{+w}{  }\PYG{n+nt}{entryPoints}\PYG{p}{:}
+\PYG{+w}{    }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{web}
+\PYG{+w}{  }\PYG{n+nt}{routes}\PYG{p}{:}
+\PYG{+w}{    }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nt}{match}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}Host(`traefik.localhost`)}\PYG{n+nv}{ }\PYG{l+s}{\PYGZam{}\PYGZam{}}\PYG{n+nv}{ }\PYG{l+s}{(PathPrefix(`/dashboard`)}\PYG{n+nv}{ }\PYG{l+s}{||}\PYG{n+nv}{ }\PYG{l+s}{PathPrefix(`/api`))\PYGZdq{}}
+\PYG{+w}{      }\PYG{n+nt}{kind}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{Rule}
+\PYG{+w}{      }\PYG{n+nt}{services}\PYG{p}{:}
+\PYG{+w}{        }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nt}{name}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{api@internal}
+\PYG{+w}{          }\PYG{n+nt}{kind}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{TraefikService}
+\end{Verbatim}

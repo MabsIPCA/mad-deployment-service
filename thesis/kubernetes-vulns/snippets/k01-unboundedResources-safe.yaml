@@ -1,0 +1,11 @@
+# K01-d remediated: k01_unboundedResources=false
+spec:
+  containers:
+    - name: lesson
+      resources:
+        requests:
+          cpu: "100m"
+          memory: "128Mi"
+        limits:
+          cpu: "500m"
+          memory: "512Mi"

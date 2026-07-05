@@ -1,0 +1,11 @@
+# K04-a vulnerable: namespace labelled with PSA enforce=privileged
+# Applied by: kubectl apply -k k8s/insecure-defaults/
+# Any pod may run privileged — PSA enforcement disabled at namespace level
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: default
+  labels:
+    pod-security.kubernetes.io/enforce: privileged
+    pod-security.kubernetes.io/warn: privileged
+    pod-security.kubernetes.io/audit: privileged

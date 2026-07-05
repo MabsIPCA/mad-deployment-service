@@ -1,0 +1,12 @@
+# K09-a vulnerable: k09_anonymousKeycloakBootstrap=true (pre-injected)
+# Keycloak in start-dev mode: no HTTPS, embedded H2 DB, admin/admin
+spec:
+  containers:
+    - name: mad-keycloak
+      args:
+        - "start-dev"   # development mode — admin console unauthenticated over HTTP
+      env:
+        - name: KEYCLOAK_ADMIN
+          value: "admin"
+        - name: KEYCLOAK_ADMIN_PASSWORD
+          value: "admin"
