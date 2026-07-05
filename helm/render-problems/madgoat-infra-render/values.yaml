@@ -177,12 +177,10 @@ core:
 configMaps:
   - name: env-keycloak
     data:
-      # Keycloak Database
       POSTGRES_DB: "keycloak"
       POSTGRES_USER: "keycloak"
       POSTGRES_PASSWORD: "password"
 
-      # Keycloak Service
       KEYCLOAK_ADMIN: "admin"
       KEYCLOAK_ADMIN_PASSWORD: "admin"
       KC_DB: "postgres"
@@ -192,7 +190,6 @@ configMaps:
       KC_DB_URL_PORT: "5432"
       KC_DB_SCHEMA: "public"
 
-      # Traefik Configuration
       PROXY_ADDRESS_FORWARDING: "true"
       KEYCLOAK_HOSTNAME: "keycloak.madgoat.tech"
   - name: env-minio
@@ -241,8 +238,9 @@ traefik:
   ports:
     web:
       nodePort: 30340
+
 # Defaults used when this chart is rendered standalone. When installed as a
-# subchart of madgoat, the parent's global.vulnerabilities values take precedence.
+# subchart of madgoat-render, the parent's global.vulnerabilities take precedence.
 global:
   vulnerabilities:
     k01_runAsRoot: true
@@ -257,3 +255,23 @@ global:
     k06_rabbitmqMgmtExposed: true
     k09_anonymousKeycloakBootstrap: true
     k09_sharedServiceAccount: true
+
+renderErrors:
+  # r01_nilPointer: set true to trigger "nil pointer evaluating interface.host"
+  # .Values.renderErrors.nilPointerCfg is absent; accessing .db.host on nil fails.
+  r01_nilPointer: false
+
+  # r02_typeMismatch: set true to trigger "wrong type for value; expected string"
+  # trimPrefix requires a string argument but receives the map below.
+  r02_typeMismatch: false
+  typeMismatchValue: {}
+
+  # r03_requiredValue: set true to trigger "error calling required: renderErrors.adminToken is required"
+  # adminToken is intentionally absent so the required guard fires.
+  r03_requiredValue: false
+
+  # r04_unsupportedBuiltin: set true to trigger "nil pointer evaluating interface.Seconds"
+  # .Release.Time was removed in Helm 3; accessing .Seconds on nil hits the builtin guard.
+  r04_unsupportedBuiltin: false
+
+  # r05_kubeVersion: not toggleable via values — add kubeVersion to Chart.yaml instead.

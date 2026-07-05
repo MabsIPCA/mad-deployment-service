@@ -8,8 +8,9 @@ start-minikube-k8s:
 start-minikube-helm:
 	k8s/minikube_setup.sh
 	sleep 10
-	cd helm/madgoat-infra && helm dependency build && helm install madgoat-infra .
-	cd helm/madgoat && helm install madgoat-app .
+	helm dependency build ./helm/madgoat-infra
+	helm dependency build ./helm/madgoat
+	helm install madgoat ./helm/madgoat
 
 # ---------------------------------------------------------------------------
 # Vulnerability benchmark targets
@@ -17,50 +18,50 @@ start-minikube-helm:
 
 # All vulnerability flags — default=true (vulnerable benchmark mode)
 VULN_FLAGS := \
-  --set vulnerabilities.k01_runAsRoot=true \
-  --set vulnerabilities.k01_readOnlyRootFs=true \
-  --set vulnerabilities.k01_privileged=true \
-  --set vulnerabilities.k01_unboundedResources=true \
-  --set vulnerabilities.k02_clusterAdminBinding=true \
-  --set vulnerabilities.k02_secretsListWatch=true \
-  --set vulnerabilities.k03_plaintextConfigMapSecrets=true \
-  --set vulnerabilities.k03_jwtKeyInEnv=true \
-  --set vulnerabilities.k05_noDefaultDeny=true \
-  --set vulnerabilities.k05_permissiveNetpol=true \
-  --set vulnerabilities.k05_noEgressControls=true \
-  --set vulnerabilities.k06_traefikDashboardExposed=true \
-  --set vulnerabilities.k06_rabbitmqMgmtExposed=true \
-  --set vulnerabilities.k09_anonymousKeycloakBootstrap=true \
-  --set vulnerabilities.k09_sharedServiceAccount=true
+  --set global.vulnerabilities.k01_runAsRoot=true \
+  --set global.vulnerabilities.k01_readOnlyRootFs=true \
+  --set global.vulnerabilities.k01_privileged=true \
+  --set global.vulnerabilities.k01_unboundedResources=true \
+  --set global.vulnerabilities.k02_clusterAdminBinding=true \
+  --set global.vulnerabilities.k02_secretsListWatch=true \
+  --set global.vulnerabilities.k03_plaintextConfigMapSecrets=true \
+  --set global.vulnerabilities.k03_jwtKeyInEnv=true \
+  --set global.vulnerabilities.k05_noDefaultDeny=true \
+  --set global.vulnerabilities.k05_permissiveNetpol=true \
+  --set global.vulnerabilities.k05_noEgressControls=true \
+  --set global.vulnerabilities.k06_traefikDashboardExposed=true \
+  --set global.vulnerabilities.k06_rabbitmqMgmtExposed=true \
+  --set global.vulnerabilities.k09_anonymousKeycloakBootstrap=true \
+  --set global.vulnerabilities.k09_sharedServiceAccount=true
 
 SAFE_FLAGS := \
-  --set vulnerabilities.k01_runAsRoot=false \
-  --set vulnerabilities.k01_readOnlyRootFs=false \
-  --set vulnerabilities.k01_privileged=false \
-  --set vulnerabilities.k01_unboundedResources=false \
-  --set vulnerabilities.k02_clusterAdminBinding=false \
-  --set vulnerabilities.k02_secretsListWatch=false \
-  --set vulnerabilities.k03_plaintextConfigMapSecrets=false \
-  --set vulnerabilities.k03_jwtKeyInEnv=false \
-  --set vulnerabilities.k05_noDefaultDeny=false \
-  --set vulnerabilities.k05_permissiveNetpol=false \
-  --set vulnerabilities.k05_noEgressControls=false \
-  --set vulnerabilities.k06_traefikDashboardExposed=false \
-  --set vulnerabilities.k06_rabbitmqMgmtExposed=false \
-  --set vulnerabilities.k09_anonymousKeycloakBootstrap=false \
-  --set vulnerabilities.k09_sharedServiceAccount=false
+  --set global.vulnerabilities.k01_runAsRoot=false \
+  --set global.vulnerabilities.k01_readOnlyRootFs=false \
+  --set global.vulnerabilities.k01_privileged=false \
+  --set global.vulnerabilities.k01_unboundedResources=false \
+  --set global.vulnerabilities.k02_clusterAdminBinding=false \
+  --set global.vulnerabilities.k02_secretsListWatch=false \
+  --set global.vulnerabilities.k03_plaintextConfigMapSecrets=false \
+  --set global.vulnerabilities.k03_jwtKeyInEnv=false \
+  --set global.vulnerabilities.k05_noDefaultDeny=false \
+  --set global.vulnerabilities.k05_permissiveNetpol=false \
+  --set global.vulnerabilities.k05_noEgressControls=false \
+  --set global.vulnerabilities.k06_traefikDashboardExposed=false \
+  --set global.vulnerabilities.k06_rabbitmqMgmtExposed=false \
+  --set global.vulnerabilities.k09_anonymousKeycloakBootstrap=false \
+  --set global.vulnerabilities.k09_sharedServiceAccount=false
 
 .PHONY: deploy-vulnerable
 deploy-vulnerable:
-	cd helm/madgoat-infra && helm dependency build
-	helm upgrade --install madgoat-infra ./helm/madgoat-infra $(VULN_FLAGS)
-	helm upgrade --install madgoat-app ./helm/madgoat $(VULN_FLAGS)
+	helm dependency build ./helm/madgoat-infra
+	helm dependency build ./helm/madgoat
+	helm upgrade --install madgoat ./helm/madgoat $(VULN_FLAGS)
 
 .PHONY: deploy-safe
 deploy-safe:
-	cd helm/madgoat-infra && helm dependency build
-	helm upgrade --install madgoat-infra ./helm/madgoat-infra $(SAFE_FLAGS)
-	helm upgrade --install madgoat-app ./helm/madgoat $(SAFE_FLAGS)
+	helm dependency build ./helm/madgoat-infra
+	helm dependency build ./helm/madgoat
+	helm upgrade --install madgoat ./helm/madgoat $(SAFE_FLAGS)
 	kubectl delete -k k8s/insecure-defaults/ --ignore-not-found
 
 .PHONY: reset-vulnerable

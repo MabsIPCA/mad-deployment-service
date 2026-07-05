@@ -1,0 +1,12 @@
+apiVersion: v2
+name: madgoat-infra-render
+description: MADGoat infra chart — render-error variant for fixer testing
+type: application
+version: 0.1.0
+dependencies:
+  - name: traefik
+    version: 37.1.2
+    repository: https://traefik.github.io/charts
+# r05_kubeVersion is not toggleable via values; set kubeVersion here directly
+# when you need to exercise the kube_version fixer path, e.g.:
+#   kubeVersion: ">= 1.99.0 < 2.0.0"

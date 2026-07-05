@@ -1,0 +1,19 @@
+{{- range .Values.configMaps }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .name }}
+data:
+  {{ range $envKey, $envValue := .data }}
+  {{ $envKey }}: "{{ $envValue }}"
+  {{- end }}
+{{- end}}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: realm-config
+data:
+  realm-config.json: |-
+{{ .Files.Get "realm-config.json" | nindent 4 }}
